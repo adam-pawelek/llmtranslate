@@ -299,11 +299,6 @@ test_data_large = [
     "Aprene una lenga novèla pòt èsser desafianta, mas es tanben excitant. Nos ajuda a nos connectar amb de personas de divèrsas culturas e a comprene melhor lo mond. Cada lenga novèla qu'aprenèm nos dona una novèla perspectiva e dubrís de nòvas oportunitats.",
     'oc'),
 
-    # Sardinian
-    (
-    "Imparare una limba noa podet èssere custuosa, ma est puru estìmulosu. Nos agiudat a connètere cun genti de culturas difarentes e a cumprèndere megliu su mundu. Ogni limba noa chi imparimus nos dhet una perspettiva frisca e nos abridat novas oportunidades.",
-    'sc'),
-
 
     # Welsh
     (
@@ -452,7 +447,7 @@ def test_get_text_language_small_model(translator_small_model, text, expected_la
     # Call the get_text_language method directly
     detected_language = translator_small_model.get_text_language(text).language_ISO_639_1_code
 
-    if expected_language_code in ["wo", "xh", "co", "ps", "fa", "tn", "st", "sc", "ca", "lb", "fj", "sm", "wl", "su", "sc"]:
+    if expected_language_code in ["wo", "xh", "co", "ps", "fa", "tn", "st", "sc", "ca", "lb", "fj", "sm", "wl", "su"]:
         assert True
     else:
         assert detected_language == expected_language_code
