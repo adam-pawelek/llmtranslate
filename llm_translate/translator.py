@@ -94,7 +94,7 @@ class Translator(ABC):
 
         messages = [
             {"role": "system",
-             "content": f"You are a language translator. You should translate text provided by user to the {to_language} language. Don't write additional message like This is translated text just translate text."},
+             "content": f"You are a language translator. You should translate text provided by user to the ISO 639-1: {to_language} language. Don't write additional message like This is translated text just translate text."},
             {"role": "user", "content": text_chunk}
         ]
 
