@@ -1,13 +1,13 @@
-# SimpleAITranslator
-[![Test](https://github.com/adam-pawelek/SimpleAITranslator/actions/workflows/test.yml/badge.svg)](https://github.com/adam-pawelek/SimpleAITranslator/actions/workflows/test.yml)
-[![Python package - Publish](https://github.com/adam-pawelek/SimpleAITranslator/actions/workflows/publish.yml/badge.svg)](https://github.com/adam-pawelek/SimpleAITranslator/actions/workflows/publish.yml)
+# LLM-translate
+[![Test](https://github.com/adam-pawelek/LLM-translate/actions/workflows/test.yml/badge.svg)](https://github.com/adam-pawelek/LLM-translate/actions/workflows/test.yml)
+[![Python package - Publish](https://github.com/adam-pawelek/LLM-translate/actions/workflows/publish.yml/badge.svg)](https://github.com/adam-pawelek/LLM-translate/actions/workflows/publish.yml)
 [![Python Versions](https://img.shields.io/badge/Python-3.10%20|%203.11%20|%203.12-blue)](https://www.python.org/)
 [![PyPI version](https://img.shields.io/pypi/v/llm_translate)](https://pypi.org/project/llm_translate/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![codecov](https://codecov.io/github/adam-pawelek/SimpleAITranslator/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/SimpleAITranslator)
+[![codecov](https://codecov.io/github/adam-pawelek/LLM-translate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/LLM-translate)
 ## Overview
 
-SimpleAITranslator is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
+LLM-translate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
 
 ## Features
 
@@ -22,7 +22,7 @@ To use this library, you must have an OpenAI API key. This key allows the librar
 
 ## Installation
 
-You can install the SimpleAITranslator library from PyPI:
+You can install the LLM-translate library from PyPI:
 
 ```bash
 pip install llm_translate
@@ -32,7 +32,7 @@ pip install llm_translate
 
 ### Setting the OpenAI API Key
 
-Before using SimpleAITranslator with OpenAI, you need to set your OpenAI API key. You can do this by creating an instance of the TranslatorOpenAI class.
+Before using LLM-translate with OpenAI, you need to set your OpenAI API key. You can do this by creating an instance of the TranslatorOpenAI class.
 ```python
 from llm_translate.translator import TranslatorOpenAI
 
@@ -112,7 +112,7 @@ print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 ## Supported Languages
 
-SimpleAITranslator supports all languages supported by GPT-4o. For a complete list of language codes, you can visit the [ISO 639-1 website](https://localizely.com/iso-639-1-list/).
+LLM-translate supports all languages supported by GPT-4o. For a complete list of language codes, you can visit the [ISO 639-1 website](https://localizely.com/iso-639-1-list/).
 
 Here are some of the most popular languages and their ISO 639-1 codes:
 
@@ -143,7 +143,7 @@ Here are some of the most popular languages and their ISO 639-1 codes:
 
 - [PyPI page](https://pypi.org/project/llm_translate/)
 - [ISO 639-1 Codes](https://localizely.com/iso-639-1-list/)
-- [Github project repository](https://github.com/adam-pawelek/SimpleAITranslator)
+- [Github project repository](https://github.com/adam-pawelek/LLM-translate)
 
 ## Authors
 - Adam Pawełek  
@@ -154,6 +154,6 @@ Here are some of the most popular languages and their ISO 639-1 codes:
 
 ## License
 
-SimpleAITranslator is licensed under the MIT License. See the LICENSE file for more details.
+LLM-translate is licensed under the MIT License. See the LICENSE file for more details.
 
 
