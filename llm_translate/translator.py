@@ -57,10 +57,16 @@ class Translator(ABC):
         )
 
         response_message = response.choices[0].message.parsed.language_ISO_639_1_code
-        detected_language = Translator.TextLanguage(
-            language_ISO_639_1_code=response_message,
-            language_name=iso_639_1_codes[response_message]
-        )
+        try:
+            detected_language = Translator.TextLanguage(
+                language_ISO_639_1_code=response_message,
+                language_name=iso_639_1_codes[response_message]
+            )
+        except Exception as e:
+            detected_language = Translator.TextLanguage(
+                language_ISO_639_1_code="",
+                language_name=""
+            )
         return detected_language
 
     def get_text_language(self, text: str) -> TextLanguage:
