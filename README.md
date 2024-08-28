@@ -75,8 +75,8 @@ print(detected_language.language_name)  # Output: 'English'
 ```
 
 > [!IMPORTANT]
-> If the translator does not detect any language, it will return "" for every detected_language value:
-> detected_language.language_ISO_639_1_code -> ""
+> If the translator does not detect any language, it will return "" for every detected_language value: <br>
+> detected_language.language_ISO_639_1_code -> "" <br>
 > detected_language.language_name -> ""
 
 ### Translation
