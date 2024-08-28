@@ -74,6 +74,11 @@ print(detected_language.language_name)  # Output: 'English'
 
 ```
 
+> [!IMPORTANT]
+> If the translator does not detect any language, it will return "" for every detected_language value:
+> detected_language.language_ISO_639_1_code -> ""
+> detected_language.language_name -> ""
+
 ### Translation
 
 To translate text containing multiple languages into another language:
