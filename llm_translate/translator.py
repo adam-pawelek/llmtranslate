@@ -5,7 +5,8 @@ from llm_translate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError
 from llm_translate.utils.enums import ModelForTranslator
 from pydantic import BaseModel
 
-from llm_translate.utils.iso639_1 import iso_639_1_codes
+from llm_translate.utils.iso639_1 import iso_639_1_codes, gpt_4o_supported_languages, \
+    create_supported_languages_based_on_quality
 from llm_translate.utils.text_splitter import split_text_to_chunks, get_first_n_words
 from typing import Optional
 from abc import ABC, abstractmethod
@@ -29,6 +30,7 @@ class Translator(ABC):
         language_ISO_639_1_code: str
         language_name: str
 
+    supported_languages: None
     def __init__(self):
         self.client = None
         self.chatgpt_model_name = None
@@ -186,6 +188,8 @@ class Translator(ABC):
 
 
 class TranslatorOpenAI(Translator):
+    supported_languages= create_supported_languages_based_on_quality(gpt_4o_supported_languages)
+
     def __init__(self, open_ai_api_key, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL.value):
         self._set_api_key(open_ai_api_key)
         self._set_llm(chatgpt_model_name)
@@ -234,6 +238,8 @@ class TranslatorOpenAI(Translator):
 
 
 class TranslatorAzureOpenAI(TranslatorOpenAI):
+    supported_languages = create_supported_languages_based_on_quality(gpt_4o_supported_languages)
+
     def __init__(self, azure_endpoint: str, api_key: str, api_version: str, azure_deployment: str, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL.value):
         self._set_api_key(azure_endpoint, api_key, api_version, azure_deployment)
         self._set_llm(chatgpt_model_name)

@@ -1,3 +1,7 @@
+from typing import List
+
+from pydantic import BaseModel
+'''
 iso_639_1_codes ={
   "aa": "Afar",
   "ab": "Abkhazian",
@@ -184,7 +188,7 @@ iso_639_1_codes ={
   "zh": "Chinese",
   "zu": "Zulu"
 }
-
+'''
 
 
 gpt_4o_supported_languages = [
@@ -805,3 +809,68 @@ gpt_4o_supported_languages = [
         "translation_quality": "medium"
     }
 ]
+
+class SupportedLanguage(BaseModel):
+    iso_639_1_code: str
+    iso_639_2_code: str
+    iso_639_3_code: str
+    language_name: str
+    translation_quality: str
+
+
+
+class SupportedLanguages(BaseModel):
+    iso_639_1_codes: List[str]
+    iso_639_2_codes: List[str]
+    iso_639_3_codes: List[str]
+    language_names: List[str]
+    languages_full_data: List[SupportedLanguage]
+
+
+class SupportedLanguagesBasedOnQuality(BaseModel):
+    languages: SupportedLanguages
+    high_quality_translation_languages: SupportedLanguages
+    high_medium_quality_translation_languages: SupportedLanguages
+    low_quality_translation_languages: SupportedLanguages
+    medium_quality_translation_languages: SupportedLanguages
+
+
+def create_language_list_based_on_translation_quality(list_of_languages_dicts, translation_quality: list) -> SupportedLanguages:
+    filtered_list = [language_dict for language_dict in list_of_languages_dicts if language_dict["translation_quality"] in translation_quality]
+
+    iso_639_1_codes = [language_dict['iso_639_1_code'] for language_dict in filtered_list]
+    iso_639_2_codes = [language_dict['iso_639_2_code'] for language_dict in filtered_list]
+    iso_639_3_codes = [language_dict['iso_639_3_code'] for language_dict in filtered_list]
+    language_names  = [language_dict['language_name'] for language_dict in filtered_list]
+    languages_full_data = [SupportedLanguage(**language_dict) for language_dict in filtered_list]
+
+    return SupportedLanguages(
+        iso_639_1_codes=iso_639_1_codes,
+        iso_639_2_codes=iso_639_2_codes,
+        iso_639_3_codes=iso_639_3_codes,
+        language_names=language_names,
+        languages_full_data=languages_full_data)
+
+
+
+
+
+def create_supported_languages_based_on_quality(list_of_languages_dicts) -> SupportedLanguagesBasedOnQuality:
+
+    languages = create_language_list_based_on_translation_quality(list_of_languages_dicts, ["high", "medium", "low"])
+    high_quality_translation_languages = create_language_list_based_on_translation_quality(list_of_languages_dicts, ["high"])
+    high_medium_quality_translation_languages = create_language_list_based_on_translation_quality(list_of_languages_dicts, ["high", "medium"])
+    medium_quality_translation_languages = create_language_list_based_on_translation_quality(list_of_languages_dicts, ["medium"])
+    low_quality_translation_languages = create_language_list_based_on_translation_quality(list_of_languages_dicts, ["low"])
+
+    return SupportedLanguagesBasedOnQuality(languages=languages,
+                                            high_quality_translation_languages=high_quality_translation_languages,
+                                            high_medium_quality_translation_languages=high_medium_quality_translation_languages,
+                                            low_quality_translation_languages=low_quality_translation_languages,
+                                            medium_quality_translation_languages=medium_quality_translation_languages)
+
+
+
+def get_language_data(iso_639_1_code=None, iso_639_2_code=None,iso_639_3_code=None, language=None):
+    if iso_639_1_code:
+        return
