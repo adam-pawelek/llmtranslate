@@ -5,6 +5,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/llm_translate)](https://pypi.org/project/llm_translate/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![codecov](https://codecov.io/github/adam-pawelek/llm-translate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llm-translate)
+[![Downloads](https://static.pepy.tech/badge/llm-translate)](https://pepy.tech/project/llm-translate)
 ## Overview
 
 llm-translate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
