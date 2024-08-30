@@ -204,6 +204,11 @@ language_data = {
         "iso_639_2_code": "dzo",
         "iso_639_3_code": "dzo",
     },
+    "English": {
+        "iso_639_1_code": "en",
+        "iso_639_2_code": "eng",
+        "iso_639_3_code": "eng",
+    },
     "Esperanto": {
         "iso_639_1_code": "eo",
         "iso_639_2_code": "epo",
@@ -905,6 +910,7 @@ language_data = {
         "iso_639_3_code": "zul",
     }
 }
+
 
 # Reverse lookup dictionaries for iso codes
 iso_639_1_to_name = {v['iso_639_1_code']: k for k, v in language_data.items()}
