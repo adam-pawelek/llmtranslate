@@ -97,7 +97,7 @@ class TestTranslatorMethods:
             language_name="English"
         )) as mock_async_method:
             result = translator.get_text_language("Hello world")
-            assert result.language_ISO_639_1_code == "en"
+            assert result.ISO_639_1_code == "en"
             assert result.language_name == "English"
             mock_async_method.assert_called_once()
 
