@@ -48,7 +48,7 @@ if detected_language is not None:
 print(translator.get_text_language("jak ty się nazywasz").ISO_639_1_code)
 print(translator.get_text_language(text))
 
-print(translator.translate(text, "eng"))
+print(translator.translate(text, "en"))
 
 print(translator.get_text_language("Hi how are you").ISO_639_1_code)
 

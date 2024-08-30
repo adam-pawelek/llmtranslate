@@ -84,7 +84,7 @@ class TestTranslatorMethods:
     async def test_async_get_text_language(self, translator):
         translator.client = AsyncMock()
         translator.client.beta.chat.completions.parse = AsyncMock(return_value=AsyncMock(
-            choices=[AsyncMock(message=AsyncMock(parsed=AsyncMock(ISO_639_1_code="en")))]
+            choices=[AsyncMock(message=AsyncMock(parsed=AsyncMock(language_ISO_639_1_code="en")))]
         ))
 
         result = await translator.async_get_text_language("Hello world")
@@ -94,6 +94,8 @@ class TestTranslatorMethods:
         with patch.object(TranslatorOpenAI, 'async_get_text_language',
         return_value=Translator.TextLanguage(
             ISO_639_1_code="en",
+            ISO_639_2_code="eng",
+            ISO_639_3_code="eng",
             language_name="English"
         )) as mock_async_method:
             result = translator.get_text_language("Hello world")
