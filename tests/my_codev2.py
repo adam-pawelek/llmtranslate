@@ -41,6 +41,10 @@ print()
 
 #print(how_many_languages_are_in_text(text))
 print(translator.get_text_language("jak ty się nazywasz").language_name)
+
+detected_language = translator.get_text_language("jak ty się nazywasz")
+if detected_language is not None:
+    print(detected_language.ISO_639_3_code)
 print(translator.get_text_language("jak ty się nazywasz").ISO_639_1_code)
 print(translator.get_text_language(text))
 

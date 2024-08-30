@@ -70,7 +70,7 @@ translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 
 # Detect language
 detected_language = translator.get_text_language("Hello world")
-if detected_language:
+if detected_language is not None:
   print(detected_language.ISO_639_1_code)  # Output: 'en'
   print(detected_language.ISO_639_2_code)  # Output: 'eng'
   print(detected_language.ISO_639_3_code)  # Output: 'eng'
@@ -109,7 +109,7 @@ translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 
 # Detect language
 detected_language = translator.get_text_language("jak ty się nazywasz")
-if detected_language:
+if detected_language is not None:
   print(detected_language.ISO_639_1_code)  # Output: 'pl'
   print(detected_language.ISO_639_2_code)  # Output: 'pol'
   print(detected_language.ISO_639_3_code)  # Output: 'pol'
