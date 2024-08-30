@@ -2,6 +2,7 @@ import asyncio
 from openai import AsyncAzureOpenAI
 from openai import AsyncOpenAI
 from llm_translate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
+from llm_translate.utils.available_languages import get_language_info
 from llm_translate.utils.enums import ModelForTranslator
 from pydantic import BaseModel
 
@@ -27,7 +28,9 @@ class Translator(ABC):
         number_of_languages: int
 
     class TextLanguage(BaseModel):
-        language_ISO_639_1_code: str
+        ISO_639_1_code: str
+        ISO_639_2_code: str
+        ISO_639_3_code: str
         language_name: str
 
     supported_languages: None
@@ -60,15 +63,16 @@ class Translator(ABC):
 
         response_message = response.choices[0].message.parsed.language_ISO_639_1_code
         try:
+            language_info = get_language_info(response_message)
             detected_language = Translator.TextLanguage(
-                language_ISO_639_1_code=response_message,
-                language_name=iso_639_1_codes[response_message]
+                ISO_639_1_code=language_info.get("ISO_639_1_code"),
+                ISO_639_2_code=language_info.get("ISO_639_2_code"),
+                ISO_639_3_code=language_info.get("ISO_639_3_code"),
+                language_name=language_info.get("language_name"),
+
             )
         except Exception as e:
-            detected_language = Translator.TextLanguage(
-                language_ISO_639_1_code="",
-                language_name=""
-            )
+            detected_language = None
         return detected_language
 
     def get_text_language(self, text: str) -> TextLanguage:

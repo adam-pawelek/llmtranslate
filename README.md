@@ -70,15 +70,17 @@ translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 
 # Detect language
 detected_language = translator.get_text_language("Hello world")
-print(detected_language.language_ISO_639_1_code)  # Output: 'en'
-print(detected_language.language_name)  # Output: 'English'
+if detected_language:
+  print(detected_language.ISO_639_1_code)  # Output: 'en'
+  print(detected_language.ISO_639_2_code)  # Output: 'eng'
+  print(detected_language.ISO_639_3_code)  # Output: 'eng'
+  print(detected_language.language_name)   # Output: 'English'
 
 ```
 
 > [!IMPORTANT]
-> If the translator does not detect any language, it will return "" for every detected_language value: <br>
-> detected_language.language_ISO_639_1_code -> "" <br>
-> detected_language.language_name -> ""
+> If the translator does not detect any language, it will return None.
+> Before using results of translator detection you should check if it returned correct result or None
 
 ### Translation
 
@@ -107,8 +109,11 @@ translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 
 # Detect language
 detected_language = translator.get_text_language("jak ty się nazywasz")
-print(detected_language.language_ISO_639_1_code)  # Output: 'pl'
-print(detected_language.language_name) # Output 'Polish'
+if detected_language:
+  print(detected_language.ISO_639_1_code)  # Output: 'pl'
+  print(detected_language.ISO_639_2_code)  # Output: 'pol'
+  print(detected_language.ISO_639_3_code)  # Output: 'pol'
+  print(detected_language.language_name) # Output 'Polish'
 
 # Translate text
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
