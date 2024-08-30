@@ -79,7 +79,7 @@ if detected_language:
 ```
 
 > [!IMPORTANT]
-> If the translator does not detect any language, it will return None.
+> If the translator does not detect any language, it will return None.<br>
 > Before using results of translator detection you should check if it returned correct result or None
 
 ### Translation
