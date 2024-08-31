@@ -60,7 +60,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          poetry run pytest --cov=./llm_translate --cov-report=xml --cov-report=html
+          poetry run pytest --cov=./llmtranslate --cov-report=xml --cov-report=html
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v4
