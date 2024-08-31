@@ -2,7 +2,7 @@
 [![Test](https://github.com/adam-pawelek/llmtranslate/actions/workflows/test.yml/badge.svg)](https://github.com/adam-pawelek/llmtranslate/actions/workflows/test.yml)
 [![Python package - Publish](https://github.com/adam-pawelek/llmtranslate/actions/workflows/publish.yml/badge.svg)](https://github.com/adam-pawelek/llmtranslate/actions/workflows/publish.yml)
 [![Python Versions](https://img.shields.io/badge/Python-3.10%20|%203.11%20|%203.12-blue)](https://www.python.org/)
-[![PyPI version](https://img.shields.io/pypi/v/llm_translate)](https://pypi.org/project/llm_translate/)
+[![PyPI version](https://img.shields.io/pypi/v/llmtranslate)](https://pypi.org/project/llmtranslate/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![codecov](https://codecov.io/github/adam-pawelek/llmtranslate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llmtranslate)
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
