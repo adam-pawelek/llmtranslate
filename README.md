@@ -34,8 +34,9 @@ pip install llm-translate
 ### Setting the OpenAI API Key
 
 Before using llm-translate with OpenAI, you need to set your OpenAI API key. You can do this by creating an instance of the TranslatorOpenAI class.
+
 ```python
-from llm_translate.translator import TranslatorOpenAI
+from llmtranslate.translator import TranslatorOpenAI
 
 # Set your OpenAI API key
 translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
@@ -45,15 +46,16 @@ translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 ### Setting the Azure OpenAI API Key
 
 If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
+
 ```python
-from llm_translate.translator import TranslatorAzureOpenAI
+from llmtranslate.translator import TranslatorAzureOpenAI
 
 # Set your Azure OpenAI API key and related parameters
 translator = TranslatorAzureOpenAI(
-    azure_endpoint="YOUR_AZURE_ENDPOINT",
-    api_key="YOUR_AZURE_API_KEY",
-    api_version="YOUR_API_VERSION",
-    azure_deployment="YOUR_AZURE_DEPLOYMENT"
+  azure_endpoint="YOUR_AZURE_ENDPOINT",
+  api_key="YOUR_AZURE_API_KEY",
+  api_version="YOUR_API_VERSION",
+  azure_deployment="YOUR_AZURE_DEPLOYMENT"
 )
 
 ```
@@ -64,7 +66,8 @@ translator = TranslatorAzureOpenAI(
 To detect the language of a given text:
 
 ```python
-from llm_translate.translator import TranslatorOpenAI
+from llmtranslate.translator import TranslatorOpenAI
+
 # Set your OpenAI API key
 translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 
@@ -74,7 +77,7 @@ if detected_language is not None:
   print(detected_language.ISO_639_1_code)  # Output: 'en'
   print(detected_language.ISO_639_2_code)  # Output: 'eng'
   print(detected_language.ISO_639_3_code)  # Output: 'eng'
-  print(detected_language.language_name)   # Output: 'English'
+  print(detected_language.language_name)  # Output: 'English'
 
 ```
 
@@ -87,7 +90,8 @@ if detected_language is not None:
 To translate text containing multiple languages into another language:
 
 ```python
-from llm_translate.translator import TranslatorOpenAI
+from llmtranslate.translator import TranslatorOpenAI
+
 # Set your OpenAI API key
 translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
 
@@ -102,7 +106,7 @@ print(translated_text)  # Output: "Hello how are you? My name is Adam"
 Here is a complete example demonstrating how to use the library:
 
 ```python
-from llm_translate.translator import TranslatorOpenAI
+from llmtranslate.translator import TranslatorOpenAI
 
 # Initialize the translator with your OpenAI API key
 translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
@@ -113,7 +117,7 @@ if detected_language is not None:
   print(detected_language.ISO_639_1_code)  # Output: 'pl'
   print(detected_language.ISO_639_2_code)  # Output: 'pol'
   print(detected_language.ISO_639_3_code)  # Output: 'pol'
-  print(detected_language.language_name) # Output 'Polish'
+  print(detected_language.language_name)  # Output 'Polish'
 
 # Translate text
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")

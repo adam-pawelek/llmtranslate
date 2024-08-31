@@ -35,7 +35,7 @@ Zobaczymy czy teraz sobie z tym poradzisz
 #print(os.environ.get("OPENAI_API_KEY"))
 #print(os.environ["MISTRAL_API_KEY"])
 translator = TranslatorMistral(os.environ.get("MISTRAL_API_KEY"), ModelForTranslator.MISTRAL_NEMO.value)
-#llm_translate.translator.set_chatgpt_model(ChatGPTModelForTranslator.GPT_4o_mini)
+#llmtranslate.translator.set_chatgpt_model(ChatGPTModelForTranslator.GPT_4o_mini)
 print(len(text))
 
 print()

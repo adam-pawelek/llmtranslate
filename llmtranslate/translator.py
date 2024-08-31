@@ -1,13 +1,13 @@
 import asyncio
 from openai import AsyncAzureOpenAI
 from openai import AsyncOpenAI
-from llm_translate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
-from llm_translate.utils.available_languages import get_language_info
-from llm_translate.utils.enums import ModelForTranslator
+from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
+from llmtranslate.utils.available_languages import get_language_info
+from llmtranslate.utils.enums import ModelForTranslator
 from pydantic import BaseModel
 
-from llm_translate.utils.iso639_1 import gpt_4o_supported_languages, create_supported_languages_based_on_quality
-from llm_translate.utils.text_splitter import split_text_to_chunks, get_first_n_words
+from llmtranslate.utils.iso639_1 import gpt_4o_supported_languages, create_supported_languages_based_on_quality
+from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_words
 from typing import Optional
 from abc import ABC, abstractmethod
 CHATGPT_MODEL_NAME = ModelForTranslator.BEST_BIG_MODEL
@@ -157,7 +157,7 @@ class Translator(ABC):
             If not provided, the global/default model will be used.
 
             Line to import enums:
-            from llm_translate.utils.enums import ChatGPTModel
+            from llmtranslate.utils.enums import ChatGPTModel
 
             Recommended enums are:
             - ChatGPTModelForTranslator.BEST_BIG_MODEL

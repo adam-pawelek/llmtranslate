@@ -1,4 +1,4 @@
-from llm_translate.utils.text_splitter import get_first_n_words, split_text_to_chunks
+from llmtranslate.utils.text_splitter import get_first_n_words, split_text_to_chunks
 import pytest
 
 def test_get_first_n_words():

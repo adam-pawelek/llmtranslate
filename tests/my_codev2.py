@@ -1,9 +1,9 @@
 import os
-import llm_translate
-from llm_translate.translator import TranslatorOpenAI
-#from llm_translate.translator import how_many_languages_are_in_text
-from llm_translate.utils.enums import ModelForTranslator
-from llm_translate import translator
+import llmtranslate
+from llmtranslate.translator import TranslatorOpenAI
+#from llmtranslate.translator import how_many_languages_are_in_text
+from llmtranslate.utils.enums import ModelForTranslator
+from llmtranslate import translator
 
 text = """
 Litwo! Ojczyzno moja! ty jesteś jak zdrowie:
@@ -34,7 +34,7 @@ Zobaczymy czy teraz sobie z tym poradzisz
 """
 #print(os.environ.get("OPENAI_API_KEY"))
 translator = TranslatorOpenAI(os.environ.get("OPENAI_API_KEY"))
-#llm_translate.translator.set_chatgpt_model(ChatGPTModelForTranslator.GPT_4o_mini)
+#llmtranslate.translator.set_chatgpt_model(ChatGPTModelForTranslator.GPT_4o_mini)
 print(len(text))
 
 print()

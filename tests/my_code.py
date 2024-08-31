@@ -1,13 +1,13 @@
 import os
 import re
 
-from llm_translate.translator import TranslatorOpenAI
+from llmtranslate.translator import TranslatorOpenAI
 
-from llm_translate.utils.enums import ModelForTranslator
+from llmtranslate.utils.enums import ModelForTranslator
 
 #print(os.environ.get("OPENAI_API_KEY"))
 
-#llm_translate.translator.set_openai_api_key(None)
+#llmtranslate.translator.set_openai_api_key(None)
 
 translator = TranslatorOpenAI(os.environ.get("OPENAI_API_KEY"), ModelForTranslator.GPT_4o_mini.value)
 

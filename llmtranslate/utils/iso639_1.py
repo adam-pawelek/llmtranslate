@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel
-from llm_translate.utils.available_languages import get_language_info
+from llmtranslate.utils.available_languages import get_language_info
 
 
 

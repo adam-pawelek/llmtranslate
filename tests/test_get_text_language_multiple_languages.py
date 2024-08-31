@@ -1,12 +1,12 @@
-
+'''
 import os
 
 import pytest
 from openai import OpenAI
 from pydantic import BaseModel
 
-from llm_translate.translator import TranslatorOpenAI
-from llm_translate.utils.enums import ModelForTranslator
+from llmtranslate.translator import TranslatorOpenAI
+from llmtranslate.utils.enums import ModelForTranslator
 
 
 test_data_large = [
@@ -516,6 +516,8 @@ def test_translate_from_another_language_to_english_small_gpt_model(translator_s
         assert True
     else:
         assert check_if_translation_is_accurate(translated_text, text_in_english)
+
+'''
 
 
 

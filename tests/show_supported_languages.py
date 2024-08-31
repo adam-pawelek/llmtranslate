@@ -1,7 +1,7 @@
 import os
-import llm_translate
-from llm_translate.translator import TranslatorOpenAI
-#from llm_translate.translator import how_many_languages_are_in_text
+import llmtranslate
+from llmtranslate.translator import TranslatorOpenAI
+#from llmtranslate.translator import how_many_languages_are_in_text
 
 
 
