@@ -1,14 +1,14 @@
-# llm-translate
-[![Test](https://github.com/adam-pawelek/llm-translate/actions/workflows/test.yml/badge.svg)](https://github.com/adam-pawelek/llm-translate/actions/workflows/test.yml)
-[![Python package - Publish](https://github.com/adam-pawelek/llm-translate/actions/workflows/publish.yml/badge.svg)](https://github.com/adam-pawelek/llm-translate/actions/workflows/publish.yml)
+# llmtranslate
+[![Test](https://github.com/adam-pawelek/llmtranslate/actions/workflows/test.yml/badge.svg)](https://github.com/adam-pawelek/llmtranslate/actions/workflows/test.yml)
+[![Python package - Publish](https://github.com/adam-pawelek/llmtranslate/actions/workflows/publish.yml/badge.svg)](https://github.com/adam-pawelek/llmtranslate/actions/workflows/publish.yml)
 [![Python Versions](https://img.shields.io/badge/Python-3.10%20|%203.11%20|%203.12-blue)](https://www.python.org/)
 [![PyPI version](https://img.shields.io/pypi/v/llm_translate)](https://pypi.org/project/llm_translate/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![codecov](https://codecov.io/github/adam-pawelek/llm-translate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llm-translate)
-[![Downloads](https://static.pepy.tech/badge/llm-translate)](https://pepy.tech/project/llm-translate)
+[![codecov](https://codecov.io/github/adam-pawelek/llmtranslate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llmtranslate)
+[![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
 ## Overview
 
-llm-translate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
+llmtranslate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
 
 ## Features
 
@@ -23,17 +23,17 @@ To use this library, you must have an OpenAI API key. This key allows the librar
 
 ## Installation
 
-You can install the llm-translate library from PyPI:
+You can install the llmtranslate library from PyPI:
 
 ```bash
-pip install llm-translate
+pip install llmtranslate
 ```
 
 ## Usage
 
 ### Setting the OpenAI API Key
 
-Before using llm-translate with OpenAI, you need to set your OpenAI API key. You can do this by creating an instance of the TranslatorOpenAI class.
+Before using llmtranslate with OpenAI, you need to set your OpenAI API key. You can do this by creating an instance of the TranslatorOpenAI class.
 
 ```python
 from llmtranslate.translator import TranslatorOpenAI
@@ -127,7 +127,7 @@ print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 ## Supported Languages
 
-llm-translate supports all languages supported by GPT-4o. For a complete list of language codes, you can visit the [ISO 639-1 website](https://localizely.com/iso-639-1-list/).
+llmtranslate supports all languages supported by GPT-4o. For a complete list of language codes, you can visit the [ISO 639-1 website](https://localizely.com/iso-639-1-list/).
 
 Here are some of the most popular languages and their ISO 639-1 codes:
 
@@ -158,7 +158,7 @@ Here are some of the most popular languages and their ISO 639-1 codes:
 
 - [PyPI page](https://pypi.org/project/llm_translate/)
 - [ISO 639-1 Codes](https://localizely.com/iso-639-1-list/)
-- [Github project repository](https://github.com/adam-pawelek/llm-translate)
+- [Github project repository](https://github.com/adam-pawelek/llmtranslate)
 
 ## Authors
 - Adam Pawełek  
@@ -169,6 +169,6 @@ Here are some of the most popular languages and their ISO 639-1 codes:
 
 ## License
 
-llm-translate is licensed under the MIT License. See the LICENSE file for more details.
+llmtranslate is licensed under the MIT License. See the LICENSE file for more details.
 
 
