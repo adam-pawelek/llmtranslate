@@ -1,2 +1,2 @@
-from translator import *
-from utils.enums import *
+from .translator import *
+from .utils.enums import *
