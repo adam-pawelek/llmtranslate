@@ -9,7 +9,7 @@ from llmtranslate.utils.enums import ModelForTranslator
 
 #llmtranslate.translator.set_openai_api_key(None)
 
-translator = TranslatorOpenAI(os.environ.get("OPENAI_API_KEY"), ModelForTranslator.GPT_4o_mini.value)
+translator = TranslatorOpenAI(os.environ.get("OPENAI_API_KEY"), ModelForTranslator.GPT_4o_mini)
 print(translator.translate("Cześć jak się masz? Meu nome é Adam", "eng"))
 
 

@@ -10,7 +10,7 @@ When using the `TranslatorOpenAI` class for translation tasks, you have two opti
 You can directly pass the model name as a string when creating an instance of `TranslatorOpenAI`.
 
 ```python
-from llmtranslate.translator import TranslatorOpenAI
+from llmtranslate import TranslatorOpenAI
 
 # Example with a model name as a string
 translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
@@ -23,11 +23,11 @@ print(translated_text)
 Alternatively, you can use the `ModelForTranslator` enum to select a model. This enum contains predefined models that have been tested and come with specific versions.
 
 ```python
-from llmtranslate.translator import TranslatorOpenAI
+from llmtranslate import TranslatorOpenAI
 from llmtranslate import ModelForTranslator
 
 # Example using the ModelForTranslator enum
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY", ModelForTranslator.GPT_4o_mini.value)
+translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY", ModelForTranslator.GPT_4o_mini)
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "eng")
 print(translated_text)
 ```
