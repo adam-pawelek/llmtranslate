@@ -226,7 +226,7 @@ Here is a table showing which languages are supported by gpt-4o and gpt4o-mini:
 
 ## Additional Resources
 
-- [PyPI page](https://pypi.org/project/llm_translate/)
+- [PyPI page](https://pypi.org/project/llmtranslate/)
 - [ISO 639-1 Codes](https://localizely.com/iso-639-1-list/)
 - [Github project repository](https://github.com/adam-pawelek/llmtranslate)
 - [Documentation](https://llm-translate.com/)
