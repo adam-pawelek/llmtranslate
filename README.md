@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/adam-pawelek/llmtranslate?tab=MIT-1-ov-file)
 [![codecov](https://codecov.io/github/adam-pawelek/llmtranslate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llmtranslate)
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
+[![Docs](https://img.shields.io/badge/docs-llmtranslate-brightgreen)](https://llm-translate.com/)
 ## Overview
 
 llmtranslate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
