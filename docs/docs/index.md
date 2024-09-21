@@ -1,9 +1,8 @@
 # llmtranslate
 [![Test](https://github.com/adam-pawelek/llmtranslate/actions/workflows/test.yml/badge.svg)](https://github.com/adam-pawelek/llmtranslate/actions/workflows/test.yml)
 [![Python package - Publish](https://github.com/adam-pawelek/llmtranslate/actions/workflows/publish.yml/badge.svg)](https://github.com/adam-pawelek/llmtranslate/actions/workflows/publish.yml)
-[![Python Versions](https://img.shields.io/badge/Python-3.10%20|%203.11%20|%203.12-blue)](https://www.python.org/)
-[![PyPI version](https://img.shields.io/pypi/v/llmtranslate)](https://pypi.org/project/llmtranslate/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://img.shields.io/pypi/v/llmtranslate?color=brightgreen)](https://pypi.org/project/llmtranslate/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/adam-pawelek/llmtranslate?tab=MIT-1-ov-file)
 [![codecov](https://codecov.io/github/adam-pawelek/llmtranslate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llmtranslate)
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
 ## Overview
@@ -158,6 +157,7 @@ Here are some of the most popular languages and their ISO 639-1 codes:
 - [PyPI page](https://pypi.org/project/llm_translate/)
 - [ISO 639-1 Codes](https://localizely.com/iso-639-1-list/)
 - [Github project repository](https://github.com/adam-pawelek/llmtranslate)
+- [Documentation](https://llm-translate.com/)
 
 ## Authors
 - Adam Pawełek  
@@ -171,8 +171,3 @@ Here are some of the most popular languages and their ISO 639-1 codes:
 llmtranslate is licensed under the MIT License. See the LICENSE file for more details.
 
 
-
-```bash
-poetry export -f requirements.txt --without-hashes --output requirements.txt 
-
-```
