@@ -15,6 +15,9 @@ llmtranslate is a Python library designed to identify the language of a given te
 - **Language Detection:** Identify the language of a given text in ISO 639-1 format.
 - **Translation:** Translate text containing multiple languages into another language in ISO 639-1 format.
 
+## Documentation
+Comprehensive documentation is available at https://llm-translate.com, providing detailed information on installation, usage, and API references.
+
 ## Requirements
 
 To use this library, you must have an OpenAI API key. This key allows the library to utilize OpenAI's GPT-4o for translation and language detection.

@@ -10,6 +10,8 @@ from llmtranslate.utils.enums import ModelForTranslator
 #llmtranslate.translator.set_openai_api_key(None)
 
 translator = TranslatorOpenAI(os.environ.get("OPENAI_API_KEY"), ModelForTranslator.GPT_4o_mini.value)
+print(translator.translate("Cześć jak się masz? Meu nome é Adam", "eng"))
+
 
 print(translator.get_text_language("jak ty się nazywasz").language_name)
 print(translator.translate("Cześć jak się masz? Meu nome é Adam", "eng"))
