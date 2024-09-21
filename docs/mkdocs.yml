@@ -2,6 +2,8 @@ site_name: llmtranslate
 
 theme:
   name: material
+  features:
+    - content.code.copy
 
 repo_url: https://github.com/adam-pawelek/llmtranslate
 
