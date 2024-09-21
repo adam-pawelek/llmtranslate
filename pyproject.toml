@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "llmtranslate"
-version = "0.1.8"
+version = "0.1.9"
 description = "A Python library for language detection and translation using OpenAI's GPT-4o."
 authors = ["Adam Pawelek <adam.pwk@outlook.com>"]
 readme = "README.md"
 
 [tool.poetry.urls]
-documentation = "https://github.com/adam-pawelek/SimpleAITranslator"
-source = "https://github.com/adam-pawelek/SimpleAITranslator"
+documentation = "https://llm-translate.com/"
+source = "https://github.com/adam-pawelek/llmtranslate"
 
 [tool.poetry.dependencies]
 python = "^3.10"
