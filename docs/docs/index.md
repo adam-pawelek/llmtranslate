@@ -123,34 +123,103 @@ print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 ```
 
+
 ## Supported Languages
 
 llmtranslate supports all languages supported by GPT-4o. For a complete list of language codes, you can visit the [ISO 639-1 website](https://localizely.com/iso-639-1-list/).
 
-Here are some of the most popular languages and their ISO 639-1 codes:
+Here is a table showing which languages are supported by gpt-4o and gpt4o-mini:
 
-- **English**: `en`
-- **Spanish**: `es`
-- **French**: `fr`
-- **German**: `de`
-- **Chinese**: `zh`
-- **Japanese**: `ja`
-- **Korean**: `ko`
-- **Portuguese**: `pt`
-- **Russian**: `ru`
-- **Italian**: `it`
-- **Dutch**: `nl`
-- **Arabic**: `ar`
-- **Hindi**: `hi`
-- **Bengali**: `bn`
-- **Turkish**: `tr`
-- **Polish**: `pl`
-- **Swedish**: `sv`
-- **Norwegian**: `no`
-- **Danish**: `da`
-- **Finnish**: `fi`
-- **Greek**: `el`
-- **Hebrew**: `he`
+| Language Name     | Language Code | Supported by gpt-4o | Supported by gpt4o-mini |
+|-------------------|---------------|---------------------|-------------------------|
+| English           | en            | Yes                 | Yes                     |
+| Mandarin Chinese  | zh            | Yes                 | Yes                     |
+| Hindi             | hi            | Yes                 | Yes                     |
+| Spanish           | es            | Yes                 | Yes                     |
+| French            | fr            | Yes                 | Yes                     |
+| German            | de            | Yes                 | Yes                     |
+| Russian           | ru            | Yes                 | Yes                     |
+| Arabic            | ar            | Yes                 | Yes                     |
+| Italian           | it            | Yes                 | Yes                     |
+| Korean            | ko            | Yes                 | Yes                     |
+| Punjabi           | pa            | Yes                 | Yes                     |
+| Bengali           | bn            | Yes                 | Yes                     |
+| Portuguese        | pt            | Yes                 | Yes                     |
+| Indonesian        | id            | Yes                 | Yes                     |
+| Urdu              | ur            | Yes                 | Yes                     |
+| Persian (Farsi)   | fa            | Yes                 | Yes                     |
+| Vietnamese        | vi            | Yes                 | Yes                     |
+| Polish            | pl            | Yes                 | Yes                     |
+| Samoan            | sm            | Yes                 | Yes                     |
+| Thai              | th            | Yes                 | Yes                     |
+| Ukrainian         | uk            | Yes                 | Yes                     |
+| Turkish           | tr            | Yes                 | Yes                     |
+| Maori             | mi            | **No**              | **No**                  |
+| Norwegian         | no            | Yes                 | Yes                     |
+| Dutch             | nl            | Yes                 | Yes                     |
+| Greek             | el            | Yes                 | Yes                     |
+| Romanian          | ro            | Yes                 | Yes                     |
+| Swahili           | sw            | Yes                 | Yes                     |
+| Hungarian         | hu            | Yes                 | Yes                     |
+| Hebrew            | he            | Yes                 | Yes                     |
+| Swedish           | sv            | Yes                 | Yes                     |
+| Czech             | cs            | Yes                 | Yes                     |
+| Finnish           | fi            | Yes                 | Yes                     |
+| Amharic           | am            | **No**              | **No**                  |
+| Tagalog           | tl            | Yes                 | Yes                     |
+| Burmese           | my            | Yes                 | Yes                     |
+| Tamil             | ta            | Yes                 | Yes                     |
+| Kannada           | kn            | Yes                 | Yes                     |
+| Pashto            | ps            | Yes                 | Yes                     |
+| Yoruba            | yo            | Yes                 | Yes                     |
+| Malay             | ms            | Yes                 | Yes                     |
+| Haitian Creole    | ht            | Yes                 | Yes                     |
+| Nepali            | ne            | Yes                 | Yes                     |
+| Sinhala           | si            | Yes                 | Yes                     |
+| Catalan           | ca            | Yes                 | Yes                     |
+| Malagasy          | mg            | Yes                 | Yes                     |
+| Latvian           | lv            | Yes                 | Yes                     |
+| Lithuanian        | lt            | Yes                 | Yes                     |
+| Estonian          | et            | Yes                 | Yes                     |
+| Somali            | so            | Yes                 | Yes                     |
+| Tigrinya          | ti            | **No**              | **No**                  |
+| Breton            | br            | **No**              | **No**                  |
+| Fijian            | fj            | Yes                 | **No**                  |
+| Maltese           | mt            | Yes                 | Yes                     |
+| Corsican          | co            | Yes                 | Yes                     |
+| Luxembourgish     | lb            | Yes                 | Yes                     |
+| Occitan           | oc            | Yes                 | Yes                     |
+| Welsh             | cy            | Yes                 | Yes                     |
+| Albanian          | sq            | Yes                 | Yes                     |
+| Macedonian        | mk            | Yes                 | Yes                     |
+| Icelandic         | is            | Yes                 | Yes                     |
+| Slovenian         | sl            | Yes                 | Yes                     |
+| Galician          | gl            | Yes                 | Yes                     |
+| Basque            | eu            | Yes                 | Yes                     |
+| Azerbaijani       | az            | Yes                 | Yes                     |
+| Uzbek             | uz            | Yes                 | Yes                     |
+| Kazakh            | kk            | Yes                 | Yes                     |
+| Mongolian         | mn            | Yes                 | Yes                     |
+| Tibetan           | bo            | **No**              | **No**                  |
+| Khmer             | km            | Yes                 | **No**                  |
+| Lao               | lo            | Yes                 | Yes                     |
+| Telugu            | te            | Yes                 | Yes                     |
+| Marathi           | mr            | Yes                 | Yes                     |
+| Chichewa          | ny            | Yes                 | Yes                     |
+| Esperanto         | eo            | Yes                 | Yes                     |
+| Kurdish           | ku            | **No**              | **No**                  |
+| Tajik             | tg            | Yes                 | Yes                     |
+| Xhosa             | xh            | Yes                 | **No**                  |
+| Yiddish           | yi            | Yes                 | Yes                     |
+| Zulu              | zu            | Yes                 | Yes                     |
+| Sundanese         | su            | Yes                 | Yes                     |
+| Tatar             | tt            | Yes                 | Yes                     |
+| Quechua           | qu            | **No**              | **No**                  |
+| Uighur            | ug            | **No**              | **No**                  |
+| Wolof             | wo            | **No**              | **No**                  |
+| Tswana            | tn            | Yes                 | Yes                     |
+
+
 
 ## Additional Resources
 
