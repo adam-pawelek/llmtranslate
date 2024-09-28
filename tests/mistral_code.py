@@ -1,6 +1,6 @@
 import os
-from simpleaitranslator.translator import TranslatorMistral
-from simpleaitranslator.utils.enums import ModelForTranslator
+from llmtranslate.translator import TranslatorMistralCloud
+from llmtranslate.utils.enums import ModelForTranslator
 
 text = """
 Gospodarstwo
@@ -34,7 +34,8 @@ Zobaczymy czy teraz sobie z tym poradzisz
 """
 #print(os.environ.get("OPENAI_API_KEY"))
 #print(os.environ["MISTRAL_API_KEY"])
-translator = TranslatorMistral(os.environ.get("MISTRAL_API_KEY"), ModelForTranslator.MISTRAL_NEMO.value)
+print()
+translator = TranslatorMistralCloud(os.environ.get("MISTRAL_API_KEY"), ModelForTranslator.MISTRAL_NEMO.value)
 #llmtranslate.translator.set_chatgpt_model(ChatGPTModelForTranslator.GPT_4o_mini)
 print(len(text))
 
@@ -42,6 +43,6 @@ print()
 
 #print(how_many_languages_are_in_text(text))
 print(translator.get_text_language("jak ty się nazywasz"))
-print(translator.get_text_language(text))
+print(translator.get_text_language(text).ISO_639_3_code)
 
 print(translator.translate(text, "eng"))
