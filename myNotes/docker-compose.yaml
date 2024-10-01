@@ -6,9 +6,6 @@ services:
     shm_size: '1g'
     ports:
       - '8080:80'
-    volumes:
-      - ${volume}:/data
     environment:
       - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
     command: ["--model-id", "meta-llama/Llama-3.2-1B"]
-    gpus: all
