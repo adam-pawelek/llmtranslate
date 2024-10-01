@@ -16,6 +16,7 @@ nav:
   - Tutorial:
     - Quick Start Guide: Tutorial/Quick Start Guide.md
     - Choosing OpenAI Model for Translation: Tutorial/Choosing OpenAI Model for Translation.md
+    - TranslatorMistralCloud: Tutorial/TranslatorMistralCloud.md
 
 
 markdown_extensions:

@@ -22,24 +22,6 @@ translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 ```
 
-### Setting the Azure OpenAI API Key
-
-If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
-
-```python
-from llmtranslate import TranslatorAzureOpenAI
-
-# Set your Azure OpenAI API key and related parameters
-translator = TranslatorAzureOpenAI(
-  azure_endpoint="YOUR_AZURE_ENDPOINT",
-  api_key="YOUR_AZURE_API_KEY",
-  api_version="YOUR_API_VERSION",
-  azure_deployment="YOUR_AZURE_DEPLOYMENT"
-)
-
-```
-
-
 ### Language Detection
 
 To detect the language of a given text:
