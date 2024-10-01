@@ -9,14 +9,14 @@ class TestTranslatorOpenAI:
 
     @pytest.fixture
     def translator(self):
-        return TranslatorOpenAI(open_ai_api_key="test_key")
+        return TranslatorOpenAI(api_key="test_key")
 
     def test_set_api_key_success(self, translator):
         assert translator.client is not None
 
     def test_set_api_key_failure(self):
         with pytest.raises(NoneAPIKeyProvidedError):
-            TranslatorOpenAI(open_ai_api_key=None)
+            TranslatorOpenAI(api_key=None)
 
     def test_set_llm_success(self, translator):
         translator._set_llm(ModelForTranslator.BEST_BIG_MODEL.value)
@@ -38,7 +38,7 @@ class TestTranslatorOpenAI:
 
     @pytest.mark.asyncio
     async def test_translate_chunk_of_text_no_client(self):
-        translator = TranslatorOpenAI(open_ai_api_key="test_key")
+        translator = TranslatorOpenAI(api_key="test_key")
         translator.client = None
         with pytest.raises(MissingAPIKeyError):
             await translator.translate_chunk_of_text("text", "en")
@@ -78,7 +78,7 @@ class TestTranslatorMethods:
 
     @pytest.fixture
     def translator(self):
-        return TranslatorOpenAI(open_ai_api_key="test_key")
+        return TranslatorOpenAI(api_key="test_key")
 
     @pytest.mark.asyncio
     async def test_async_get_text_language(self, translator):

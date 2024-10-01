@@ -7,10 +7,8 @@ from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError,
 from llmtranslate.utils.available_languages import get_language_info
 from llmtranslate.utils.enums import ModelForTranslator
 from pydantic import BaseModel
-
 from llmtranslate.utils.iso639_1 import gpt_4o_supported_languages, create_supported_languages_based_on_quality
 from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_words
-from typing import Optional
 from abc import ABC, abstractmethod
 CHATGPT_MODEL_NAME = ModelForTranslator.BEST_BIG_MODEL
 global_client = None
@@ -86,12 +84,6 @@ class Translator(ABC):
         - text : str
             The text to detect the language of.
 
-        Optional:
-        - chatgpt_model_name : Optional[ChatGPTModelForTranslator], optional
-            ChatGPT model for language detection. Default is None.
-        - open_ai_api_key_for_this_translation : Optional[str], optional
-            OpenAI API key for the translation. Default is None.
-
         Returns:
         --------
         str
@@ -152,23 +144,6 @@ class Translator(ABC):
         to_language (str):
             The target language code (ISO 639-1). Default is "eng" (English).
 
-        Optional Parameters:
-        --------------------
-        chatgpt_model_name (Optional[ChatGPTModelForTranslator]):
-            The specific ChatGPT model to be used for this translation request.
-            If not provided, the global/default model will be used.
-
-            Line to import enums:
-            from llmtranslate.utils.enums import ChatGPTModel
-
-            Recommended enums are:
-            - ChatGPTModelForTranslator.BEST_BIG_MODEL
-            - ChatGPTModelForTranslator.BEST_SMALL_MODEL
-
-        open_ai_api_key_for_this_translation (Optional[str]):
-            An optional API key for OpenAI to be used specifically for this translation request.
-            This is useful if you want to override the global API key for this particular request.
-            Note that this will only work with the OpenAI client, not with the AzureOpenAI client.
 
         Returns:
         --------
@@ -193,10 +168,10 @@ class Translator(ABC):
 
 
 class TranslatorOpenAI(Translator):
-    def __init__(self, open_ai_api_key, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL):
+    def __init__(self, api_key, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL):
         if type(chatgpt_model_name) == ModelForTranslator:
             chatgpt_model_name = chatgpt_model_name.value
-        self._set_api_key(open_ai_api_key)
+        self._set_api_key(api_key)
         self._set_llm(chatgpt_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
@@ -282,15 +257,9 @@ class TranslatorAzureOpenAI(TranslatorOpenAI):
         )
 
 
-
-
-
-
-
-#Not supported yet waiting for LLM update
 class TranslatorOpenSourceLLM(Translator):
-    def __init__(self, open_ai_api_key, llm_endpoint, chatgpt_model_name=ModelForTranslator.MISTRAL_LARGE.value):
-        self._set_api_key(open_ai_api_key, llm_endpoint)
+    def __init__(self, api_key, llm_endpoint, chatgpt_model_name=ModelForTranslator.MISTRAL_LARGE.value):
+        self._set_api_key(api_key, llm_endpoint)
         self._set_llm(chatgpt_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
@@ -410,8 +379,8 @@ class TranslatorOpenSourceLLM(Translator):
 
 
 class TranslatorMistralCloud(TranslatorOpenSourceLLM):
-    def __init__(self, open_ai_api_key,  chatgpt_model_name=ModelForTranslator.MISTRAL_LARGE.value):
-        self._set_api_key(open_ai_api_key, "https://api.mistral.ai/v1")
+    def __init__(self, api_key, chatgpt_model_name=ModelForTranslator.MISTRAL_LARGE.value):
+        self._set_api_key(api_key, "https://api.mistral.ai/v1")
         self._set_llm(chatgpt_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK

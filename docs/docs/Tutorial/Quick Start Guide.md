@@ -16,8 +16,9 @@ Before using llmtranslate with OpenAI, you need to set your OpenAI API key. You 
 
 ```python
 from llmtranslate import TranslatorOpenAI
+
 # Set your OpenAI API key
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 ```
 
@@ -47,15 +48,15 @@ To detect the language of a given text:
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 # Detect language
 detected_language = translator.get_text_language("Hello world")
 if detected_language is not None:
-  print(detected_language.ISO_639_1_code)  # Output: 'en'
-  print(detected_language.ISO_639_2_code)  # Output: 'eng'
-  print(detected_language.ISO_639_3_code)  # Output: 'eng'
-  print(detected_language.language_name)  # Output: 'English'
+    print(detected_language.ISO_639_1_code)  # Output: 'en'
+    print(detected_language.ISO_639_2_code)  # Output: 'eng'
+    print(detected_language.ISO_639_3_code)  # Output: 'eng'
+    print(detected_language.language_name)  # Output: 'English'
 
 ```
 
@@ -71,7 +72,7 @@ To translate text containing multiple languages into another language:
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 # Translate text
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
@@ -87,15 +88,15 @@ Here is a complete example demonstrating how to use the library:
 from llmtranslate import TranslatorOpenAI
 
 # Initialize the translator with your OpenAI API key
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 # Detect language
 detected_language = translator.get_text_language("jak ty się nazywasz")
 if detected_language is not None:
-  print(detected_language.ISO_639_1_code)  # Output: 'pl'
-  print(detected_language.ISO_639_2_code)  # Output: 'pol'
-  print(detected_language.ISO_639_3_code)  # Output: 'pol'
-  print(detected_language.language_name)  # Output 'Polish'
+    print(detected_language.ISO_639_1_code)  # Output: 'pl'
+    print(detected_language.ISO_639_2_code)  # Output: 'pol'
+    print(detected_language.ISO_639_3_code)  # Output: 'pol'
+    print(detected_language.language_name)  # Output 'Polish'
 
 # Translate text
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")

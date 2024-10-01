@@ -3,7 +3,7 @@ import os
 from llmtranslate import TranslatorOpenAI
 
 # Initialize the translator with your OpenAI API key
-translatorr = TranslatorOpenAI(open_ai_api_key=os.getenv('OPENAI_API_KEY'))
+translatorr = TranslatorOpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 # Detect language
 detected_language = translatorr.get_text_language("jak ty się nazywasz")

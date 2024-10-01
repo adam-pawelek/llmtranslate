@@ -13,7 +13,7 @@ You can directly pass the model name as a string when creating an instance of `T
 from llmtranslate import TranslatorOpenAI
 
 # Example with a model name as a string
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "eng")
 print(translated_text)
 ```
@@ -27,7 +27,7 @@ from llmtranslate import TranslatorOpenAI
 from llmtranslate import ModelForTranslator
 
 # Example using the ModelForTranslator enum
-translator = TranslatorOpenAI(open_ai_api_key="YOUR_OPENAI_API_KEY", ModelForTranslator.GPT_4o_mini)
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", ModelForTranslator.GPT_4o_mini)
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "eng")
 print(translated_text)
 ```
