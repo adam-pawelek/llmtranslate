@@ -193,8 +193,6 @@ class Translator(ABC):
 
 
 class TranslatorOpenAI(Translator):
-    supported_languages= create_supported_languages_based_on_quality(gpt_4o_supported_languages)
-
     def __init__(self, open_ai_api_key, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL):
         if type(chatgpt_model_name) == ModelForTranslator:
             chatgpt_model_name = chatgpt_model_name.value
@@ -245,7 +243,6 @@ class TranslatorOpenAI(Translator):
 
 
 class TranslatorAzureOpenAI(TranslatorOpenAI):
-    supported_languages = create_supported_languages_based_on_quality(gpt_4o_supported_languages)
 
     def __init__(self, azure_endpoint: str, api_key: str, api_version: str, azure_deployment: str, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL):
         if type(chatgpt_model_name) == ModelForTranslator:
