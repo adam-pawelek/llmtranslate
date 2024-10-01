@@ -14,7 +14,7 @@ To use the `TranslatorMistralCloud` class, initialize it with your Mistral API k
 from llmtranslate import TranslatorMistralCloud, ModelForTranslator
 
 # Initialize with API key
-translator = TranslatorMistralCloud(open_ai_api_key="your_mistral_api_key")
+translator = TranslatorMistralCloud(api_key="your_mistral_api_key")
 ```
 
 ### Choose Mistral model 
@@ -24,14 +24,14 @@ The `TranslatorMistralCloud` class allows you to choose a translation model when
 ```python
 from my_translation_module import TranslatorMistralCloud, ModelForTranslator
 
-translator = TranslatorMistralCloud(open_ai_api_key="your_api_key_here", chatgpt_model_name=ModelForTranslator.MISTRAL_NEMO)
+translator = TranslatorMistralCloud(api_key="your_api_key_here", chatgpt_model_name=ModelForTranslator.MISTRAL_NEMO)
 ```
 
 **Example using String**
 ```python
 from my_translation_module import TranslatorMistralCloud, ModelForTranslator
 
-translator = TranslatorMistralCloud(open_ai_api_key="your_api_key_here", chatgpt_model_name="open-mistral-nemo")
+translator = TranslatorMistralCloud(api_key="your_api_key_here", chatgpt_model_name="open-mistral-nemo")
 
 ```
 
@@ -50,7 +50,7 @@ Translates the provided text into the specified language using the ISO 639-1 cod
 
 ```python
 from llmtranslate import TranslatorMistralCloud
-translator = TranslatorMistralCloud(open_ai_api_key="your_mistral_api_key")
+translator = TranslatorMistralCloud(api_key="your_mistral_api_key")
 translated_text = translator.translate("Bonjour", "en")
 print(translated_text)  # Output: Hello
 ```
@@ -62,7 +62,7 @@ Detects the language of the given text and returns its ISO 639-1 code.
 
 ```python
 from llmtranslate import TranslatorMistralCloud
-translator = TranslatorMistralCloud(open_ai_api_key="your_mistral_api_key")
+translator = TranslatorMistralCloud(api_key="your_mistral_api_key")
 detected_language = translator.get_text_language("jak ty się nazywasz")
 if detected_language is not None:
     print(detected_language.ISO_639_1_code)  # Output: 'pl'
