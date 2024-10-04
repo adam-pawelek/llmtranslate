@@ -314,7 +314,7 @@ class TranslatorOpenSourceLLM(Translator):
         ]
 
         response = await self.client.chat.completions.create(
-            model=self.llm_model_name.value,
+            model=self.llm_model_name,
             messages=messages,
             response_format={"type": "json_object"} # auto is default, but we'll be explicit
         )
