@@ -7,7 +7,6 @@ from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError,
 from llmtranslate.utils.available_languages import get_language_info
 from llmtranslate.utils.enums import ModelForTranslator
 from pydantic import BaseModel
-from llmtranslate.utils.iso639_1 import gpt_4o_supported_languages, create_supported_languages_based_on_quality
 from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_words
 from abc import ABC, abstractmethod
 CHATGPT_MODEL_NAME = ModelForTranslator.BEST_BIG_MODEL
@@ -35,7 +34,7 @@ class Translator(ABC):
     supported_languages: None
     def __init__(self):
         self.client = None
-        self.chatgpt_model_name = None
+        self.llm_model_name = None
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -43,9 +42,18 @@ class Translator(ABC):
     def _set_api_key(self):
         pass
 
-    @abstractmethod
-    def _set_llm(self, chatgpt_model_name):
-        pass
+
+    def _set_llm(self, llm_model_name: str):
+        """
+        Sets the default ChatGPT model.
+
+        This function allows you to change the default ChatGPT model used in the application.
+
+        Parameters:
+        chatgpt_model_name (str): The name of the ChatGPT model to set.
+        """
+
+        self.llm_model_name = llm_model_name
 
     async def async_get_text_language(self, text) -> TextLanguage:
         text = get_first_n_words(text, self.max_length)
@@ -55,7 +63,7 @@ class Translator(ABC):
         ]
 
         response = await self.client.beta.chat.completions.parse(
-            model=self.chatgpt_model_name.value,
+            model=self.llm_model_name,
             messages=messages,
             response_format=Translator.TextLanguageFormat  # auto is default, but we'll be explicit
         )
@@ -104,7 +112,7 @@ class Translator(ABC):
         ]
 
         response = await self.client.beta.chat.completions.parse(
-            model=self.chatgpt_model_name.value,
+            model=self.llm_model_name,
             messages=messages,
             response_format=Translator.TranslateFormat  # auto is default, but we'll be explicit
         )
@@ -155,7 +163,7 @@ class Translator(ABC):
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
         completion = await self.client.beta.chat.completions.parse(
-            model=self.chatgpt_model_name.value,
+            model=self.llm_model_name,
             messages=[
                 {"role": "system",
                  "content": "You are text languages counter you should count how many languaes are in provided by user text"},
@@ -168,11 +176,11 @@ class Translator(ABC):
 
 
 class TranslatorOpenAI(Translator):
-    def __init__(self, api_key, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL):
-        if type(chatgpt_model_name) == ModelForTranslator:
-            chatgpt_model_name = chatgpt_model_name.value
+    def __init__(self, api_key, llm_model_name=ModelForTranslator.BEST_BIG_MODEL):
+        if type(llm_model_name) == ModelForTranslator:
+            llm_model_name = llm_model_name.value
         self._set_api_key(api_key)
-        self._set_llm(chatgpt_model_name)
+        self._set_llm(llm_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -191,39 +199,18 @@ class TranslatorOpenAI(Translator):
             raise NoneAPIKeyProvidedError()
         self.client = AsyncOpenAI(api_key=api_key)
 
-    def _set_llm(self, chatgpt_model_name: str):
-        """
-        Sets the default ChatGPT model.
 
-        This function allows you to change the default ChatGPT model used in the application.
 
-        Parameters:
-        chatgpt_model_name (str): The name of the ChatGPT model to set.
-
-        Raises:
-        InvalidModelName: If the provided model name is not valid.
-        ValueError: If the chatgpt_model_name is None or in an incorrect format.
-        """
-
-        def validate_model(model_to_check: str) -> None:
-            if model_to_check not in {model.value for model in ModelForTranslator}:
-                raise InvalidModelName(invalid_model_name=model_to_check)
-
-        if isinstance(chatgpt_model_name, str):
-            validate_model(chatgpt_model_name)
-            self.chatgpt_model_name = ModelForTranslator(chatgpt_model_name)
-        else:
-            raise ValueError('chatgpt_model_name is required - current value is None or has wrong format')
 
 
 
 class TranslatorAzureOpenAI(TranslatorOpenAI):
 
-    def __init__(self, azure_endpoint: str, api_key: str, api_version: str, azure_deployment: str, chatgpt_model_name=ModelForTranslator.BEST_BIG_MODEL):
-        if type(chatgpt_model_name) == ModelForTranslator:
-            chatgpt_model_name = chatgpt_model_name.value
+    def __init__(self, azure_endpoint: str, api_key: str, api_version: str, azure_deployment: str, llm_model_name=ModelForTranslator.BEST_BIG_MODEL):
+        if type(llm_model_name) == ModelForTranslator:
+            llm_model_name = llm_model_name.value
         self._set_api_key(azure_endpoint, api_key, api_version, azure_deployment)
-        self._set_llm(chatgpt_model_name)
+        self._set_llm(llm_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -258,9 +245,9 @@ class TranslatorAzureOpenAI(TranslatorOpenAI):
 
 
 class TranslatorOpenSourceLLM(Translator):
-    def __init__(self, api_key, llm_endpoint, chatgpt_model_name=ModelForTranslator.MISTRAL_LARGE.value):
+    def __init__(self, api_key, llm_endpoint, llm_model_name=ModelForTranslator.MISTRAL_LARGE.value):
         self._set_api_key(api_key, llm_endpoint)
-        self._set_llm(chatgpt_model_name)
+        self._set_llm(llm_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -278,30 +265,6 @@ class TranslatorOpenSourceLLM(Translator):
             raise NoneAPIKeyProvidedError()
         self.client = AsyncOpenAI(api_key=api_key, base_url=llm_endpoint)#"https://api.mistral.ai/v1") # mistral
 
-    def _set_llm(self, chatgpt_model_name: str):
-        """
-        Sets the default ChatGPT model.
-
-        This function allows you to change the default ChatGPT model used in the application.
-
-        Parameters:
-        chatgpt_model_name (str): The name of the ChatGPT model to set.
-
-        Raises:
-        InvalidModelName: If the provided model name is not valid.
-        ValueError: If the chatgpt_model_name is None or in an incorrect format.
-        """
-
-        def validate_model(model_to_check: str) -> None:
-            if model_to_check not in {model.value for model in ModelForTranslator}:
-                raise InvalidModelName(invalid_model_name=model_to_check)
-
-        if isinstance(chatgpt_model_name, str):
-            validate_model(chatgpt_model_name)
-            self.chatgpt_model_name = ModelForTranslator(chatgpt_model_name)
-        else:
-            raise ValueError('chatgpt_model_name is required - current value is None or has wrong format')
-
 
 
     async def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
@@ -315,7 +278,7 @@ class TranslatorOpenSourceLLM(Translator):
         ]
 
         response = await self.client.chat.completions.create(
-            model=self.chatgpt_model_name.value,
+            model=self.llm_model_name,
             messages=messages,
             response_format={"type": "json_object"}
         )
@@ -330,7 +293,7 @@ class TranslatorOpenSourceLLM(Translator):
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
         completion = await self.client.chat.completions.create(
-            model=self.chatgpt_model_name.value,
+            model=self.llm_model_name,
             messages=[
                 {"role": "system",
                  "content": "You are text languages counter you should count how many languaes are in provided by user text. YOu should provide answer in this json format: {'number_of_languages': 'return here number of languages in text'}"},
@@ -343,9 +306,6 @@ class TranslatorOpenSourceLLM(Translator):
         event = event.get('number_of_languages', 1)
         return event
 
-
-    class TextLanguageFormat(BaseModel):
-        language_ISO_639_1_code: str
     async def async_get_text_language(self, text) -> Translator.TextLanguage:
         text = get_first_n_words(text, self.max_length)
         messages = [
@@ -354,7 +314,7 @@ class TranslatorOpenSourceLLM(Translator):
         ]
 
         response = await self.client.chat.completions.create(
-            model=self.chatgpt_model_name.value,
+            model=self.llm_model_name.value,
             messages=messages,
             response_format={"type": "json_object"} # auto is default, but we'll be explicit
         )
@@ -379,9 +339,9 @@ class TranslatorOpenSourceLLM(Translator):
 
 
 class TranslatorMistralCloud(TranslatorOpenSourceLLM):
-    def __init__(self, api_key, chatgpt_model_name=ModelForTranslator.MISTRAL_LARGE.value):
+    def __init__(self, api_key, llm_model_name=ModelForTranslator.MISTRAL_LARGE.value):
         self._set_api_key(api_key, "https://api.mistral.ai/v1")
-        self._set_llm(chatgpt_model_name)
+        self._set_llm(llm_model_name)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 

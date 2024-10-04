@@ -20,11 +20,9 @@ class TestTranslatorOpenAI:
 
     def test_set_llm_success(self, translator):
         translator._set_llm(ModelForTranslator.BEST_BIG_MODEL.value)
-        assert translator.chatgpt_model_name == ModelForTranslator.BEST_BIG_MODEL
+        assert translator.llm_model_name == ModelForTranslator.BEST_BIG_MODEL.value
 
-    def test_set_llm_invalid_model(self, translator):
-        with pytest.raises(InvalidModelName):
-            translator._set_llm("invalid_model")
+
 
     @pytest.mark.asyncio
     async def test_translate_chunk_of_text(self, translator):
@@ -66,11 +64,8 @@ class TestTranslatorAzureOpenAI:
 
     def test_set_llm_success(self, translator):
         translator._set_llm(ModelForTranslator.BEST_BIG_MODEL.value)
-        assert translator.chatgpt_model_name == ModelForTranslator.BEST_BIG_MODEL
+        assert translator.llm_model_name == ModelForTranslator.BEST_BIG_MODEL.value
 
-    def test_set_llm_invalid_model(self, translator):
-        with pytest.raises(InvalidModelName):
-            translator._set_llm("invalid_model")
 
 
 # Test Translator class methods
