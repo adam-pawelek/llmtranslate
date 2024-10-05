@@ -58,8 +58,8 @@ translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 # Translate text
 translated_text = translator.translate(
-    "Cześć jak się masz? Meu nome é Adam", 
-    "en"
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
 )
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 ```
@@ -85,8 +85,8 @@ if detected_language is not None:
 
 # Translate text
 translated_text = translator.translate(
-    "Cześć jak się masz? Meu nome é Adam", 
-    "en"
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
 )
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 

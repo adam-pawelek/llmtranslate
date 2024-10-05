@@ -47,24 +47,6 @@ translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 ```
 
-### Setting the Azure OpenAI API Key
-
-If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
-
-```python
-from llmtranslate import TranslatorAzureOpenAI
-
-# Set your Azure OpenAI API key and related parameters
-translator = TranslatorAzureOpenAI(
-  azure_endpoint="YOUR_AZURE_ENDPOINT",
-  api_key="YOUR_AZURE_API_KEY",
-  api_version="YOUR_API_VERSION",
-  azure_deployment="YOUR_AZURE_DEPLOYMENT"
-)
-
-```
-
-
 ### Language Detection
 
 To detect the language of a given text:
@@ -100,7 +82,10 @@ from llmtranslate import TranslatorOpenAI
 translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 # Translate text
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
+translated_text = translator.translate(
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
+)
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 ```
 
@@ -124,10 +109,32 @@ if detected_language is not None:
     print(detected_language.language_name)  # Output 'Polish'
 
 # Translate text
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
+translated_text = translator.translate(
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
+)
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 ```
+
+
+### Setting the Azure OpenAI API Key
+
+If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
+
+```python
+from llmtranslate import TranslatorAzureOpenAI
+
+# Set your Azure OpenAI API key and related parameters
+translator = TranslatorAzureOpenAI(
+  azure_endpoint="YOUR_AZURE_ENDPOINT",
+  api_key="YOUR_AZURE_API_KEY",
+  api_version="YOUR_API_VERSION",
+  azure_deployment="YOUR_AZURE_DEPLOYMENT"
+)
+
+```
+
 
 ## Supported Languages
 

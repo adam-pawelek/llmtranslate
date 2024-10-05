@@ -141,7 +141,7 @@ class Translator(ABC):
         translated_list = await asyncio.gather(*tasks)
         return " ".join(translated_list)
 
-    def translate(self, text, to_language="eng") -> str: #ISO 639-1
+    def translate(self, text, to_language="en") -> str: #ISO 639-1
         """
         Translates the given text to the specified language.
 
