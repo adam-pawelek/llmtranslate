@@ -98,16 +98,10 @@ The llmtranslate library provides access to various OpenAI models for translatio
 ```python
 from llmtranslate import TranslatorOpenAI
 
-# OpenAI's best model, but also the most expensive
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-preview")
-
 # Recommended for precise translation, high-precision model
 translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o")
 
 # A budget-friendly option, balancing cost and quality
 translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
-
-
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-mini")
 
 ```
