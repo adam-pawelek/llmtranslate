@@ -73,7 +73,7 @@ if detected_language is not None:
 
 ### Translation
 
-To translate text containing multiple languages into another language:
+To translate text containing multiple languages into another language, you need to provide the ISO 639 language code for the target language. For a list of all ISO 639 language codes, you can refer to this [ISO 639-1 code list website](https://localizely.com/iso-639-1-list/).
 
 ```python
 from llmtranslate import TranslatorOpenAI
@@ -84,11 +84,10 @@ translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini"
 # Translate text
 translated_text = translator.translate(
     text="Cześć jak się masz? Meu nome é Adam", 
-    to_language="en"
+    to_language="en"  # Use ISO 639 code for the target language
 )
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 ```
-
 
 ### Full Example
 
