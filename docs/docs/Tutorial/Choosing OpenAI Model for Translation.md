@@ -14,7 +14,11 @@ from llmtranslate import TranslatorOpenAI
 
 # Example with a model name as a string
 translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "eng")
+
+translated_text = translator.translate(
+    "Cześć jak się masz? Meu nome é Adam", 
+    "eng"
+)
 print(translated_text)
 ```
 
@@ -27,7 +31,11 @@ from llmtranslate import TranslatorOpenAI
 from llmtranslate import ModelForTranslator
 
 # Example using the ModelForTranslator enum
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", ModelForTranslator.GPT_4o_mini)
+translator = TranslatorOpenAI(
+    api_key="YOUR_OPENAI_API_KEY", 
+    ModelForTranslator.GPT_4o_mini
+)
+
 translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "eng")
 print(translated_text)
 ```

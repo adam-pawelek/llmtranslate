@@ -57,7 +57,10 @@ from llmtranslate import TranslatorOpenAI
 translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
 
 # Translate text
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
+translated_text = translator.translate(
+    "Cześć jak się masz? Meu nome é Adam", 
+    "en"
+)
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 ```
 
@@ -81,7 +84,10 @@ if detected_language is not None:
     print(detected_language.language_name)  # Output 'Polish'
 
 # Translate text
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
+translated_text = translator.translate(
+    "Cześć jak się masz? Meu nome é Adam", 
+    "en"
+)
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 ```
