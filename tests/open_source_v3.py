@@ -3,8 +3,8 @@ from llmtranslate import TranslatorOpenSourceLLM
 
 translator = TranslatorOpenSourceLLM(
     api_key=os.environ.get("YOUR_HF_TOKEN"),
-    llm_endpoint="https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-1B-Instruct/v1",
-    llm_model_name="meta-llama/Llama-3.2-1B-Instruct"
+    llm_endpoint="https://api-inference.huggingface.co/models/microsoft/Phi-3.5-mini-instruct/v1",
+    llm_model_name="microsoft/Phi-3.5-mini-instruct"
 )
 
 # Detect language
