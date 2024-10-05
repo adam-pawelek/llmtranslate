@@ -285,7 +285,7 @@ class TranslatorOpenSourceOpenAILibrary(Translator):
         response_message = response.choices[0].message.content
         response_json = json.loads(response_message)
         response_message = response_json.get("translated_text", '')
-        print(f"response message:{response_message} ||| text to translate:{text_chunk}")
+        #print(f"response message:{response_message} ||| text to translate:{text_chunk}")
         return response_message
 
 
