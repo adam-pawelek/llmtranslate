@@ -14,7 +14,7 @@ nav:
     - gpt-4o: Supported languages/gpt-4o.md
     - gpt-4o-mini: Supported languages/gpt-4o-mini.md
   - Tutorial:
-    - Quick Start Guide: Tutorial/Quick Start Guide.md
+    - Quick Start Guide - OpenAI: Tutorial/Quick Start Guide.md
     - Choosing OpenAI Model for Translation: Tutorial/Choosing OpenAI Model for Translation.md
     - TranslatorMistralCloud: Tutorial/TranslatorMistralCloud.md
 

@@ -13,11 +13,14 @@ You can directly pass the model name as a string when creating an instance of `T
 from llmtranslate import TranslatorOpenAI
 
 # Example with a model name as a string
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
+translator = TranslatorOpenAI(
+    api_key="YOUR_OPENAI_API_KEY", 
+    model="gpt-4o-mini"
+)
 
 translated_text = translator.translate(
-    "Cześć jak się masz? Meu nome é Adam", 
-    "eng"
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
 )
 print(translated_text)
 ```
@@ -33,10 +36,13 @@ from llmtranslate import ModelForTranslator
 # Example using the ModelForTranslator enum
 translator = TranslatorOpenAI(
     api_key="YOUR_OPENAI_API_KEY", 
-    ModelForTranslator.GPT_4o_mini
+    model=ModelForTranslator.GPT_4o_mini
 )
 
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "eng")
+translated_text = translator.translate(
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
+)
 print(translated_text)
 ```
 
@@ -46,15 +52,15 @@ print(translated_text)
 from enum import Enum
 
 class ModelForTranslator(Enum):
-    BEST_BIG_MODEL = "gpt-4o-2024-08-06"
+    BEST_BIG_MODEL = "gpt-4o"
     BEST_SMALL_MODEL = "gpt-4o-mini"
-    GPT_4o = "gpt-4o-2024-08-06"
+    GPT_4o = "gpt-4o"
     GPT_4o_mini = "gpt-4o-mini"
 ```
 
-- **BEST_BIG_MODEL**: `"gpt-4o-2024-08-06"` - Represents the best large model available.
+- **BEST_BIG_MODEL**: `"gpt-4o"` - Represents the best large model available.
 - **BEST_SMALL_MODEL**: `"gpt-4o-mini"` - Represents the best smaller model, optimized for speed.
-- **GPT_4o**: `"gpt-4o-2024-08-06"` - Specific version of GPT-4o.
+- **GPT_4o**: `"gpt-4o"` - Specific version of GPT-4o.
 - **GPT_4o_mini**: `"gpt-4o-mini"` - A smaller version of GPT-4o.
 
 ### Summary
