@@ -117,6 +117,29 @@ print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 ```
 
+### Available OpenAI Models for Translation
+The llmtranslate library provides access to various OpenAI models for translation. Below are the supported models and their use cases:
+
+
+```python
+from llmtranslate import TranslatorOpenAI
+
+# OpenAI's best model, but also the most expensive
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-preview")
+
+# Recommended for precise translation, high-precision model
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o")
+
+# A budget-friendly option, balancing cost and quality
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
+
+
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-mini")
+
+```
+
+
+
 
 ### Setting the Azure OpenAI API Key
 

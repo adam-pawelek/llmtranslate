@@ -18,7 +18,7 @@ Before using llmtranslate with OpenAI, you need to set your OpenAI API key. You 
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
 
 ```
 
@@ -30,7 +30,7 @@ To detect the language of a given text:
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
 
 # Detect language
 detected_language = translator.get_text_language("Hello world")
@@ -54,7 +54,7 @@ To translate text containing multiple languages into another language:
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
 
 # Translate text
 translated_text = translator.translate(
@@ -73,7 +73,7 @@ Here is a complete example demonstrating how to use the library:
 from llmtranslate import TranslatorOpenAI
 
 # Initialize the translator with your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", "gpt-4o-mini")
 
 # Detect language
 detected_language = translator.get_text_language("jak ty się nazywasz")
@@ -89,5 +89,25 @@ translated_text = translator.translate(
     to_language="en"
 )
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
+
+```
+
+### Available OpenAI Models for Translation
+The llmtranslate library provides access to various OpenAI models for translation. Below are the supported models and their use cases:
+
+```python
+from llmtranslate import TranslatorOpenAI
+
+# OpenAI's best model, but also the most expensive
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-preview")
+
+# Recommended for precise translation, high-precision model
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o")
+
+# A budget-friendly option, balancing cost and quality
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
+
+
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-mini")
 
 ```
