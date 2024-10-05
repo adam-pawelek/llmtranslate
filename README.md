@@ -84,7 +84,7 @@ translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini"
 # Translate text
 translated_text = translator.translate(
     text="Cześć jak się masz? Meu nome é Adam", 
-    to_language="en"  # Use ISO 639 code for the target language
+    to_language="en"  # Use ISO 639-1 code for the target language
 )
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 ```
