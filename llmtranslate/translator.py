@@ -35,7 +35,7 @@ class Translator(ABC):
     supported_languages: None
     def __init__(self):
         self.client = None
-        self.llm_model_name = None
+        self.model = None
         self.max_length = None #MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -44,7 +44,7 @@ class Translator(ABC):
         pass
 
 
-    def _set_llm(self, llm_model_name: str):
+    def _set_llm(self, model: str):
         """
         Sets the default ChatGPT model.
 
@@ -54,7 +54,7 @@ class Translator(ABC):
         chatgpt_model_name (str): The name of the ChatGPT model to set.
         """
 
-        self.llm_model_name = llm_model_name
+        self.model = model
 
     async def async_get_text_language(self, text) -> TextLanguage:
         text = get_first_n_words(text, self.max_length)
@@ -64,7 +64,7 @@ class Translator(ABC):
         ]
 
         response = await self.client.beta.chat.completions.parse(
-            model=self.llm_model_name,
+            model=self.model,
             messages=messages,
             response_format=Translator.TextLanguageFormat  # auto is default, but we'll be explicit
         )
@@ -113,7 +113,7 @@ class Translator(ABC):
         ]
 
         response = await self.client.beta.chat.completions.parse(
-            model=self.llm_model_name,
+            model=self.model,
             messages=messages,
             response_format=Translator.TranslateFormat  # auto is default, but we'll be explicit
         )
@@ -164,7 +164,7 @@ class Translator(ABC):
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
         completion = await self.client.beta.chat.completions.parse(
-            model=self.llm_model_name,
+            model=self.model,
             messages=[
                 {"role": "system",
                  "content": "You are text languages counter you should count how many languaes are in provided by user text"},
@@ -177,11 +177,11 @@ class Translator(ABC):
 
 
 class TranslatorOpenAI(Translator):
-    def __init__(self, api_key, llm_model_name=ModelForTranslator.BEST_BIG_MODEL):
-        if type(llm_model_name) == ModelForTranslator:
-            llm_model_name = llm_model_name.value
+    def __init__(self, api_key, model=ModelForTranslator.BEST_BIG_MODEL):
+        if type(model) == ModelForTranslator:
+            model = model.value
         self._set_api_key(api_key)
-        self._set_llm(llm_model_name)
+        self._set_llm(model)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -207,11 +207,11 @@ class TranslatorOpenAI(Translator):
 
 class TranslatorAzureOpenAI(TranslatorOpenAI):
 
-    def __init__(self, azure_endpoint: str, api_key: str, api_version: str, azure_deployment: str, llm_model_name=ModelForTranslator.BEST_BIG_MODEL):
-        if type(llm_model_name) == ModelForTranslator:
-            llm_model_name = llm_model_name.value
+    def __init__(self, azure_endpoint: str, api_key: str, api_version: str, azure_deployment: str, model=ModelForTranslator.BEST_BIG_MODEL):
+        if type(model) == ModelForTranslator:
+            model = model.value
         self._set_api_key(azure_endpoint, api_key, api_version, azure_deployment)
-        self._set_llm(llm_model_name)
+        self._set_llm(model)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -246,9 +246,9 @@ class TranslatorAzureOpenAI(TranslatorOpenAI):
 
 
 class TranslatorOpenSourceOpenAILibrary(Translator):
-    def __init__(self, api_key, llm_endpoint, llm_model_name=ModelForTranslator.MISTRAL_LARGE.value):
+    def __init__(self, api_key, llm_endpoint, model=ModelForTranslator.MISTRAL_LARGE.value):
         self._set_api_key(api_key, llm_endpoint)
-        self._set_llm(llm_model_name)
+        self._set_llm(model)
         self.max_length = MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
 
@@ -277,7 +277,7 @@ class TranslatorOpenSourceOpenAILibrary(Translator):
         ]
 
         response = await self.client.chat.completions.create(
-            model=self.llm_model_name,
+            model=self.model,
             messages=messages,
             response_format={"type": "json_object"}
         )
@@ -292,7 +292,7 @@ class TranslatorOpenSourceOpenAILibrary(Translator):
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
         completion = await self.client.chat.completions.create(
-            model=self.llm_model_name,
+            model=self.model,
             messages=[
                 {"role": "system",
                  "content": "You are text languages counter you should count how many languaes are in provided by user text. YOu should provide answer in this json format: {'number_of_languages': 'return here number of languages in text'}"},
@@ -313,7 +313,7 @@ class TranslatorOpenSourceOpenAILibrary(Translator):
         ]
 
         response = await self.client.chat.completions.create(
-            model=self.llm_model_name,
+            model=self.model,
             messages=messages,
             response_format={"type": "json_object"} # auto is default, but we'll be explicit
         )
@@ -338,9 +338,9 @@ class TranslatorOpenSourceOpenAILibrary(Translator):
 
 
 class TranslatorMistralCloud(TranslatorOpenSourceOpenAILibrary):
-    def __init__(self, api_key, llm_model_name=ModelForTranslator.MISTRAL_LARGE.value):
+    def __init__(self, api_key, model=ModelForTranslator.MISTRAL_LARGE.value):
         self._set_api_key(api_key, "https://api.mistral.ai/v1")
-        self._set_llm(llm_model_name)
+        self._set_llm(model)
         self.max_length = 200
         self.max_length_mini_text_chunk = 60
 
@@ -350,9 +350,9 @@ class TranslatorMistralCloud(TranslatorOpenSourceOpenAILibrary):
 
 #Not supported yet
 class TranslatorTextGenerationInference(Translator):
-    def __init__(self, api_key, llm_model_name, llm_endpoint=None):
+    def __init__(self, api_key, model, llm_endpoint=None):
         self._set_api_key(api_key, llm_endpoint)
-        self._set_llm(llm_model_name)
+        self._set_llm(model)
         self.max_length = 100
         self.max_length_mini_text_chunk = 50
 
@@ -383,7 +383,7 @@ Before returning result check if it is valid json.\
         print(prompt)
         response = await self.client.text_generation(
             prompt=prompt,
-            model=self.llm_model_name,
+            model=self.model,
             grammar={"type": "json", "value": TranslatorTextGenerationInference.TranslateFormat.schema()},
             max_new_tokens=2048
         )
@@ -404,7 +404,7 @@ Before returning result check if it is valid json.\
         try:
             completion = await self.client.text_generation(
                 prompt=prompt,
-                model=self.llm_model_name,
+                model=self.model,
                 grammar={"type": "json", "value": TranslatorTextGenerationInference.HowManyLanguages.schema()},
             )
 
@@ -427,7 +427,7 @@ Before returning result check if it is valid json.\
         #print(prompt)
         completion = await self.client.text_generation(
             prompt=prompt,
-            model=self.llm_model_name,
+            model=self.model,
             grammar={"type": "json", "value": TranslatorTextGenerationInference.TextLanguageFormat.schema()},
         )
 

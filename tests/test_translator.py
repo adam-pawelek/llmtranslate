@@ -20,7 +20,7 @@ class TestTranslatorOpenAI:
 
     def test_set_llm_success(self, translator):
         translator._set_llm(ModelForTranslator.BEST_BIG_MODEL.value)
-        assert translator.llm_model_name == ModelForTranslator.BEST_BIG_MODEL.value
+        assert translator.model == ModelForTranslator.BEST_BIG_MODEL.value
 
 
 
@@ -64,7 +64,7 @@ class TestTranslatorAzureOpenAI:
 
     def test_set_llm_success(self, translator):
         translator._set_llm(ModelForTranslator.BEST_BIG_MODEL.value)
-        assert translator.llm_model_name == ModelForTranslator.BEST_BIG_MODEL.value
+        assert translator.model == ModelForTranslator.BEST_BIG_MODEL.value
 
 
 

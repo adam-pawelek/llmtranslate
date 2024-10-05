@@ -6,6 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/adam-pawelek/llmtranslate?tab=MIT-1-ov-file)
 [![codecov](https://codecov.io/github/adam-pawelek/llmtranslate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llmtranslate)
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
+
 ## Overview
 
 llmtranslate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
@@ -42,27 +43,9 @@ Before using llmtranslate with OpenAI, you need to set your OpenAI API key. You 
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
 
 ```
-
-### Setting the Azure OpenAI API Key
-
-If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
-
-```python
-from llmtranslate import TranslatorAzureOpenAI
-
-# Set your Azure OpenAI API key and related parameters
-translator = TranslatorAzureOpenAI(
-  azure_endpoint="YOUR_AZURE_ENDPOINT",
-  api_key="YOUR_AZURE_API_KEY",
-  api_version="YOUR_API_VERSION",
-  azure_deployment="YOUR_AZURE_DEPLOYMENT"
-)
-
-```
-
 
 ### Language Detection
 
@@ -72,7 +55,7 @@ To detect the language of a given text:
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
 
 # Detect language
 detected_language = translator.get_text_language("Hello world")
@@ -96,10 +79,13 @@ To translate text containing multiple languages into another language:
 from llmtranslate import TranslatorOpenAI
 
 # Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
 
 # Translate text
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
+translated_text = translator.translate(
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
+)
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
 ```
 
@@ -112,7 +98,7 @@ Here is a complete example demonstrating how to use the library:
 from llmtranslate import TranslatorOpenAI
 
 # Initialize the translator with your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY")
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
 
 # Detect language
 detected_language = translator.get_text_language("jak ty się nazywasz")
@@ -123,8 +109,52 @@ if detected_language is not None:
     print(detected_language.language_name)  # Output 'Polish'
 
 # Translate text
-translated_text = translator.translate("Cześć jak się masz? Meu nome é Adam", "en")
+translated_text = translator.translate(
+    text="Cześć jak się masz? Meu nome é Adam", 
+    to_language="en"
+)
 print(translated_text)  # Output: "Hello how are you? My name is Adam"
+
+```
+
+### Available OpenAI Models for Translation
+The llmtranslate library provides access to various OpenAI models for translation. Below are the supported models and their use cases:
+
+
+```python
+from llmtranslate import TranslatorOpenAI
+
+# OpenAI's best model, but also the most expensive
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-preview")
+
+# Recommended for precise translation, high-precision model
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o")
+
+# A budget-friendly option, balancing cost and quality
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
+
+
+translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="o1-mini")
+
+```
+
+
+
+
+### Setting the Azure OpenAI API Key
+
+If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
+
+```python
+from llmtranslate import TranslatorAzureOpenAI
+
+# Set your Azure OpenAI API key and related parameters
+translator = TranslatorAzureOpenAI(
+  azure_endpoint="YOUR_AZURE_ENDPOINT",
+  api_key="YOUR_AZURE_API_KEY",
+  api_version="YOUR_API_VERSION",
+  azure_deployment="YOUR_AZURE_DEPLOYMENT"
+)
 
 ```
 
@@ -223,7 +253,6 @@ Here is a table showing which languages are supported by gpt-4o and gpt4o-mini:
 | Uighur            | ug            | **No**              | **No**                  |
 | Wolof             | wo            | **No**              | **No**                  |
 | Tswana            | tn            | Yes                 | Yes                     |
-
 
 
 ## Additional Resources

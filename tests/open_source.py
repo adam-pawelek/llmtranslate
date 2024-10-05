@@ -7,7 +7,7 @@ from llmtranslate import TranslatorTextGenerationInference
 translator = TranslatorTextGenerationInference(
     api_key=os.environ.get("YOUR_HF_TOKEN"),
     #llm_endpoint="https://api-inference.huggingface.co/models/Qwen/Qwen2.5-72B-Instruct/v1",
-    llm_model_name="mistralai/Mistral-Small-Instruct-2409"
+    model="mistralai/Mistral-Small-Instruct-2409"
 )
 
 # Detect language
