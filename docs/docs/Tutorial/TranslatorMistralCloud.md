@@ -22,16 +22,22 @@ The `TranslatorMistralCloud` class allows you to choose a translation model when
 
 **Example using Enum:**
 ```python
-from my_translation_module import TranslatorMistralCloud, ModelForTranslator
+from llmtranslate import TranslatorMistralCloud, ModelForTranslator
 
-translator = TranslatorMistralCloud(api_key="your_api_key_here", chatgpt_model_name=ModelForTranslator.MISTRAL_NEMO)
+translator = TranslatorMistralCloud(
+    api_key="your_api_key_here", 
+    chatgpt_model_name=ModelForTranslator.MISTRAL_NEMO
+)
 ```
 
 **Example using String**
 ```python
-from my_translation_module import TranslatorMistralCloud, ModelForTranslator
+from llmtranslate import TranslatorMistralCloud, ModelForTranslator
 
-translator = TranslatorMistralCloud(api_key="your_api_key_here", chatgpt_model_name="open-mistral-nemo")
+translator = TranslatorMistralCloud(
+    api_key="your_api_key_here", 
+    chatgpt_model_name="open-mistral-nemo"
+)
 
 ```
 
