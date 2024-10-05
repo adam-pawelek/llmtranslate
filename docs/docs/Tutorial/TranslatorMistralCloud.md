@@ -26,7 +26,7 @@ from llmtranslate import TranslatorMistralCloud, ModelForTranslator
 
 translator = TranslatorMistralCloud(
     api_key="your_api_key_here", 
-    chatgpt_model_name=ModelForTranslator.MISTRAL_NEMO
+    model=ModelForTranslator.MISTRAL_NEMO
 )
 ```
 
@@ -36,7 +36,7 @@ from llmtranslate import TranslatorMistralCloud, ModelForTranslator
 
 translator = TranslatorMistralCloud(
     api_key="your_api_key_here", 
-    chatgpt_model_name="open-mistral-nemo"
+    model="open-mistral-nemo"
 )
 
 ```
@@ -87,7 +87,10 @@ if detected_language is not None:
 
 ```python
 from llmtranslate import TranslatorMistralCloud
-translator = TranslatorMistralCloud("your_mistral_api_key")
+translator = TranslatorMistralCloud(
+    api_key="your_api_key_here", 
+    model="open-mistral-nemo"
+)
 
 # Translate text to English
 translated_text = translator.translate("こんにちは", "en")
