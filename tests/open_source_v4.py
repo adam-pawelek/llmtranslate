@@ -1,10 +1,10 @@
 import os
-from llmtranslate import TranslatorOpenSourceLLM
+from llmtranslate import TranslatorOpenSource
 
-translator = TranslatorOpenSourceLLM(
+translator = TranslatorOpenSource(
     api_key=os.environ.get("YOUR_HF_TOKEN"),
     llm_endpoint="https://api-inference.huggingface.co/models/mistralai/Mistral-Nemo-Instruct-2407/v1",
-    llm_model_name="mistralai/Mistral-Nemo-Instruct-2407"
+    model="mistralai/Mistral-Nemo-Instruct-2407"
 )
 
 # Detect language

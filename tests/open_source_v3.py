@@ -1,10 +1,10 @@
 import os
-from llmtranslate import TranslatorOpenSourceLLM
+from llmtranslate import TranslatorOpenSource
 
-translator = TranslatorOpenSourceLLM(
+translator = TranslatorOpenSource(
     api_key=os.environ.get("YOUR_HF_TOKEN"),
     llm_endpoint="https://api-inference.huggingface.co/models/microsoft/Phi-3.5-mini-instruct/v1",
-    llm_model_name="microsoft/Phi-3.5-mini-instruct"
+    model="meta-llama/Llama-3.2-1B-Instruct"
 )
 
 # Detect language
