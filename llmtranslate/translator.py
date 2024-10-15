@@ -16,7 +16,8 @@ CHATGPT_MODEL_NAME = ModelForTranslator.BEST_BIG_MODEL
 global_client = None
 MAX_LENGTH = 1000
 MAX_LENGTH_MINI_TEXT_CHUNK = 128
-
+MINI_MODELS = ["meta-llama/Llama-3.2-1B-Instruct", "meta-llama/Llama-3.2-3B-Instruct"]
+SMALL_MODELS = ["meta-llama/Llama-3.1-8B-Instruct"]
 
 class Translator(ABC):
     class TextLanguageFormat(BaseModel):
@@ -249,10 +250,14 @@ class TranslatorAzureOpenAI(TranslatorOpenAI):
 
 
 def parse_llm_json(text: str) -> dict:
-    #print(text)
-    text = re.search(r'{.*?}', text, re.DOTALL)
-    #print("after parse")
-    #print(str(text.group()))
+    print(text)
+    if text.count("}") == 0:
+        text+= "}"
+    updated_text = re.sub(r'([^\s\d"])\s*}', r'\1"}', text)
+    updated_text = re.sub(r"'\s*}", r'"}', updated_text)
+    text = re.search(r'{.*?}', updated_text, re.DOTALL)
+    print("after parse")
+    print(str(text.group()))
     return json.loads(text.group())
 
 
@@ -261,8 +266,16 @@ class TranslatorOpenSource(Translator):
     def __init__(self, api_key, llm_endpoint, model=ModelForTranslator.MISTRAL_LARGE.value):
         self._set_api_key(api_key, llm_endpoint)
         self._set_llm(model)
-        self.max_length = MAX_LENGTH
-        self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
+        if model in MINI_MODELS:
+            self.max_length = 30
+            self.max_length_mini_text_chunk = 20
+        else:
+            self.max_length = 100
+            self.max_length_mini_text_chunk = 50
+        #if model in SMALL_MODELS:
+        #    self.max_length = 100
+        #    self.max_length_mini_text_chunk = 50
+
 
     def _set_api_key(self, api_key, llm_endpoint=None):
         """
@@ -292,6 +305,7 @@ class TranslatorOpenSource(Translator):
             model=self.model,
             messages=messages,
             #response_format={"type": "json_object"}
+            max_tokens=2048
         )
 
 
@@ -310,6 +324,7 @@ class TranslatorOpenSource(Translator):
                  "content": "You are text languages counter you should count how many languaes are in provided by user text. You should provide answer in this json format: {\"number_of_languages\": \"return here number_of_languages in text\"} **Do NOT write any explenation for your resoning**"},
                 {"role": "user", "content": f"Please count how many languaes are in this text:\n{text}"},
             ],
+            max_tokens=2048
             #response_format={"type": "json_object"}
         )
 
@@ -330,6 +345,7 @@ class TranslatorOpenSource(Translator):
         response = await self.client.chat.completions.create(
             model=self.model,
             messages=messages,
+            max_tokens=2048
             #response_format={"type": "json_object"} # auto is default, but we'll be explicit
         )
 
@@ -420,6 +436,7 @@ Before returning result check if it is valid json.\
                 prompt=prompt,
                 model=self.model,
                 grammar={"type": "json", "value": TranslatorTextGenerationInference.HowManyLanguages.schema()},
+                max_new_tokens=2048
             )
 
             print(completion)
@@ -443,6 +460,7 @@ Before returning result check if it is valid json.\
             prompt=prompt,
             model=self.model,
             grammar={"type": "json", "value": TranslatorTextGenerationInference.TextLanguageFormat.schema()},
+            max_new_tokens=2048
         )
 
         print("moje")
