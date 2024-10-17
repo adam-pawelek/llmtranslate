@@ -8,7 +8,11 @@ The `TranslatorOpenSource` class is designed for language detection and translat
 from llmtranslate import TranslatorOpenSource
 
 # Create the translator object
-translator = TranslatorOpenSource(api_key="YOUR_API_KEY", llm_endpoint="YOUR_LLM_ENDPOINT", model="mistralai/Mistral-Nemo-Instruct-2407")
+translator = TranslatorOpenSource(
+    api_key="YOUR_API_KEY", 
+    llm_endpoint="YOUR_LLM_ENDPOINT", 
+    model="mistralai/Mistral-Nemo-Instruct-2407"
+)
 ```
 
 
@@ -44,7 +48,11 @@ Detects the language of the provided text synchronously.
 from llmtranslate import TranslatorOpenSource
 
 # Create the translator object
-translator = TranslatorOpenSource(api_key="YOUR_API_KEY", llm_endpoint="YOUR_LLM_ENDPOINT", model="mistralai/Mistral-Nemo-Instruct-2407")
+translator = TranslatorOpenSource(
+    api_key="YOUR_API_KEY", 
+    llm_endpoint="YOUR_LLM_ENDPOINT", 
+    model="mistralai/Mistral-Nemo-Instruct-2407"
+)
 
 # Detect the language of a given text
 detected_language = translator.get_text_language("Bonjour tout le monde")
@@ -65,7 +73,11 @@ import asyncio
 from llmtranslate import TranslatorOpenSource
 
 # Create the translator object
-translator = TranslatorOpenSource(api_key="YOUR_API_KEY", llm_endpoint="YOUR_LLM_ENDPOINT", model="mistralai/Mistral-Nemo-Instruct-2407")
+translator = TranslatorOpenSource(
+    api_key="YOUR_API_KEY", 
+    llm_endpoint="YOUR_LLM_ENDPOINT", 
+    model="mistralai/Mistral-Nemo-Instruct-2407"
+)
 
 # Async function to detect language
 async def detect_language_async():
@@ -86,7 +98,11 @@ Translates text synchronously from one language to another.
 from llmtranslate import TranslatorOpenSource
 
 # Create the translator object
-translator = TranslatorOpenSource(api_key="YOUR_API_KEY", llm_endpoint="YOUR_LLM_ENDPOINT", model="mistralai/Mistral-Nemo-Instruct-2407")
+translator = TranslatorOpenSource(
+    api_key="YOUR_API_KEY", 
+    llm_endpoint="YOUR_LLM_ENDPOINT", 
+    model="mistralai/Mistral-Nemo-Instruct-2407"
+)
 
 # Translate text from one language to another
 translated_text = translator.translate(
@@ -105,7 +121,11 @@ import asyncio
 from llmtranslate import TranslatorOpenSource
 
 # Create the translator object
-translator = TranslatorOpenSource(api_key="YOUR_API_KEY", llm_endpoint="YOUR_LLM_ENDPOINT", model="mistralai/Mistral-Nemo-Instruct-2407")
+translator = TranslatorOpenSource(
+    api_key="YOUR_API_KEY", 
+    llm_endpoint="YOUR_LLM_ENDPOINT", 
+    model="mistralai/Mistral-Nemo-Instruct-2407"
+)
 
 # Async function to translate text
 async def translate_text_async():
