@@ -133,24 +133,6 @@ translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini"
 
 
 
-
-### Setting the Azure OpenAI API Key
-
-If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
-
-```python
-from llmtranslate import TranslatorAzureOpenAI
-
-# Set your Azure OpenAI API key and related parameters
-translator = TranslatorAzureOpenAI(
-  azure_endpoint="YOUR_AZURE_ENDPOINT",
-  api_key="YOUR_AZURE_API_KEY",
-  api_version="YOUR_API_VERSION",
-  azure_deployment="YOUR_AZURE_DEPLOYMENT"
-)
-
-```
-
 ## Using Asynchronous Methods
 
 The `llmtranslate` library provides asynchronous methods to allow you to perform language detection and translation tasks efficiently in an async environment. If your application uses `asyncio` or another asynchronous framework, you can take full advantage of these async methods to avoid blocking your program while waiting for language detection or translation tasks to complete.
@@ -217,6 +199,25 @@ Using asynchronous methods allows your application to handle multiple tasks conc
 ### Running Asynchronous Functions
 
 Remember that asynchronous methods must be called within an `async` function. To execute them, you can use `asyncio.run()` as shown in the examples above.
+
+
+
+### Setting the Azure OpenAI API Key
+
+If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
+
+```python
+from llmtranslate import TranslatorAzureOpenAI
+
+# Set your Azure OpenAI API key and related parameters
+translator = TranslatorAzureOpenAI(
+  azure_endpoint="YOUR_AZURE_ENDPOINT",
+  api_key="YOUR_AZURE_API_KEY",
+  api_version="YOUR_API_VERSION",
+  azure_deployment="YOUR_AZURE_DEPLOYMENT"
+)
+
+```
 
 
 
