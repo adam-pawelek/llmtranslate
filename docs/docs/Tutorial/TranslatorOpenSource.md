@@ -1,4 +1,4 @@
-# `TranslatorOpenSource` Class Documentation
+# TranslatorOpenSource Class Documentation
 
 The `TranslatorOpenSource` class is designed for language detection and translation using open-source large language models (LLMs) deployed on a custom endpoint. This class enables interaction with these models to detect the language of text and translate between languages.
 
