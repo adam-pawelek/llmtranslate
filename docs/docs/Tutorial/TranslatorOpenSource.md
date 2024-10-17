@@ -32,9 +32,10 @@ The constructor initializes the `TranslatorOpenSource` class by setting up the A
      - `max_length = 100`: Allows larger text chunks for translation.
      - `max_length_mini_text_chunk = 50`: Allows larger mini text chunks for more efficient translation handling.
 
+
 ## Example Usage
 
-### Synchronous Language Detection
+### `get_text_language()`: Detects the language of the provided text synchronously.
 
 ```python
 from llmtranslate import TranslatorOpenSource
@@ -52,7 +53,7 @@ if detected_language is not None:
     print(detected_language.language_name)   # Output: 'French'
 ```
 
-### Asynchronous Language Detection
+### `async_get_text_language()`: Detects the language of the provided text asynchronously.
 
 ```python
 import asyncio
@@ -72,7 +73,7 @@ async def detect_language_async():
 asyncio.run(detect_language_async())
 ```
 
-### Synchronous Translation
+### `translate()`: Translates text synchronously from one language to another.
 
 ```python
 from llmtranslate import TranslatorOpenSource
@@ -88,7 +89,7 @@ translated_text = translator.translate(
 print(translated_text)  # Output: "Hello, how are you?"
 ```
 
-### Asynchronous Translation
+### `async_translate_text()`: Translates text asynchronously from one language to another.
 
 ```python
 import asyncio
@@ -108,4 +109,3 @@ async def translate_text_async():
 # Run the async function
 asyncio.run(translate_text_async())
 ```
-
