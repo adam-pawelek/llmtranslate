@@ -120,6 +120,17 @@ def benchmark_text_recognition(translator: Translator, language_list_to_translat
     return result
 
 
+def get_supported_languages(translator: Translator, language_list_to_translate, language_to_check,open_ai_api_key):
+    benchmark_result = benchmark_translation_to_language_using_chatgpt(translator, language_list_to_translate, language_to_check, open_ai_api_key)
+    supported_languages = []
+
+    for result in benchmark_result:
+        if result["supported_language"]:
+            supported_languages.append(result)
+
+    return supported_languages
+
+
 
 
 #moj = benchmark_text_recognition(translator_to_test,test_data_large_learning_new_language[0:10])
@@ -129,3 +140,6 @@ moj = benchmark_translation_to_language_using_chatgpt(translator_to_test,test_da
 
 json_string = json.dumps(moj, indent=4)
 print(json_string)
+
+supported_languages = get_supported_languages(translator_to_test, test_data_large_learning_new_language[:10], "en", os.getenv("OPENAI_API_KEY"))
+print(supported_languages)
