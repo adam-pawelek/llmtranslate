@@ -60,8 +60,8 @@ def check_translation_to_language_using_chatgpt(translator, language_to_translat
 
 
 
-#translator_to_test = TranslatorOpenAI(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
-translator_to_test = translator = TranslatorMistralCloud(os.environ.get("MISTRAL_API_KEY"), ModelForTranslator.MISTRAL_NEMO.value)
+translator_to_test = TranslatorOpenAI(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+#translator_to_test = translator = TranslatorMistralCloud(os.environ.get("MISTRAL_API_KEY"), ModelForTranslator.MISTRAL_NEMO.value)
 #print(check_translation_to_language_using_chatgpt(translator_to_test,test_data_large_learning_new_language[6][0] , "gv", os.getenv("OPENAI_API_KEY")))
 
 

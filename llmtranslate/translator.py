@@ -41,6 +41,8 @@ class Translator(ABC):
         self.model = None
         self.max_length = None #MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
+        self.loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self.loop)
 
     @abstractmethod
     def _set_api_key(self):
@@ -102,7 +104,7 @@ class Translator(ABC):
             ISO 639-1 code of the detected language.
 
         """
-        result = asyncio.run(self.async_get_text_language(text))
+        result = self.loop.run_until_complete(self.async_get_text_language(text))
         return result
 
     async def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
@@ -162,7 +164,7 @@ class Translator(ABC):
         str:
             The translated text.
         """
-        translated_text = asyncio.run(self.async_translate_text(text, to_language))
+        translated_text = self.loop.run_until_complete(self.async_translate_text(text, to_language))
         return translated_text
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
@@ -181,6 +183,7 @@ class Translator(ABC):
 
 class TranslatorOpenAI(Translator):
     def __init__(self, api_key, model=ModelForTranslator.BEST_BIG_MODEL):
+        super().__init__()
         if type(model) == ModelForTranslator:
             model = model.value
         self._set_api_key(api_key)
