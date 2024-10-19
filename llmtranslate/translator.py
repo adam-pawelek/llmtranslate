@@ -70,12 +70,13 @@ class Translator(ABC):
             {"role": "user", "content": text}
         ]
 
-        response = await self.client.beta.chat.completions.parse(
+        response =  self.client.beta.chat.completions.parse(
             model=self.model,
             messages=messages,
             response_format=Translator.TextLanguageFormat  # auto is default, but we'll be explicit
         )
-
+        response = await asyncio.gather(response)
+        response = response[0]
         response_message = response.choices[0].message.parsed.language_ISO_639_1_code
         try:
             language_info = get_language_info(response_message)
