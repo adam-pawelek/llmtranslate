@@ -12,6 +12,9 @@ from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_w
 from abc import ABC, abstractmethod
 from huggingface_hub import AsyncInferenceClient
 
+import nest_asyncio
+nest_asyncio.apply()
+
 CHATGPT_MODEL_NAME = ModelForTranslator.BEST_BIG_MODEL
 global_client = None
 MAX_LENGTH = 1000
@@ -41,8 +44,8 @@ class Translator(ABC):
         self.model = None
         self.max_length = None #MAX_LENGTH
         self.max_length_mini_text_chunk = MAX_LENGTH_MINI_TEXT_CHUNK
-        self.loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(self.loop)
+        #self.loop = asyncio.new_event_loop()
+        #asyncio.set_event_loop(self.loop)
 
     @abstractmethod
     def _set_api_key(self):
@@ -104,7 +107,7 @@ class Translator(ABC):
             ISO 639-1 code of the detected language.
 
         """
-        result = self.loop.run_until_complete(self.async_get_text_language(text))
+        result = asyncio.run(self.async_get_text_language(text))
         return result
 
     async def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
@@ -164,7 +167,7 @@ class Translator(ABC):
         str:
             The translated text.
         """
-        translated_text = self.loop.run_until_complete(self.async_translate_text(text, to_language))
+        translated_text = asyncio.run(self.async_translate_text(text, to_language))
         return translated_text
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
