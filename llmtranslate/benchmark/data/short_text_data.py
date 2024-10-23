@@ -1,5 +1,5 @@
 #Learning a new language can be challenging, but it is also exciting. It helps us connect with people from different cultures and understand the world better. Every new language we learn gives us a fresh perspective and opens up new opportunities.
-test_data_large_learning_new_language = [
+test_data_short_benchmark_learning_new_language = [
     # Abkhazian
     ("Translation in Abkhazian is not available yet.", 'ab'),
 

@@ -122,18 +122,20 @@ from llmtranslate import TranslatorOpenSource
 
 # Create the translator object
 translator = TranslatorOpenSource(
-    api_key="YOUR_API_KEY", 
-    llm_endpoint="YOUR_LLM_ENDPOINT", 
+    api_key="YOUR_API_KEY",
+    llm_endpoint="YOUR_LLM_ENDPOINT",
     model="mistralai/Mistral-Nemo-Instruct-2407"
 )
 
+
 # Async function to translate text
 async def translate_text_async():
-    translated_text = await translator.async_translate_text(
-        text="Cześć, jak się masz?", 
+    translated_text = await translator.async_translate(
+        text="Cześć, jak się masz?",
         to_language="en"  # Target language in ISO 639-1 format
     )
     print(translated_text)  # Output: "Hello, how are you?"
+
 
 # Run the async function
 asyncio.run(translate_text_async())

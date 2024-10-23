@@ -16,7 +16,7 @@ async def run_code():
       print(detected_language.language_name)  # Output 'Polish'
 
     # Translate text
-    translated_text = await translator.async_translate_text("Cześć jak się masz? Meu nome é Adam", "en")
+    translated_text = await translator.async_translate("Cześć jak się masz? Meu nome é Adam", "en")
     print(translated_text)  # Output: "Hello how are you? My name is Adam"
 
 

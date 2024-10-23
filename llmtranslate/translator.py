@@ -130,7 +130,7 @@ class Translator(ABC):
         return response_message
 
 
-    async def async_translate_text(self, text: str, to_language ="eng") -> str:
+    async def async_translate(self, text: str, to_language ="eng") -> str:
         text_chunks = split_text_to_chunks(text, self.max_length)
 
         # Run how_many_languages_are_in_text concurrently
@@ -167,7 +167,7 @@ class Translator(ABC):
         str:
             The translated text.
         """
-        translated_text = asyncio.run(self.async_translate_text(text, to_language))
+        translated_text = asyncio.run(self.async_translate(text, to_language))
         return translated_text
 
     async def how_many_languages_are_in_text(self, text: str) -> int:

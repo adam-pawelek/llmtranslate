@@ -99,7 +99,7 @@ class TestTranslatorMethods:
             mock_async_method.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_async_translate_text(self, translator):
+    async def test_async_translate(self, translator):
         # Mocking the client and the response for translate_chunk_of_text
         translator.client = AsyncMock()
         translator.client.beta.chat.completions.parse = AsyncMock(return_value=AsyncMock(
@@ -109,12 +109,12 @@ class TestTranslatorMethods:
         # Mocking the how_many_languages_are_in_text to return an integer
         translator.how_many_languages_are_in_text = AsyncMock(return_value=1)
 
-        result = await translator.async_translate_text("Hello world", "en")
+        result = await translator.async_translate("Hello world", "en")
 
         assert result == "translated text"
 
     def test_translate(self, translator):
-        with patch.object(TranslatorOpenAI, 'async_translate_text', return_value="translated text") as mock_async_method:
+        with patch.object(TranslatorOpenAI, 'async_translate', return_value="translated text") as mock_async_method:
             result = translator.translate("Hello world", "en")
             assert result == "translated text"
             mock_async_method.assert_called_once()

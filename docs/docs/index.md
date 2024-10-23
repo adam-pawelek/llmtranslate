@@ -148,20 +148,22 @@ from llmtranslate import TranslatorOpenAI
 # Initialize the translator with your OpenAI API key
 translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
 
+
 # Async function to detect language and translate text
 async def detect_and_translate():
     # Detect language asynchronously
     detected_language = await translator.async_get_text_language("Hola, ¿cómo estás?")
     if detected_language is not None:
         print(detected_language.ISO_639_1_code)  # Output: 'es'
-        print(detected_language.language_name)   # Output: 'Spanish'
+        print(detected_language.language_name)  # Output: 'Spanish'
 
     # Translate text asynchronously
-    translated_text = await translator.async_translate_text(
-        text="Cześć jak się masz? Meu nome é Adam", 
+    translated_text = await translator.async_translate(
+        text="Cześć jak się masz? Meu nome é Adam",
         to_language="en"  # Use ISO 639-1 code for the target language
     )
     print(translated_text)  # Output: "Hello how are you? My name is Adam"
+
 
 # Run the async function
 asyncio.run(detect_and_translate())
@@ -189,7 +191,7 @@ asyncio.run(detect_and_translate())
 
    **Example**:
    ```python
-   translated_text = await translator.async_translate_text("Bonjour tout le monde", "en")
+   translated_text = await translator.async_translate("Bonjour tout le monde", "en")
    ```
 
 ### Why Use Asynchronous Methods?

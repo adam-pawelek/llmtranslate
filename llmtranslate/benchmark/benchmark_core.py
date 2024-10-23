@@ -5,7 +5,7 @@ from openai import OpenAI
 from pydantic import BaseModel
 
 from llmtranslate import TranslatorOpenAI, ModelForTranslator, TranslatorMistralCloud, get_language_info, Translator
-from llmtranslate.benchmark.data.short_text_data import test_data_large_learning_new_language
+from llmtranslate.benchmark.data.short_text_data import test_data_short_benchmark_learning_new_language
 
 
 
@@ -86,16 +86,39 @@ def benchmark_translation_to_language_using_chatgpt(translator, language_list_to
     return result
 
 
-def check_translation_to_language_using_original_text_in_language_to_check(translator, language_to_translate, language_to_check, open_ai_api_key, original_text_in_language_to_check):
-    if "not available" in language_to_translate:
-        print(language_to_translate)
+def check_translation_to_language_using_original_text(translator, text_to_translate, language_to_check, original_text):
+    if "not available" in text_to_translate:
+        print(text_to_translate)
         return False
 
-    translated_text = translator.translate(language_to_translate, language_to_check)
+    translated_text = translator.translate(text_to_translate, language_to_check)
     print("hallo to jest tekst")
     print(translated_text)
 
-    return check_if_translation_is_accurate(translated_text, original_text_in_language_to_check)
+    return check_if_translation_is_accurate(translated_text, original_text)
+
+
+def benchmark_translation_to_language_using_original_text(translator, language_list_to_translate, language_to_check, original_text):
+    result = []
+    for text_to_translate, language_code in language_list_to_translate:
+        supported_language = check_translation_to_language_using_original_text(
+            translator,
+            text_to_translate,
+            language_to_check,
+            original_text
+        )
+        language_info = get_language_info(language_code)
+        result.append({
+            "supported_language": supported_language,
+            "language_name": language_info["language_name"],
+            "ISO_639_1_code": language_info["ISO_639_1_code"],
+        })
+
+    return result
+
+
+
+
 
 
 def benchmark_text_recognition(translator: Translator, language_list_to_translate):
@@ -120,7 +143,7 @@ def benchmark_text_recognition(translator: Translator, language_list_to_translat
     return result
 
 
-def get_supported_languages(translator: Translator, language_list_to_translate, language_to_check,open_ai_api_key):
+def get_supported_languages_translation_using_chatgpt(translator: Translator, language_list_to_translate, language_to_check,open_ai_api_key):
     benchmark_result = benchmark_translation_to_language_using_chatgpt(translator, language_list_to_translate, language_to_check, open_ai_api_key)
     supported_languages = []
 
@@ -129,6 +152,23 @@ def get_supported_languages(translator: Translator, language_list_to_translate, 
             supported_languages.append(result)
 
     return supported_languages
+
+
+def get_supported_languages_translation_using_original_text(translator: Translator, language_list_to_translate, language_to_check, original_text):
+    benchmark_result = benchmark_translation_to_language_using_original_text(
+        translator=translator,
+        language_list_to_translate=language_list_to_translate,
+        language_to_check=language_to_check,
+        original_text=original_text
+    )
+    supported_languages = []
+
+    for result in benchmark_result:
+        if result["supported_language"]:
+            supported_languages.append(result)
+
+    return supported_languages
+
 
 
 
@@ -163,7 +203,7 @@ def create_readme_format(model_name, benchmark_results):
 #moj = benchmark_text_recognition(translator_to_test,test_data_large_learning_new_language[0:10])
 
 
-moj = benchmark_translation_to_language_using_chatgpt(translator_to_test,test_data_large_learning_new_language[0:10], "en", os.getenv("OPENAI_API_KEY"))
+moj = benchmark_translation_to_language_using_chatgpt(translator_to_test, test_data_short_benchmark_learning_new_language[0:10], "en", os.getenv("OPENAI_API_KEY"))
 
 json_string = json.dumps(moj, indent=4)
 print(json_string)
