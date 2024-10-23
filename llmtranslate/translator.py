@@ -273,7 +273,7 @@ class TranslatorOpenSource(Translator):
         self._set_api_key(api_key, llm_endpoint)
         self._set_llm(model)
         if model_size == "mini":
-            self.max_length = 30
+            self.max_length = 20
             self.max_length_mini_text_chunk = 20
         if model_size == "small":
             self.max_length = 30
