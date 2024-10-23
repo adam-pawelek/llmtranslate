@@ -269,18 +269,22 @@ def parse_llm_json(text: str) -> dict:
 
 
 class TranslatorOpenSource(Translator):
-    def __init__(self, api_key, llm_endpoint, model=ModelForTranslator.MISTRAL_LARGE.value):
+    def __init__(self, api_key, llm_endpoint, model=ModelForTranslator.MISTRAL_LARGE.value, model_size="small"):
         self._set_api_key(api_key, llm_endpoint)
         self._set_llm(model)
-        if model in MINI_MODELS:
+        if model_size == "mini":
             self.max_length = 30
             self.max_length_mini_text_chunk = 20
-        else:
+        if model_size == "small":
+            self.max_length = 30
+            self.max_length_mini_text_chunk = 20
+        if model_size == "middle":
             self.max_length = 100
             self.max_length_mini_text_chunk = 50
-        #if model in SMALL_MODELS:
-        #    self.max_length = 100
-        #    self.max_length_mini_text_chunk = 50
+        if model_size == "large":
+            self.max_length = 150
+            self.max_length_mini_text_chunk = 50
+
 
 
     def _set_api_key(self, api_key, llm_endpoint=None):
