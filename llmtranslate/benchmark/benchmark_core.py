@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from llmtranslate import TranslatorOpenAI, ModelForTranslator, TranslatorMistralCloud, get_language_info, Translator
 from llmtranslate.benchmark.data.short_text_data import test_data_short_benchmark_learning_new_language
 
-max_concurrent_requests = 100
+max_concurrent_requests = 10
 semaphore = asyncio.Semaphore(max_concurrent_requests)
 
 

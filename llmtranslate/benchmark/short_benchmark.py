@@ -28,15 +28,16 @@ async def benchmark_short_text_translation(translator, language_to_check):
 
 
 #translator_to_test = TranslatorOpenAI(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o-mini")
-
+'''
 translator = TranslatorOpenSource(
     api_key=os.environ.get("YOUR_HF_TOKEN"),
     llm_endpoint="https://api-inference.huggingface.co/models/mistralai/Mistral-Nemo-Instruct-2407/v1",
     model="meta-llama/Llama-3.2-3B-Instruct",
     model_size="mini"
 )
+'''
 
-translator = TranslatorMistralCloud(os.getenv("MISTRAL_API_KEY"), "ministral-3b-latest")
+translator = TranslatorMistralCloud(os.getenv("MISTRAL_API_KEY"), "ministral-8b-latest")
 
 
 benchmark_result = asyncio.run(benchmark_short_text_translation(translator,"en"))

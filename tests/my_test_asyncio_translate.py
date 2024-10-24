@@ -1,10 +1,11 @@
 import asyncio
 import os
 
-from llmtranslate import TranslatorOpenAI
+from llmtranslate import TranslatorOpenAI, TranslatorMistralCloud
 
 # Initialize the translator with your OpenAI API key
-translator = TranslatorOpenAI(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+#translator = TranslatorOpenAI(api_key=os.getenv("OPENAI_API_KEY"), model="gpt-4o")
+translator = TranslatorMistralCloud(os.getenv("MISTRAL_API_KEY"), "ministral-3b-latest")
 
 async def run_code():
     # Detect language
