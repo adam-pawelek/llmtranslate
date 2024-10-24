@@ -112,7 +112,7 @@ translated_text = translator.translate(
 print(translated_text)  # Output: "Hello, how are you?"
 ```
 
-### `async_translate_text()`
+### `async_translate()`
 
 Translates text asynchronously from one language to another.
 
