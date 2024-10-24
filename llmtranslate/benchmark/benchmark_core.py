@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from llmtranslate import TranslatorOpenAI, ModelForTranslator, TranslatorMistralCloud, get_language_info, Translator
 from llmtranslate.benchmark.data.short_text_data import test_data_short_benchmark_learning_new_language
+from llmtranslate.utils.available_languages import language_data
 
 max_concurrent_requests = 10
 semaphore = asyncio.Semaphore(max_concurrent_requests)
@@ -244,6 +245,37 @@ def get_supported_languages_from_benchmark_results(benchmark_result):
 
     return supported_languages
 
+
+
+async def generate_benchmark_data(text_to_translate, open_ai_api_key):
+    task_list = []
+    iso_639_1_code_new_list = []
+    translator_open_ai = TranslatorOpenAI(api_key=open_ai_api_key)
+    for key, language_information in language_data.items():
+        task_list.append(translator_open_ai.async_translate(text_to_translate, language_information.get("ISO_639_1_code")))
+        iso_639_1_code_new_list.append(language_information.get("ISO_639_1_code"))
+
+    translated_list = await asyncio.gather(*task_list)
+    print("just translated languages")
+    tasks_get_language = [translator_open_ai.async_get_text_language(translated_text) for translated_text in translated_list]
+    found_languages_list = await asyncio.gather(*tasks_get_language)
+    benchmark_result = []
+    for i in range(len(translated_list)):
+        if found_languages_list[i] and found_languages_list[i].ISO_639_1_code == iso_639_1_code_new_list[i]:
+            benchmark_result.append((translated_list[i], iso_639_1_code_new_list[i]))
+        else:
+            print("\n\nwrong langauge")
+            print(f"should be {iso_639_1_code_new_list[i]}")
+            print(f"what benchmark found {found_languages_list[i]}")
+            print(translated_list[i])
+
+    return benchmark_result
+
+
+benchmark_sample_data = asyncio.run(generate_benchmark_data("Hi how are you? I'm good and you. Well I'm fine. How was your day?", os.getenv("OPENAI_API_KEY")))
+
+print(benchmark_sample_data)
+print(len(benchmark_sample_data))
 
 
 
