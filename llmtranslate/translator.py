@@ -140,7 +140,6 @@ class AsyncTranslator(BaseTranslator):
 
     def __init__(self, llm: BaseChatModel, max_length, max_length_mini_text_chunk, max_concurrent_llm_calls=100):
         super().__init__(llm, max_length, max_length_mini_text_chunk)
-
         self.semaphore = asyncio.Semaphore(max_concurrent_llm_calls)
 
 
