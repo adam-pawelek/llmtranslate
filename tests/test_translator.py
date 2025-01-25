@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import AsyncMock, patch
 from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
 from llmtranslate import ModelForTranslator
-from llmtranslate import Translator, TranslatorOpenAI, TranslatorAzureOpenAI
+from llmtranslate import AsyncTranslator, TranslatorOpenAI, TranslatorAzureOpenAI
 
 # Test TranslatorOpenAI
 class TestTranslatorOpenAI:
@@ -87,7 +87,7 @@ class TestTranslatorMethods:
 
     def test_get_text_language(self, translator):
         with patch.object(TranslatorOpenAI, 'async_get_text_language',
-        return_value=Translator.TextLanguage(
+        return_value=AsyncTranslator.TextLanguage(
             ISO_639_1_code="en",
             ISO_639_2_code="eng",
             ISO_639_3_code="eng",

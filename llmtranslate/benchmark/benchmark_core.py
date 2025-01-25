@@ -5,7 +5,7 @@ import os
 from openai import OpenAI, AsyncOpenAI
 from pydantic import BaseModel
 
-from llmtranslate import TranslatorOpenAI, ModelForTranslator, TranslatorMistralCloud, get_language_info, Translator
+from llmtranslate import TranslatorOpenAI, ModelForTranslator, TranslatorMistralCloud, get_language_info, AsyncTranslator
 from llmtranslate.benchmark.data.short_text_data import test_data_short_benchmark_learning_new_language
 from llmtranslate.utils.available_languages import language_data
 
@@ -162,7 +162,7 @@ async def benchmark_translation_to_language_using_original_text(translator, lang
 
 
 
-def benchmark_text_recognition(translator: Translator, language_list_to_translate):
+def benchmark_text_recognition(translator: AsyncTranslator, language_list_to_translate):
     result = []
     for text_to_recognize, language_code in language_list_to_translate:
         language_code_from_translator = translator.get_text_language(text_to_recognize)
@@ -184,7 +184,7 @@ def benchmark_text_recognition(translator: Translator, language_list_to_translat
     return result
 
 
-def get_supported_languages_translation_using_chatgpt(translator: Translator, language_list_to_translate, language_to_check,open_ai_api_key):
+def get_supported_languages_translation_using_chatgpt(translator: AsyncTranslator, language_list_to_translate, language_to_check, open_ai_api_key):
     benchmark_result = benchmark_translation_to_language_using_chatgpt(translator, language_list_to_translate, language_to_check, open_ai_api_key)
     supported_languages = []
 
@@ -195,7 +195,7 @@ def get_supported_languages_translation_using_chatgpt(translator: Translator, la
     return supported_languages
 
 
-def get_supported_languages_translation_using_original_text(translator: Translator, language_list_to_translate, language_to_check, original_text):
+def get_supported_languages_translation_using_original_text(translator: AsyncTranslator, language_list_to_translate, language_to_check, original_text):
     benchmark_result = benchmark_translation_to_language_using_original_text(
         translator=translator,
         language_list_to_translate=language_list_to_translate,

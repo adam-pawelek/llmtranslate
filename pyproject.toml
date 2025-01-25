@@ -18,6 +18,8 @@ pytest-asyncio = "^0.23.8"
 aiohttp = "^3.10.9"
 huggingface-hub = "^0.25.1"
 nest-asyncio = "^1.6.0"
+langchain = "^0.3.14"
+langchain-openai = "^0.3.0"
 
 
 
