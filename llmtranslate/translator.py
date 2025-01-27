@@ -156,7 +156,6 @@ class AsyncTranslator(BaseTranslator):
                 ISO_639_2_code=language_info.get("ISO_639_2_code"),
                 ISO_639_3_code=language_info.get("ISO_639_3_code"),
                 language_name=language_info.get("language_name"),
-
             )
         except Exception as e:
             detected_language = None
