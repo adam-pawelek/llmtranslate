@@ -1,10 +1,8 @@
 import asyncio
 import json
 import re
-
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
-
 from langchain_core.language_models import BaseChatModel
 from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
 from llmtranslate.utils.available_languages import get_language_info
@@ -14,14 +12,8 @@ from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_w
 from abc import ABC, abstractmethod
 
 
-
-
-CHATGPT_MODEL_NAME = ModelForTranslator.BEST_BIG_MODEL
-global_client = None
 MAX_LENGTH = 1000
 MAX_LENGTH_MINI_TEXT_CHUNK = 128
-MINI_MODELS = ["meta-llama/Llama-3.2-1B-Instruct", "meta-llama/Llama-3.2-3B-Instruct"]
-SMALL_MODELS = ["meta-llama/Llama-3.1-8B-Instruct"]
 
 class BaseTranslator(ABC):
     #Detect language format
@@ -99,7 +91,6 @@ class Translator(BaseTranslator):
         except Exception as e:
             detected_language = None
         return detected_language
-
 
 
     def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
