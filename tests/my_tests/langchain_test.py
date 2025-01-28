@@ -7,7 +7,7 @@ if not os.environ.get("OPENAI_API_KEY"):
 
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model_name="gpt-4o-mini", openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 from typing import Optional
 

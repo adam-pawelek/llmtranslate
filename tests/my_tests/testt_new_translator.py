@@ -1,22 +1,10 @@
 import os
-import getpass
-
 from llmtranslate import Translator
-
-if not os.environ.get("OPENAI_API_KEY"):
-  os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter API key for OpenAI: ")
-
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model="gpt-4o-mini")
-
-translator = Translator(llm=llm, max_length=100,max_length_mini_text_chunk=100)
-
+llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=os.getenv("OPENAI_API_KEY"))
+translator = Translator(llm=llm, max_length_text_chunk_to_translate=100, max_length_text_chunk_to_translate_multiple_languages=100)
 print(translator.get_text_language("Hi how are you?"))
-
-
-
-
-print(translator.translate("Hi how are you?", "pl"))
+print(translator.translate("Hi how are you?", "Spanish"))
 
 

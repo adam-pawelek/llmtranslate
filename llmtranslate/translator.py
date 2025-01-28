@@ -59,10 +59,26 @@ class BaseTranslator(ABC):
 
 
 
-    def __init__(self,llm: BaseChatModel, max_length, max_length_mini_text_chunk):
+    def __init__(self, llm: BaseChatModel, max_length_text_chunk_to_translate: int = 200, max_length_text_chunk_to_translate_multiple_languages: int = 50):
+        """
+        Initializes the Translator with the given parameters.
+
+        Args:
+            llm (BaseChatModel):
+                The large language model used for performing language detection
+                and translation tasks.
+            max_length_text_chunk_to_translate (int, optional):
+                The maximum length of text to be translated in a single chunk
+                when dealing with a single language. If not provided,
+                a default value is used.
+            max_length_text_chunk_to_translate_multiple_languages (int, optional):
+                The maximum length of text to be translated in a single chunk
+                when multiple languages are present. If not provided,
+                a different default value is used.
+        """
         self.llm = llm
-        self.max_length = max_length  if max_length else MAX_LENGTH
-        self.max_length_mini_text_chunk = max_length_mini_text_chunk if max_length_mini_text_chunk else MAX_LENGTH_MINI_TEXT_CHUNK
+        self.max_length_text_chunk_to_translate = max_length_text_chunk_to_translate  if max_length_text_chunk_to_translate else MAX_LENGTH
+        self.max_length_text_chunk_to_translate_multiple_languages = max_length_text_chunk_to_translate_multiple_languages if max_length_text_chunk_to_translate_multiple_languages else MAX_LENGTH_MINI_TEXT_CHUNK
         ######## detect language ##########
         structured_llm_detect_language = llm.with_structured_output(BaseTranslator.TextLanguageFormat)
         self.few_shot_structured_llm_detect_language = BaseTranslator.prompt_detect_language | structured_llm_detect_language
@@ -76,7 +92,7 @@ class BaseTranslator(ABC):
 class Translator(BaseTranslator):
 
     def get_text_language(self, text: str) -> BaseTranslator.TextLanguage:
-        text = get_first_n_words(text, self.max_length)
+        text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
         response =  self.few_shot_structured_llm_detect_language.invoke(text)
         response_message = response.language_ISO_639_1_code
         try:
@@ -100,13 +116,13 @@ class Translator(BaseTranslator):
 
 
     def translate(self, text: str, to_language ="eng") -> str:
-        text_chunks = split_text_to_chunks(text, self.max_length)
+        text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
         counted_number_of_languages =  [self.how_many_languages_are_in_text(text_chunk) for text_chunk in text_chunks]
 
         translated_list = []
         for index, text_chunk in enumerate(text_chunks):
             if counted_number_of_languages[index] > 1:
-                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_length_mini_text_chunk)
+                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_length_text_chunk_to_translate_multiple_languages)
                 for mini_text_chunk in mini_text_chunks:
                     translated_list.append(self.translate_chunk_of_text(mini_text_chunk, to_language))
             else:
@@ -129,15 +145,21 @@ class Translator(BaseTranslator):
 
 class AsyncTranslator(BaseTranslator):
 
-    def __init__(self, llm: BaseChatModel, max_length, max_length_mini_text_chunk, max_concurrent_llm_calls=100):
-        super().__init__(llm, max_length, max_length_mini_text_chunk)
+    def __init__(
+            self,
+            llm: BaseChatModel,
+            max_length_text_chunk_to_translate: int = 200,
+            max_length_text_chunk_to_translate_multiple_languages: int = 50,
+            max_concurrent_llm_calls: int = 100
+    ):
+        super().__init__(llm, max_length_text_chunk_to_translate, max_length_text_chunk_to_translate_multiple_languages)
         self.semaphore = asyncio.Semaphore(max_concurrent_llm_calls)
 
 
     async def get_text_language(self, text) -> BaseTranslator.TextLanguage:
-        text = get_first_n_words(text, self.max_length)
+        text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
         async with self.semaphore:
-            text = get_first_n_words(text, self.max_length)
+            text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
             response = await self.few_shot_structured_llm_detect_language.ainvoke(text)
         response_message = response.language_ISO_639_1_code
         try:
@@ -166,7 +188,7 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def translate(self, text: str, to_language ="eng") -> str:
-        text_chunks = split_text_to_chunks(text, self.max_length)
+        text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
 
         # Run how_many_languages_are_in_text concurrently
         # Chunks that contain more than one language will be split (this will simplify translation for the LLM)
@@ -175,7 +197,7 @@ class AsyncTranslator(BaseTranslator):
         tasks = []
         for index, text_chunk in enumerate(text_chunks):
             if counted_number_of_languages[index] > 1:
-                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_length_mini_text_chunk)
+                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_length_text_chunk_to_translate_multiple_languages)
                 for mini_text_chunk in mini_text_chunks:
                     tasks.append(self.translate_chunk_of_text(mini_text_chunk, to_language))
             else:
