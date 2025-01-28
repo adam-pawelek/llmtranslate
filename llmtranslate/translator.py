@@ -89,7 +89,7 @@ class Translator(BaseTranslator):
         response_message = response.language_ISO_639_1_code
         try:
             language_info = get_language_info(response_message)
-            detected_language = AsyncTranslator.TextLanguage(
+            detected_language = BaseTranslator.TextLanguage(
                 ISO_639_1_code=language_info.get("ISO_639_1_code"),
                 ISO_639_2_code=language_info.get("ISO_639_2_code"),
                 ISO_639_3_code=language_info.get("ISO_639_3_code"),
