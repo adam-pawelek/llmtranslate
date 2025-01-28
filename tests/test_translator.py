@@ -7,7 +7,7 @@ from langchain_openai import ChatOpenAI
 from sqlalchemy.util import await_only
 
 from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
-from llmtranslate import ModelForTranslator, get_language_info, BaseTranslator, AsyncTranslator
+from llmtranslate import ModelForTranslator, get_language_info, BaseTranslator, AsyncTranslator, TextLanguage
 from llmtranslate import Translator
 
 # Test Translator
@@ -48,12 +48,7 @@ class TestTranslator:
         result = translator.get_text_language("Some text")
 
         language_info = get_language_info("en")
-        check_result = BaseTranslator.TextLanguage(
-            ISO_639_1_code=language_info.get("ISO_639_1_code"),
-            ISO_639_2_code=language_info.get("ISO_639_2_code"),
-            ISO_639_3_code=language_info.get("ISO_639_3_code"),
-            language_name=language_info.get("language_name"),
-        )
+        check_result = TextLanguage(language_info.get("ISO_639_1_code"))
 
         assert result == check_result
 
@@ -150,12 +145,7 @@ class TestAsyncTranslator:
         result = await translator.get_text_language("Some text")
 
         language_info = get_language_info("en")
-        check_result = BaseTranslator.TextLanguage(
-            ISO_639_1_code=language_info.get("ISO_639_1_code"),
-            ISO_639_2_code=language_info.get("ISO_639_2_code"),
-            ISO_639_3_code=language_info.get("ISO_639_3_code"),
-            language_name=language_info.get("language_name"),
-        )
+        check_result = TextLanguage(language_info.get("ISO_639_1_code"))
 
         assert result == check_result
 

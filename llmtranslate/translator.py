@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field
 from langchain_core.language_models import BaseChatModel
 from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
 from llmtranslate.utils.available_languages import get_language_info
-from llmtranslate.utils.enums import ModelForTranslator
 from pydantic import BaseModel
 from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_words
 from abc import ABC, abstractmethod
@@ -14,6 +13,25 @@ from abc import ABC, abstractmethod
 
 MAX_LENGTH = 1000
 MAX_LENGTH_MINI_TEXT_CHUNK = 128
+
+
+class TextLanguage:
+    def __init__(self,  language_name_or_code: str):
+        language_info = get_language_info(language_name_or_code)
+        self.ISO_639_1_code = language_info.get("ISO_639_1_code")
+        self.ISO_639_2_code = language_info.get("ISO_639_2_code")
+        self.ISO_639_3_code = language_info.get("ISO_639_3_code")
+        self.language_name = language_info.get("language_name")
+
+    def __str__(self):
+        return (
+            f"TextLanguage(\n"
+            f"  Language Name: {self.language_name}\n"
+            f"  ISO 639-1 Code: {self.ISO_639_1_code}\n"
+            f"  ISO 639-2 Code: {self.ISO_639_2_code}\n"
+            f"  ISO 639-3 Code: {self.ISO_639_3_code}\n"
+            f")"
+        )
 
 class BaseTranslator(ABC):
     #Detect language format
@@ -25,12 +43,6 @@ class BaseTranslator(ABC):
 
     class HowManyLanguages(BaseModel):
         number_of_languages: int
-
-    class TextLanguage(BaseModel):
-        ISO_639_1_code: str
-        ISO_639_2_code: str
-        ISO_639_3_code: str
-        language_name: str
 
 
     prompt_template_detect_language = """
@@ -91,19 +103,12 @@ class BaseTranslator(ABC):
 
 class Translator(BaseTranslator):
 
-    def get_text_language(self, text: str) -> BaseTranslator.TextLanguage:
+    def get_text_language(self, text: str) -> TextLanguage:
         text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
         response =  self.few_shot_structured_llm_detect_language.invoke(text)
         response_message = response.language_ISO_639_1_code
         try:
-            language_info = get_language_info(response_message)
-            detected_language = BaseTranslator.TextLanguage(
-                ISO_639_1_code=language_info.get("ISO_639_1_code"),
-                ISO_639_2_code=language_info.get("ISO_639_2_code"),
-                ISO_639_3_code=language_info.get("ISO_639_3_code"),
-                language_name=language_info.get("language_name"),
-
-            )
+            detected_language = TextLanguage(response_message)
         except Exception as e:
             detected_language = None
         return detected_language
@@ -115,7 +120,7 @@ class Translator(BaseTranslator):
         return response_message
 
 
-    def translate(self, text: str, to_language ="eng") -> str:
+    def translate(self, text: str, to_language ="Spanish") -> str:
         text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
         counted_number_of_languages =  [self.how_many_languages_are_in_text(text_chunk) for text_chunk in text_chunks]
 
@@ -156,20 +161,14 @@ class AsyncTranslator(BaseTranslator):
         self.semaphore = asyncio.Semaphore(max_concurrent_llm_calls)
 
 
-    async def get_text_language(self, text) -> BaseTranslator.TextLanguage:
+    async def get_text_language(self, text) -> TextLanguage:
         text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
         async with self.semaphore:
             text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
             response = await self.few_shot_structured_llm_detect_language.ainvoke(text)
         response_message = response.language_ISO_639_1_code
         try:
-            language_info = get_language_info(response_message)
-            detected_language = AsyncTranslator.TextLanguage(
-                ISO_639_1_code=language_info.get("ISO_639_1_code"),
-                ISO_639_2_code=language_info.get("ISO_639_2_code"),
-                ISO_639_3_code=language_info.get("ISO_639_3_code"),
-                language_name=language_info.get("language_name"),
-            )
+            detected_language = TextLanguage(response_message)
         except Exception as e:
             detected_language = None
         return detected_language
@@ -187,7 +186,7 @@ class AsyncTranslator(BaseTranslator):
         return response_message
 
 
-    async def translate(self, text: str, to_language ="eng") -> str:
+    async def translate(self, text: str, to_language ="Spanish") -> str:
         text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
 
         # Run how_many_languages_are_in_text concurrently
