@@ -17,6 +17,39 @@ MAX_LENGTH_MINI_TEXT_CHUNK = 128
 
 class TextLanguage:
     def __init__(self,  language_name_or_code: str):
+        """
+        Initialize a TextLanguage instance by retrieving language information
+        (ISO codes and language name) based on a given language name or code.
+
+        :param language_name_or_code:
+            The language identifier, which can be:
+            - The language name (e.g., "English", "French", "Japanese")
+            - The ISO 639-1 language code (e.g., "en", "fr", "ja")
+            - The ISO 639-2 language code (e.g., "eng", "fra", "jpn")
+            - The ISO 639-3 language code (e.g., "eng", "fra", "jpn")
+        :type language_name_or_code: str
+
+        :ivar ISO_639_1_code: The 2-letter ISO 639-1 code of the language.
+        :vartype ISO_639_1_code: str or None
+
+        :ivar ISO_639_2_code: The 3-letter ISO 639-2 code of the language.
+        :vartype ISO_639_2_code: str or None
+
+        :ivar ISO_639_3_code: The 3-letter ISO 639-3 code of the language.
+        :vartype ISO_639_3_code: str or None
+
+        :ivar language_name: The standardized name of the language.
+        :vartype language_name: str or None
+
+        :Example:
+
+        >>> lang = TextLanguage("en")
+        >>> print(lang.ISO_639_1_code)
+        en
+        >>> print(lang.language_name)
+        English
+
+        """
         language_info = get_language_info(language_name_or_code)
         self.ISO_639_1_code = language_info.get("ISO_639_1_code")
         self.ISO_639_2_code = language_info.get("ISO_639_2_code")
@@ -108,7 +141,7 @@ class Translator(BaseTranslator):
         response =  self.few_shot_structured_llm_detect_language.invoke(text)
         response_message = response.language_ISO_639_1_code
         try:
-            detected_language = TextLanguage(response_message)
+            detected_language = TextLanguage(language_name_or_code=response_message)
         except Exception as e:
             detected_language = None
         return detected_language
