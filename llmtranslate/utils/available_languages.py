@@ -920,16 +920,16 @@ iso_639_3_to_name = {v['ISO_639_3_code']: k for k, v in language_data.items()}
 
 def get_language_info(identifier):
     # Check if the identifier is a language name
-    if identifier in language_data:
+    if len(identifier) > 1 and (identifier[0].upper() + identifier[1:].lower()) in language_data:
         language_name = identifier
     # Check if the identifier is an ISO 639-1 code
-    elif identifier in iso_639_1_to_name:
+    elif identifier.lower() in iso_639_1_to_name:
         language_name = iso_639_1_to_name[identifier]
     # Check if the identifier is an ISO 639-2 code
-    elif identifier in iso_639_2_to_name:
+    elif identifier.lower() in iso_639_2_to_name:
         language_name = iso_639_2_to_name[identifier]
     # Check if the identifier is an ISO 639-3 code
-    elif identifier in iso_639_3_to_name:
+    elif identifier.lower() in iso_639_3_to_name:
         language_name = iso_639_3_to_name[identifier]
     else:
         return None  # Identifier not found
