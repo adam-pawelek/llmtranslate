@@ -37,11 +37,8 @@ jobs:
         run: poetry run pytest --cov=llmtranslate --cov-report=xml
 
       # 6. Upload coverage report to Codecov
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
         with:
-          # Only necessary for private repos or certain Codecov settings
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage.xml
-          flags: unittests
-          fail_ci_if_error: true
