@@ -1,48 +1,45 @@
-name: Code Coverage
+name: CI - Codecov
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  coverage:
+  test-and-coverage:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      # 1. Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'  # Update to your Python version
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"  # or the version(s) you need
 
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-      with:
-        virtualenvs-create: true
-        virtualenvs-in-project: true
+      # 3. Install Poetry
+      - name: Install Poetry
+        run: pip install poetry
 
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          .venv
-          ~/.cache/pypoetry
-        key: poetry-${{ hashFiles('pyproject.toml', 'poetry.lock') }}
+      # 4. Install dependencies
+      - name: Install dependencies
+        run: poetry install
 
-    - name: Install dependencies
-      run: poetry install --no-interaction
-      env:
-        PYTHON_KEYRING_BREAKER_SYSTEM: 1  # Disables keyring for CI
+      # 5. Run tests with coverage
+      #    Adjust paths for "--cov=<your_package>" as needed
+      - name: Run tests
+        run: poetry run pytest --cov=llmtranslate --cov-report=xml
 
-    - name: Run tests with coverage
-      run: poetry run pytest --cov=llmtranslate --cov-report=xml tests/
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}  # Only needed for private repos
-        files: coverage.xml
-        fail_ci_if_error: true
+      # 6. Upload coverage report to Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          # Only necessary for private repos or certain Codecov settings
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: unittests
+          fail_ci_if_error: true
