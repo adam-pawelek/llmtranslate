@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "llmtranslate"
-version = "0.7.4"
+version = "0.7.5"
 description = "A Python library for language detection and translation using langchain ChatModels"
 authors = ["Adam Pawelek <adam.pwk@outlook.com>"]
 readme = "README.md"

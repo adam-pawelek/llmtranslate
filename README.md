@@ -11,7 +11,7 @@
 The `llmtranslate` library is a Python tool that leverages LangChain's [ChatModels](https://python.langchain.com/docs/integrations/chat/) to translate text between languages and recognize the language of a given text. This library provides both synchronous and asynchronous translators to accommodate various use cases.  
 
 📖 **Documentation:** [llm-translate.com](https://llm-translate.com/)
----
+
 
 ## Installation
 
