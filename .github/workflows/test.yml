@@ -38,7 +38,6 @@ jobs:
 
       # 6. Upload coverage report to Codecov
       - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
