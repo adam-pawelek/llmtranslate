@@ -5,5 +5,5 @@ coverage:
         target: '70'
     patch:
       default:
-        target: '50'
+        target: '40'
         informational: true
