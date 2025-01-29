@@ -7,222 +7,145 @@
 [![codecov](https://codecov.io/github/adam-pawelek/llmtranslate/graph/badge.svg?token=WCQOJC032S)](https://codecov.io/github/adam-pawelek/llmtranslate)
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
 
-## Overview
 
-llmtranslate is a Python library designed to identify the language of a given text and translate text between multiple languages using OpenAI's GPT-4o. The library is especially useful for translating text containing multiple languages into a single target language.
+The `llmtranslate` library is a Python tool that leverages LangChain's [ChatModels](https://python.langchain.com/docs/integrations/chat/) to translate text between languages and recognize the language of a given text. This library provides both synchronous and asynchronous translators to accommodate various use cases.  
 
-## Features
-
-- **Language Detection:** Identify the language of a given text in ISO 639-1 format.
-- **Translation:** Translate text containing multiple languages into another language in ISO 639-1 format.
-
-## Documentation
-Comprehensive documentation, including detailed usage information, is available at https://llm-translate.com
-
-## Requirements
-
-To use this library, you must have an OpenAI API key. This key allows the library to utilize OpenAI's GPT-4o for translation and language detection.
-
+📖 **Documentation:** [llm-translate.com](https://llm-translate.com/)
 
 
 ## Installation
 
-You can install the llmtranslate library from PyPI:
+To ensure proper dependency management, install the required libraries in the following order:
 
-```bash
-pip install llmtranslate
-```
+1. Install LangChain chat libraries for your preferred LLM. For example:
+   ```bash
+   pip install langchain-openai
+   ```
 
-## Usage
+2. Install the `llmtranslate` library:
+   ```bash
+   pip install llmtranslate
+   ```
 
-### Setting the OpenAI API Key
+---
 
-Before using llmtranslate with OpenAI, you need to set your OpenAI API key. You can do this by creating an instance of the TranslatorOpenAI class.
+## Example Using OpenAI's GPT
 
+### Using `Translator` (Synchronous)
 ```python
-from llmtranslate import TranslatorOpenAI
+from llmtranslate import Translator
+from langchain_openai import ChatOpenAI
 
-# Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
+# Initialize the LLM and Translator
+llm = ChatOpenAI(model_name="gpt-4o", openai_api_key="your_openai_api_key")
+translator = Translator(llm=llm)
 
-```
-
-### Language Detection
-
-To detect the language of a given text:
-
-```python
-from llmtranslate import TranslatorOpenAI
-
-# Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
-
-# Detect language
-detected_language = translator.get_text_language("Hello world")
-if detected_language is not None:
-    print(detected_language.ISO_639_1_code)  # Output: 'en'
-    print(detected_language.ISO_639_2_code)  # Output: 'eng'
-    print(detected_language.ISO_639_3_code)  # Output: 'eng'
-    print(detected_language.language_name)  # Output: 'English'
-
-```
-
-!!! warning
-    If the translator does not detect any language, it will return None.<br>
-    Before using results of translator detection you should check if it returned correct result or None
-
-
-### Translation
-
-To translate text containing multiple languages into another language, you need to provide the ISO 639 language code for the target language. For a list of all ISO 639 language codes, you can refer to this [ISO 639-1 code list website](https://localizely.com/iso-639-1-list/).
-
-```python
-from llmtranslate import TranslatorOpenAI
-
-# Set your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
+# Detect the language of the text
+text_language = translator.get_text_language("Hi how are you?")
+if text_language:
+    print(text_language.ISO_639_1_code) # Output: en
+    print(text_language.ISO_639_2_code) # Output: eng
+    print(text_language.ISO_639_3_code) # Output: eng
+    print(text_language.language_name) # Output: English
 
 # Translate text
-translated_text = translator.translate(
-    text="Cześć jak się masz? Meu nome é Adam", 
-    to_language="en"  # Use ISO 639-1 code for the target language
-)
-print(translated_text)  # Output: "Hello how are you? My name is Adam"
+translated_text = translator.translate("Bonjour tout le monde", "English")
+print(translated_text)  # Output: Hello everyone
 ```
 
+---
 
-### Full Example
-
-Here is a complete example demonstrating how to use the library:
-
-```python
-from llmtranslate import TranslatorOpenAI
-
-# Initialize the translator with your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
-
-# Detect language
-detected_language = translator.get_text_language("jak ty się nazywasz")
-if detected_language is not None:
-    print(detected_language.ISO_639_1_code)  # Output: 'pl'
-    print(detected_language.ISO_639_2_code)  # Output: 'pol'
-    print(detected_language.ISO_639_3_code)  # Output: 'pol'
-    print(detected_language.language_name)  # Output 'Polish'
-
-# Translate text
-translated_text = translator.translate(
-    text="Cześć jak się masz? Meu nome é Adam", 
-    to_language="en"
-)
-print(translated_text)  # Output: "Hello how are you? My name is Adam"
-
-```
-
-### Available OpenAI Models for Translation
-The llmtranslate library provides access to various OpenAI models for translation. Below are the supported models and their use cases:
-
-
-```python
-from llmtranslate import TranslatorOpenAI
-
-# Recommended for precise translation, high-precision model
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o")
-
-# A budget-friendly option, balancing cost and quality
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
-
-```
-
-## Using Asynchronous Methods
-
-The `llmtranslate` library provides asynchronous methods to allow you to perform language detection and translation tasks efficiently in an async environment. If your application uses `asyncio` or another asynchronous framework, you can take full advantage of these async methods to avoid blocking your program while waiting for language detection or translation tasks to complete.
-
-### Example of Using Asynchronous Methods
-
-The following example demonstrates how to use the `async_get_text_language` and `async_translate_text` methods:
+### Using `AsyncTranslator` (Asynchronous)
 
 ```python
 import asyncio
-from llmtranslate import TranslatorOpenAI
+from llmtranslate import AsyncTranslator
+from langchain_openai import ChatOpenAI
 
-# Initialize the translator with your OpenAI API key
-translator = TranslatorOpenAI(api_key="YOUR_OPENAI_API_KEY", model="gpt-4o-mini")
+# Initialize the LLM and AsyncTranslator
+llm = ChatOpenAI(model_name="gpt-4o", openai_api_key="your_openai_api_key")
 
 
-# Async function to detect language and translate text
-async def detect_and_translate():
-    # Detect language asynchronously
-    detected_language = await translator.async_get_text_language("Hola, ¿cómo estás?")
-    if detected_language is not None:
-        print(detected_language.ISO_639_1_code)  # Output: 'es'
-        print(detected_language.language_name)  # Output: 'Spanish'
-
-    # Translate text asynchronously
-    translated_text = await translator.async_translate(
-        text="Cześć jak się masz? Meu nome é Adam",
-        to_language="en"  # Use ISO 639-1 code for the target language
+async def translate_text():
+    translator = AsyncTranslator(
+        llm=llm,
+        max_translation_chunk_length=100,
+        max_translation_chunk_length_multilang=50,
+        max_concurrent_llm_calls=10
     )
-    print(translated_text)  # Output: "Hello how are you? My name is Adam"
+    tasks = [
+        translator.get_text_language("Hi how are you?"),
+        translator.translate("Hi how are you?", "Spanish")
+    ]
+    results = await asyncio.gather(*tasks)
+    # Output the detected language information
+    text_language = results[0]
+    if results:
+        print(text_language.ISO_639_1_code)  # Output: en
+        print(text_language.ISO_639_2_code)  # Output: eng
+        print(text_language.ISO_639_3_code)  # Output: eng
+        print(text_language.language_name)  # Output: English
+
+    # Output the translated text
+    print(results[1])  # Output: Hola, ¿cómo estás?
 
 
-# Run the async function
-asyncio.run(detect_and_translate())
+# Run the asynchronous translation
+asyncio.run(translate_text())
 ```
 
-### Key Asynchronous Methods
+---
+## Key Parameters
 
-1. **`async_get_text_language(text: str)`**:
-   This method detects the language of the provided text asynchronously.
-   - **Parameters**: 
-     - `text`: The input text whose language needs to be detected.
-   - **Returns**: A `TextLanguage` object containing the detected language's ISO 639-1, ISO 639-2, ISO 639-3 codes, and the language name.
-   
-   **Example**:
-   ```python
-   detected_language = await translator.async_get_text_language("Hallo, wie geht's?")
-   ```
+### `max_translation_chunk_length`
+- **Description**: Defines the maximum length (in characters) of a text chunk to be translated in a single call when the text is in one language.
+- **Recommendation**: If translations are not accurate, try reducing this value as weaker LLMs struggle with large chunks of text.
 
-2. **`async_translate_text(text: str, to_language: str)`**:
-   This method translates the input text asynchronously to the specified target language.
-   - **Parameters**:
-     - `text`: The input text to be translated.
-     - `to_language`: The target language in ISO 639-1 code.
-   - **Returns**: A string containing the translated text.
+### `max_translation_chunk_length_multilang`
+- **Description**: Defines the maximum length (in characters) of a text chunk when the text contains multiple languages.
+- **Recommendation**: Reduce this value for better accuracy with multi-language inputs.
 
-   **Example**:
-   ```python
-   translated_text = await translator.async_translate("Bonjour tout le monde", "en")
-   ```
+### `max_concurrent_llm_calls`
+- **Description**: Limits the number of concurrent calls made to the LLM.
+- **Default**: 10
+- **Usage**: Adjust this parameter to align with your LLM provider's concurrency limits.
 
-### Why Use Asynchronous Methods?
-
-Using asynchronous methods allows your application to handle multiple tasks concurrently, improving efficiency, especially when dealing with large amounts of text or performing multiple translations simultaneously. This non-blocking behavior is ideal for web services, APIs, and any scenario requiring high responsiveness.
-
-### Running Asynchronous Functions
-
-Remember that asynchronous methods must be called within an `async` function. To execute them, you can use `asyncio.run()` as shown in the examples above.
+---
 
 
+## Other Supported LLMs Examples
+You can find more examples of LangChain Chat models in the documentation at:
+- [llm-translate.com](https://llm-translate.com/)
+- [LangChain Documentation](https://python.langchain.com/docs/integrations/chat/)
 
-
-
-
-### Setting the Azure OpenAI API Key
-
-If you are using Azure's OpenAI services, you need to set your Azure OpenAI API key along with additional required parameters. Use the TranslatorAzureOpenAI class for this.
-
+### Anthropic's Claude
+To create an instance of an Anthropic-based Chat LLM:
+```bash
+  pip install langchain-anthropic
+  pip install llmtranslate
+```
 ```python
-from llmtranslate import TranslatorAzureOpenAI
-
-# Set your Azure OpenAI API key and related parameters
-translator = TranslatorAzureOpenAI(
-  azure_endpoint="YOUR_AZURE_ENDPOINT",
-  api_key="YOUR_AZURE_API_KEY",
-  api_version="YOUR_API_VERSION",
-  azure_deployment="YOUR_AZURE_DEPLOYMENT"
-)
-
+from langchain_anthropic import Anthropic
+from llmtranslate import Translator
+llm = Anthropic(model="claude-2", anthropic_api_key="your_anthropic_api_key")
+translator = Translator(llm=llm)
 ```
+
+### Mistral via API
+To create an instance of a Chat LLM using the Mistral API:
+```bash
+pip install -qU langchain_mistralai
+pip install llmtranslate
+```
+```python
+from langchain_mistral import MistralChat
+from llmtranslate import Translator
+
+llm = MistralChat(api_key="your_mistral_api_key")
+translator = Translator(llm=llm)
+```
+
+---
 
 
 ## Supported Languages
