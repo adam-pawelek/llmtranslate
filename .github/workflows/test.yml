@@ -40,7 +40,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true # optional (default = false)
-          files: ./coverage1.xml,./coverage2.xml # optional
+          files: /home/runner/work/llmtranslate/llmtranslate/junit.xml
           flags: unittests # optional
           name: codecov-umbrella # optional
           token: ${{ secrets.CODECOV_TOKEN }}
