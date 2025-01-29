@@ -8,7 +8,7 @@
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
 
 
-The `llmtranslate` library is a Python tool that leverages LangChain's LLM models to translate text between languages and recognize the language of a given text. This library provides both synchronous and asynchronous translators to accommodate various use cases.
+The `llmtranslate` library is a Python tool that leverages LangChain's [ChatModels](https://python.langchain.com/docs/integrations/chat/) to translate text between languages and recognize the language of a given text. This library provides both synchronous and asynchronous translators to accommodate various use cases.
 
 ---
 
