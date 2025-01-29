@@ -34,7 +34,7 @@ jobs:
       - name: Run tests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: poetry run pytest --cov=llmtranslate --cov-report=xml
+        run: poetry run pytest --cov=llmtranslate --junitxml=junit.xml -o junit_family=legacy
 
       # 6. Upload coverage report to Codecov
       - name: Upload test results to Codecov
