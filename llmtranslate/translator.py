@@ -36,6 +36,17 @@ class TextLanguage:
         self.ISO_639_3_code = language_info.get("ISO_639_3_code")
         self.language_name = language_info.get("language_name")
 
+
+    def __eq__(self,other):
+        if not isinstance(other, TextLanguage):
+            return False
+        return (
+            self.ISO_639_1_code == other.ISO_639_1_code and
+            self.ISO_639_2_code == other.ISO_639_2_code and
+            self.ISO_639_3_code == other.ISO_639_3_code and
+            self.language_name == other.language_name
+        )
+
     def __str__(self):
         return (
             f"TextLanguage(\n"
