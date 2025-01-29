@@ -64,7 +64,12 @@ from langchain_openai import ChatOpenAI
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key="your_openai_api_key")
 
 async def translate_text():
-    translator = AsyncTranslator(llm=llm, max_length_text_chunk_to_translate=100, max_length_text_chunk_to_translate_multiple_languages=50, max_concurrent_llm_calls=10)
+    translator = AsyncTranslator(
+        llm=llm, 
+        max_length_text_chunk_to_translate=100, 
+        max_length_text_chunk_to_translate_multiple_languages=50, 
+        max_concurrent_llm_calls=10
+    )
     tasks = [
         translator.get_text_language("Hi how are you?"), 
         translator.translate("Hi how are you?", "Spanish")
