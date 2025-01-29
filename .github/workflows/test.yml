@@ -38,7 +38,7 @@ jobs:
         PYTHON_KEYRING_BREAKER_SYSTEM: 1  # Disables keyring for CI
 
     - name: Run tests with coverage
-      run: poetry run pytest --cov=./llmtranslate --cov-report=xml
+      run: poetry run pytest --cov=llmtranslate --cov-report=xml tests/
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
