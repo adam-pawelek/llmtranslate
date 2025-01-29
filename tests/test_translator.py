@@ -6,8 +6,8 @@ from unittest.mock import AsyncMock, patch
 from langchain_openai import ChatOpenAI
 from sqlalchemy.util import await_only
 
-from llmtranslate.exceptions import MissingAPIKeyError, NoneAPIKeyProvidedError, InvalidModelName
-from llmtranslate import ModelForTranslator, get_language_info, BaseTranslator, AsyncTranslator, TextLanguage
+
+from llmtranslate import get_language_info, AsyncTranslator, TextLanguage, MissingLangchainChatModelError
 from llmtranslate import Translator
 
 # Test Translator
@@ -20,6 +20,10 @@ class TestTranslator:
 
     def test_set_api_key_success(self, translator):
         assert translator.llm is not None
+
+    def test_set_llm_failure(self):
+        with pytest.raises(MissingLangchainChatModelError):
+            Translator(llm=None)
 
     def test_translate_chunk_of_text(self, translator, mocker):
         # Create mock response

@@ -2,6 +2,8 @@ import asyncio
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_core.language_models import BaseChatModel
+
+from llmtranslate.exceptions import MissingLangchainChatModelError
 from llmtranslate.utils.available_languages import get_language_info
 from pydantic import BaseModel
 from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_words
@@ -109,6 +111,9 @@ class BaseTranslator(ABC):
                 when multiple languages are present. If not provided,
                 a different default value is used.
         """
+        if not llm:
+            raise MissingLangchainChatModelError()
+
         self.llm = llm
         self.max_length_text_chunk_to_translate = max_length_text_chunk_to_translate  if max_length_text_chunk_to_translate else MAX_LENGTH
         self.max_length_text_chunk_to_translate_multiple_languages = max_length_text_chunk_to_translate_multiple_languages if max_length_text_chunk_to_translate_multiple_languages else MAX_LENGTH_MINI_TEXT_CHUNK
