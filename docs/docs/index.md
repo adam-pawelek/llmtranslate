@@ -8,21 +8,23 @@
 [![Downloads](https://static.pepy.tech/badge/llmtranslate)](https://pepy.tech/project/llmtranslate)
 
 
-The `llmtranslate` library is a Python tool that leverages LangChain's [ChatModels](https://python.langchain.com/docs/integrations/chat/) to translate text between languages and recognize the language of a given text. This library provides both synchronous and asynchronous translators to accommodate various use cases.  
+The `llmtranslate` library is a Python tool that leverages LangChain's [ChatModels 🦜🔗](https://python.langchain.com/docs/integrations/chat/) to translate text between languages and recognize the language of a given text. This library provides both synchronous and asynchronous translators to accommodate various use cases.  
 
 📖 **Documentation:** [llm-translate.com](https://llm-translate.com/)
 
 
 ## Installation
 
-To ensure proper dependency management, install the required libraries in the following order:
+To ensure proper dependency management, install the required libraries **in the following order**:
 
 1. Install LangChain chat libraries for your preferred LLM. For example:
-   ```bash
-   pip install langchain-openai
-   ```
-
+    
+    ```bash
+    pip install langchain-openai
+    ```
+    For other LLM integrations, refer to [LangChain ChatModels documentation.](https://python.langchain.com/docs/integrations/chat/) 
 2. Install the `llmtranslate` library:
+    
    ```bash
    pip install llmtranslate
    ```
