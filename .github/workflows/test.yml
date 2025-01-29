@@ -29,6 +29,7 @@ jobs:
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
       uses: codecov/test-results-action@v1
+      secrets: inherit
       with:
         fail_ci_if_error: true # optional (default = false)
         files: ./junit.xml # optional
