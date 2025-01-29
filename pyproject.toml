@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "llmtranslate"
 version = "0.7.1"
-description = "A Python library for language detection and translation using OpenAI's GPT-4o."
+description = "A Python library for language detection and translation using langchain ChatModels"
 authors = ["Adam Pawelek <adam.pwk@outlook.com>"]
 readme = "README.md"
 
