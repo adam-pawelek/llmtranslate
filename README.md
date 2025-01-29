@@ -55,6 +55,7 @@ print(translated_text)  # Output: Hello everyone
 ---
 
 ### Using `AsyncTranslator` (Asynchronous)
+
 ```python
 import asyncio
 from llmtranslate import AsyncTranslator
@@ -63,28 +64,30 @@ from langchain_openai import ChatOpenAI
 # Initialize the LLM and AsyncTranslator
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key="your_openai_api_key")
 
+
 async def translate_text():
     translator = AsyncTranslator(
-        llm=llm, 
-        max_length_text_chunk_to_translate=100, 
-        max_length_text_chunk_to_translate_multiple_languages=50, 
+        llm=llm,
+        max_translation_chunk_length=100,
+        max_translation_chunk_length_multilang=50,
         max_concurrent_llm_calls=10
     )
     tasks = [
-        translator.get_text_language("Hi how are you?"), 
+        translator.get_text_language("Hi how are you?"),
         translator.translate("Hi how are you?", "Spanish")
     ]
     results = await asyncio.gather(*tasks)
     # Output the detected language information
     text_language = results[0]
     if results:
-        print(text_language.ISO_639_1_code) # Output: en
-        print(text_language.ISO_639_2_code) # Output: eng
-        print(text_language.ISO_639_3_code) # Output: eng
-        print(text_language.language_name) # Output: English
-    
+        print(text_language.ISO_639_1_code)  # Output: en
+        print(text_language.ISO_639_2_code)  # Output: eng
+        print(text_language.ISO_639_3_code)  # Output: eng
+        print(text_language.language_name)  # Output: English
+
     # Output the translated text
     print(results[1])  # Output: Hola, ¿cómo estás?
+
 
 # Run the asynchronous translation
 asyncio.run(translate_text())
@@ -93,11 +96,11 @@ asyncio.run(translate_text())
 ---
 ## Key Parameters
 
-### `max_length_text_chunk_to_translate`
+### `max_translation_chunk_length`
 - **Description**: Defines the maximum length (in characters) of a text chunk to be translated in a single call when the text is in one language.
 - **Recommendation**: If translations are not accurate, try reducing this value as weaker LLMs struggle with large chunks of text.
 
-### `max_length_text_chunk_to_translate_multiple_languages`
+### `max_translation_chunk_length_multilang`
 - **Description**: Defines the maximum length (in characters) of a text chunk when the text contains multiple languages.
 - **Recommendation**: Reduce this value for better accuracy with multi-language inputs.
 

@@ -16,7 +16,7 @@ class TestTranslator:
     @pytest.fixture
     def translator(self):
         llm = ChatOpenAI(model_name="gpt-4o-mini", openai_api_key=os.getenv("OPENAI_API_KEY"))
-        return Translator(llm=llm, max_length_text_chunk_to_translate=100, max_length_text_chunk_to_translate_multiple_languages=100)
+        return Translator(llm=llm, max_translation_chunk_length=100, max_translation_chunk_length_multilang=100)
 
     def test_set_api_key_success(self, translator):
         assert translator.llm is not None
@@ -116,7 +116,7 @@ class TestAsyncTranslator:
     @pytest.fixture
     def translator(self):
         llm = ChatOpenAI(model_name="gpt-4o-mini", openai_api_key=os.getenv("OPENAI_API_KEY"))
-        return AsyncTranslator(llm=llm, max_length_text_chunk_to_translate=100, max_length_text_chunk_to_translate_multiple_languages=100, max_concurrent_llm_calls=10)
+        return AsyncTranslator(llm=llm, max_translation_chunk_length=100, max_translation_chunk_length_multilang=100, max_concurrent_llm_calls=10)
 
     def test_set_api_key_success(self, translator):
         assert translator.llm is not None

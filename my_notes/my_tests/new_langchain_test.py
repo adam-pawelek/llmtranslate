@@ -11,7 +11,7 @@ from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-translator = AsyncTranslator(llm=llm, max_length_text_chunk_to_translate=100, max_length_text_chunk_to_translate_multiple_languages=100)
+translator = AsyncTranslator(llm=llm, max_translation_chunk_length=100, max_translation_chunk_length_multilang=100)
 
 
 async def run_test():

@@ -94,7 +94,7 @@ class BaseTranslator(ABC):
 
 
 
-    def __init__(self, llm: BaseChatModel, max_length_text_chunk_to_translate: int = 200, max_length_text_chunk_to_translate_multiple_languages: int = 50):
+    def __init__(self, llm: BaseChatModel, max_translation_chunk_length: int = 200, max_translation_chunk_length_multilang: int = 50):
         """
         Initializes the Translator with the given parameters.
 
@@ -102,11 +102,11 @@ class BaseTranslator(ABC):
             llm (BaseChatModel):
                 The large language model used for performing language detection
                 and translation tasks.
-            max_length_text_chunk_to_translate (int, optional):
+            max_translation_chunk_length (int, optional):
                 The maximum length of text to be translated in a single chunk
                 when dealing with a single language. If not provided,
                 a default value is used.
-            max_length_text_chunk_to_translate_multiple_languages (int, optional):
+            max_translation_chunk_length_multilang (int, optional):
                 The maximum length of text to be translated in a single chunk
                 when multiple languages are present. If not provided,
                 a different default value is used.
@@ -115,8 +115,8 @@ class BaseTranslator(ABC):
             raise MissingLangchainChatModelError()
 
         self.llm = llm
-        self.max_length_text_chunk_to_translate = max_length_text_chunk_to_translate  if max_length_text_chunk_to_translate else MAX_LENGTH
-        self.max_length_text_chunk_to_translate_multiple_languages = max_length_text_chunk_to_translate_multiple_languages if max_length_text_chunk_to_translate_multiple_languages else MAX_LENGTH_MINI_TEXT_CHUNK
+        self.max_translation_chunk_length = max_translation_chunk_length  if max_translation_chunk_length else MAX_LENGTH
+        self.max_translation_chunk_length_multilang = max_translation_chunk_length_multilang if max_translation_chunk_length_multilang else MAX_LENGTH_MINI_TEXT_CHUNK
         ######## detect language ##########
         structured_llm_detect_language = llm.with_structured_output(BaseTranslator.TextLanguageFormat)
         self.few_shot_structured_llm_detect_language = BaseTranslator.prompt_detect_language | structured_llm_detect_language
@@ -156,7 +156,7 @@ class Translator(BaseTranslator):
         >>> print(language.language_name)
         French
         """
-        text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
+        text = get_first_n_words(text, self.max_translation_chunk_length)
         response =  self.few_shot_structured_llm_detect_language.invoke(text)
         response_message = response.language_ISO_639_1_code
         try:
@@ -189,13 +189,13 @@ class Translator(BaseTranslator):
             >>> print(result)
             "Hola mundo. Hola el mundo."
         """
-        text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
+        text_chunks = split_text_to_chunks(text, self.max_translation_chunk_length)
         counted_number_of_languages =  [self.how_many_languages_are_in_text(text_chunk) for text_chunk in text_chunks]
 
         translated_list = []
         for index, text_chunk in enumerate(text_chunks):
             if counted_number_of_languages[index] > 1:
-                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_length_text_chunk_to_translate_multiple_languages)
+                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_translation_chunk_length_multilang)
                 for mini_text_chunk in mini_text_chunks:
                     translated_list.append(self.translate_chunk_of_text(mini_text_chunk, to_language))
             else:
@@ -221,11 +221,11 @@ class AsyncTranslator(BaseTranslator):
     def __init__(
             self,
             llm: BaseChatModel,
-            max_length_text_chunk_to_translate: int = 200,
-            max_length_text_chunk_to_translate_multiple_languages: int = 50,
+            max_translation_chunk_length: int = 200,
+            max_translation_chunk_length_multilang: int = 50,
             max_concurrent_llm_calls: int = 100
     ):
-        super().__init__(llm, max_length_text_chunk_to_translate, max_length_text_chunk_to_translate_multiple_languages)
+        super().__init__(llm, max_translation_chunk_length, max_translation_chunk_length_multilang)
         self.semaphore = asyncio.Semaphore(max_concurrent_llm_calls)
 
 
@@ -256,9 +256,9 @@ class AsyncTranslator(BaseTranslator):
         >>> print(language.language_name)
         French
         """
-        text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
+        text = get_first_n_words(text, self.max_translation_chunk_length)
         async with self.semaphore:
-            text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
+            text = get_first_n_words(text, self.max_translation_chunk_length)
             response = await self.few_shot_structured_llm_detect_language.ainvoke(text)
         response_message = response.language_ISO_639_1_code
         try:
@@ -297,7 +297,7 @@ class AsyncTranslator(BaseTranslator):
             >>> print(result)
             "Hola mundo. Hola el mundo."
         """
-        text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
+        text_chunks = split_text_to_chunks(text, self.max_translation_chunk_length)
 
         # Run how_many_languages_are_in_text concurrently
         # Chunks that contain more than one language will be split (this will simplify translation for the LLM)
@@ -306,7 +306,7 @@ class AsyncTranslator(BaseTranslator):
         tasks = []
         for index, text_chunk in enumerate(text_chunks):
             if counted_number_of_languages[index] > 1:
-                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_length_text_chunk_to_translate_multiple_languages)
+                mini_text_chunks = split_text_to_chunks(text_chunk, self.max_translation_chunk_length_multilang)
                 for mini_text_chunk in mini_text_chunks:
                     tasks.append(self.translate_chunk_of_text(mini_text_chunk, to_language))
             else:
