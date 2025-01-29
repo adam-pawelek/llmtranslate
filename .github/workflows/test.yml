@@ -23,7 +23,7 @@ jobs:
         poetry install
         pip install pytest
         pip install pytest-cov
-        poetry run pytest --cov=./ --cov-report=xml
+        poetry run pytest --cov=llmtranslate --cov-report=xml
       with:
         verbose: true
     - name: Upload coverage to Codecov
