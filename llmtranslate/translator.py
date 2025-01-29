@@ -18,37 +18,17 @@ MAX_LENGTH_MINI_TEXT_CHUNK = 128
 class TextLanguage:
     def __init__(self,  language_name_or_code: str):
         """
-        Initialize a TextLanguage instance by retrieving language information
-        (ISO codes and language name) based on a given language name or code.
+        Standardizes language identifiers to ISO codes and names.
 
-        :param language_name_or_code:
-            The language identifier, which can be:
-            - The language name (e.g., "English", "French", "Japanese")
-            - The ISO 639-1 language code (e.g., "en", "fr", "ja")
-            - The ISO 639-2 language code (e.g., "eng", "fra", "jpn")
-            - The ISO 639-3 language code (e.g., "eng", "fra", "jpn")
-        :type language_name_or_code: str
+        Accepts language names (e.g., "French") or ISO codes (e.g., "fr"/"fra"),
+        resolves to: ISO_639_1_code, ISO_639_2_code, ISO_639_3_code, language_name.
 
-        :ivar ISO_639_1_code: The 2-letter ISO 639-1 code of the language.
-        :vartype ISO_639_1_code: str or None
+        Raises:
+            ValueError: For invalid language identifiers
 
-        :ivar ISO_639_2_code: The 3-letter ISO 639-2 code of the language.
-        :vartype ISO_639_2_code: str or None
-
-        :ivar ISO_639_3_code: The 3-letter ISO 639-3 code of the language.
-        :vartype ISO_639_3_code: str or None
-
-        :ivar language_name: The standardized name of the language.
-        :vartype language_name: str or None
-
-        :Example:
-
-        >>> lang = TextLanguage("en")
-        >>> print(lang.ISO_639_1_code)
-        en
-        >>> print(lang.language_name)
-        English
-
+        Example:
+            >>> TextLanguage("de").language_name
+            'German'
         """
         language_info = get_language_info(language_name_or_code)
         self.ISO_639_1_code = language_info.get("ISO_639_1_code")
@@ -137,6 +117,32 @@ class BaseTranslator(ABC):
 class Translator(BaseTranslator):
 
     def get_text_language(self, text: str) -> TextLanguage:
+        """
+        Detects the language of the given text and returns a `TextLanguage` instance.
+
+        The input text is truncated to a maximum length and processed by a language
+        detection model. The detected language is returned as a `TextLanguage` object
+        or `None` if detection fails.
+
+        :param text: Input text to detect the language.
+        :type text: str
+
+        :return: Detected language as a `TextLanguage` object or `None`.
+        :rtype: TextLanguage or None
+
+        :Example:
+
+        >>> translator = Translator(llm)
+        >>> language = translator.get_text_language("Bonjour tout le monde")
+        >>> print(language.ISO_639_1_code)
+        fr
+        >>> print(language.ISO_639_2_code)
+        fra
+        >>> print(language.ISO_639_3_code)
+        fra
+        >>> print(language.language_name)
+        French
+        """
         text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
         response =  self.few_shot_structured_llm_detect_language.invoke(text)
         response_message = response.language_ISO_639_1_code
@@ -154,6 +160,22 @@ class Translator(BaseTranslator):
 
 
     def translate(self, text: str, to_language ="Spanish") -> str:
+        """
+        Translates the given text to the specified target language, handling multi-language
+        content and large text inputs through chunked processing.
+
+        Args:
+            text (str): The text to be translated. Must be a non-empty string.
+            to_language (str, optional): Target language code or name. Defaults to "Spanish".
+
+        Returns:
+            str: The translated text as a single concatenated string.
+        Example:
+            >>> translator = Translator(llm)
+            >>> result = translator.translate("Hello world. Bonjour le monde.", "Spanish")
+            >>> print(result)
+            "Hola mundo. Hola el mundo."
+        """
         text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
         counted_number_of_languages =  [self.how_many_languages_are_in_text(text_chunk) for text_chunk in text_chunks]
 
@@ -195,6 +217,32 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def get_text_language(self, text) -> TextLanguage:
+        """
+        Detects the language of the given text and returns a `TextLanguage` instance.
+
+        The input text is truncated to a maximum length and processed by a language
+        detection model. The detected language is returned as a `TextLanguage` object
+        or `None` if detection fails.
+
+        :param text: Input text to detect the language.
+        :type text: str
+
+        :return: Detected language as a `TextLanguage` object or `None`.
+        :rtype: TextLanguage or None
+
+        :Example:
+
+        >>> translator = AsyncTranslator(llm)
+        >>> language = await translator.get_text_language("Bonjour tout le monde")
+        >>> print(language.ISO_639_1_code)
+        fr
+        >>> print(language.ISO_639_2_code)
+        fra
+        >>> print(language.ISO_639_3_code)
+        fra
+        >>> print(language.language_name)
+        French
+        """
         text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
         async with self.semaphore:
             text = get_first_n_words(text, self.max_length_text_chunk_to_translate)
@@ -220,6 +268,22 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def translate(self, text: str, to_language ="Spanish") -> str:
+        """
+        Translates the given text to the specified target language, handling multi-language
+        content and large text inputs through chunked processing.
+
+        Args:
+            text (str): The text to be translated. Must be a non-empty string.
+            to_language (str, optional): Target language code or name. Defaults to "Spanish".
+
+        Returns:
+            str: The translated text as a single concatenated string.
+        Example:
+            >>> translator = AsyncTranslator(llm)
+            >>> result = await  translator.translate("Hello world. Bonjour le monde.", "Spanish")
+            >>> print(result)
+            "Hola mundo. Hola el mundo."
+        """
         text_chunks = split_text_to_chunks(text, self.max_length_text_chunk_to_translate)
 
         # Run how_many_languages_are_in_text concurrently
