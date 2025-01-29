@@ -1,4 +1,4 @@
-name: Test
+name: Code Coverage
 
 on:
   push:
@@ -6,76 +6,43 @@ on:
   pull_request:
     branches: [ main ]
 
-permissions:
-  contents: write  # needed if Codecov tries to create commits or statuses
-
 jobs:
-  test:
+  coverage:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python-version: ['3.12']
-
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: '3.11'  # Update to your Python version
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          .venv
+          ~/.cache/pypoetry
+        key: poetry-${{ hashFiles('pyproject.toml', 'poetry.lock') }}
 
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry install
-
-    - name: Run tests
+      run: poetry install --no-interaction
       env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      run: |
-        poetry run pytest
+        PYTHON_KEYRING_BREAKER_SYSTEM: 1  # Disables keyring for CI
 
-  coverage:
-    name: Run coverage and upload to Codecov
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-        with:
-          fetch-depth: 0
+    - name: Run tests with coverage
+      run: poetry run pytest --cov=./llmtranslate --cov-report=xml
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@main
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install
-          poetry add  pytest-cov
-
-      - name: Run tests and generate coverage report
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          poetry run pytest \
-            --cov=./llmtranslate \
-            --cov-report=xml 
-
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          env_vars: OS,PYTHON
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
-          slug: "adam-pawelek/llmtranslate"
-
-
-
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}  # Only needed for private repos
+        files: coverage.xml
+        fail_ci_if_error: true
