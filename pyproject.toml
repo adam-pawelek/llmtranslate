@@ -11,7 +11,6 @@ source = "https://github.com/adam-pawelek/llmtranslate"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pytest = "^8.2.2"
 asyncio = "^3.4.3"
 pytest-asyncio = "^0.23.8"
 aiohttp = "^3.10.9"
@@ -21,6 +20,9 @@ langchain-openai = "^0.3.0"
 pytest-mock = "^3.14.0"
 
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+pytest-cov = "^4.0"
 
 
 [build-system]
