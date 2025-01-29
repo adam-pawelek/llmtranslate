@@ -60,7 +60,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          poetry run pytest --cov=./llmtranslate --junitxml=junit.xml -o junit_family=legacy
+          poetry run pytest --cov --junitxml=junit.xml -o junit_family=legacy
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
