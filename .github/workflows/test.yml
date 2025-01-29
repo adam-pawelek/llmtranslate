@@ -32,6 +32,8 @@ jobs:
       # 5. Run tests with coverage
       #    Adjust paths for "--cov=<your_package>" as needed
       - name: Run tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: poetry run pytest --cov=llmtranslate --cov-report=xml
 
       # 6. Upload coverage report to Codecov
