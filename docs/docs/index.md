@@ -117,8 +117,8 @@ asyncio.run(translate_text())
 
 ## Other Supported LLMs Examples
 You can find more examples of LangChain Chat models in the documentation at:
-- [llm-translate.com](https://llm-translate.com/)
-- [LangChain Documentation](https://python.langchain.com/docs/integrations/chat/)
+- [llm-translate.com](https://llm-translate.com/) 
+- [LangChain Documentation](https://python.langchain.com/docs/integrations/chat/) 
 
 ### Anthropic's Claude
 To create an instance of an Anthropic-based Chat LLM:
