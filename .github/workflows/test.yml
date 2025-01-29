@@ -19,6 +19,7 @@ jobs:
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
+        pip install poetry
         poetry install
         pip install pytest
         pip install pytest-cov
