@@ -42,10 +42,10 @@ translator = Translator(llm=llm)
 # Detect the language of the text
 text_language = translator.get_text_language("Hi how are you?")
 if text_language:
-    print(text_language.ISO_639_1_code)
-    print(text_language.ISO_639_2_code)
-    print(text_language.ISO_639_3_code)
-    print(text_language.language_name)
+    print(text_language.ISO_639_1_code) # Output: en
+    print(text_language.ISO_639_2_code) # Output: eng
+    print(text_language.ISO_639_3_code) # Output: eng
+    print(text_language.language_name) # Output: English
 
 # Translate text
 translated_text = translator.translate("Bonjour tout le monde", "English")
