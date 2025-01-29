@@ -13,13 +13,13 @@ jobs:
     steps:
       # 1. Check out the repository
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 2. Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.9"  # or the version(s) you need
+          python-version: "3.12"  # or the version(s) you need
 
       # 3. Install Poetry
       - name: Install Poetry
@@ -34,12 +34,11 @@ jobs:
       - name: Run tests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: poetry run pytest --cov=llmtranslate --junitxml=junit.xml -o junit_family=legacy
+        run: poetry run pytest --cov --junitxml=junit.xml -o junit_family=legacy
 
-      # 6. Upload coverage report to Codecov
       - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
           verbose: true
