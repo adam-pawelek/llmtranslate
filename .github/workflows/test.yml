@@ -1,47 +1,36 @@
-name: CI - Codecov
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+name: Example workflow for Codecov
+on: [push]
 jobs:
-  test-and-coverage:
-    runs-on: ubuntu-latest
-
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: '3.10'
     steps:
-      # 1. Check out the repository
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      # 2. Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"  # or the version(s) you need
-
-      # 3. Install Poetry
-      - name: Install Poetry
-        run: pip install poetry
-
-      # 4. Install dependencies
-      - name: Install dependencies
-        run: poetry install
-
-      # 5. Run tests with coverage
-      #    Adjust paths for "--cov=<your_package>" as needed
-      - name: Run tests
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: poetry run pytest --cov --junitxml=junit.xml -o junit_family=legacy
-
-      - name: Upload test results to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          fail_ci_if_error: true # optional (default = false)
-          files: /home/runner/work/llmtranslate/llmtranslate/junit.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true # optional (default = false)
+    - uses: actions/checkout@main
+    - name: Setup Python
+      uses: actions/setup-python@main
+      with:
+        python-version: 3.10
+    - name: Generate coverage report
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        poetry install
+        pip install pytest
+        pip install pytest-cov
+        poetry pytest --cov=./ --cov-report=xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        directory: ./coverage/reports/
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        files: ./coverage1.xml,./coverage2.xml,!./cache
+        flags: unittests
+        name: codecov-umbrella
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
