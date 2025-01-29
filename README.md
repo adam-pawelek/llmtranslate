@@ -76,13 +76,12 @@ async def translate_text():
     ]
     results = await asyncio.gather(*tasks)
     # Output the detected language information
-    print(results[0])  # Output:
-    # TextLanguage(
-    #   Language Name: English
-    #   ISO 639-1 Code: en
-    #   ISO 639-2 Code: eng
-    #   ISO 639-3 Code: eng
-    # )
+    text_language = results[0]
+    if results:
+        print(text_language.ISO_639_1_code) # Output: en
+        print(text_language.ISO_639_2_code) # Output: eng
+        print(text_language.ISO_639_3_code) # Output: eng
+        print(text_language.language_name) # Output: English
     
     # Output the translated text
     print(results[1])  # Output: Hola, ¿cómo estás?
