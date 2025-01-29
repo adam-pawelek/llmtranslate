@@ -15,7 +15,7 @@ The `llmtranslate` library is a Python tool that leverages LangChain's [ChatMode
 
 ## Installation
 
-**Important** To ensure proper dependency management, install the required libraries in the **following order**:
+**Important** To ensure proper dependency management, install the required libraries in the <br>**following order**:
 
 1. Install LangChain [ChatModels](https://python.langchain.com/docs/integrations/chat/) libraries for your preferred LLM. For example:
    ```bash
