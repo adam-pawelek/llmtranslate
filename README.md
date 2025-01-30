@@ -44,7 +44,7 @@ python = ">=3.12,<4.0"
 ```
 Otherwise, Poetry sees Python 4.x as valid, which conflicts with langchain-openai’s <4.0 requirement.
 
----
+
 
 ## Example Using OpenAI's GPT
 
