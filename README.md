@@ -29,6 +29,20 @@ To ensure proper dependency management, install the required libraries **in the 
    pip install llmtranslate
    ```
 
+### Poetry problem
+If you’re using Poetry, you must set a Python requirement capped below 4.0 to match langchain-openai (which requires <4.0). So, if your pyproject.toml has:
+```toml
+python = ">=3.12"
+```
+replace it with:
+```toml
+python = "^3.12"
+```
+or:
+```toml
+python = ">=3.12,<4.0"
+```
+Otherwise, Poetry sees Python 4.x as valid, which conflicts with langchain-openai’s <4.0 requirement.
 ---
 
 ## Example Using OpenAI's GPT
