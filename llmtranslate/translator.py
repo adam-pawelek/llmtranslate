@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_core.language_models import BaseChatModel
 
-from llmtranslate.exceptions import MissingLangchainChatModelError
+from llmtranslate.exceptions import MissingLangchainChatModelError, ProblemWithChatModelStructuredOutput
 from llmtranslate.utils.available_languages import get_language_info
 from pydantic import BaseModel
 from llmtranslate.utils.text_splitter import split_text_to_chunks, get_first_n_words
@@ -167,9 +167,25 @@ class Translator(BaseTranslator):
 
 
     def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
-        response = self.few_shot_structured_llm_translate_text.invoke({"to_language": to_language, "input": text_chunk})
-        response_message = response.translated_text
-        return response_message
+        try:
+            response =  self.few_shot_structured_llm_translate_text.invoke({
+                "to_language": to_language,
+                "input": text_chunk
+            })
+
+            response_message = response.translated_text
+            return response_message
+        except:
+            try:
+                response =  self.few_shot_structured_llm_translate_text.invoke({
+                    "to_language": to_language,
+                    "input": text_chunk
+                })
+
+                response_message = response.translated_text
+                return response_message
+            except:
+                raise ProblemWithChatModelStructuredOutput()
 
 
     def translate(self, text: str, to_language ="Spanish") -> str:
@@ -271,13 +287,27 @@ class AsyncTranslator(BaseTranslator):
 
     async def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
         async with self.semaphore:
-            response = await self.few_shot_structured_llm_translate_text.ainvoke({
-                "to_language": to_language,
-                "input": text_chunk
-            })
+            try:
+                response = await self.few_shot_structured_llm_translate_text.ainvoke({
+                    "to_language": to_language,
+                    "input": text_chunk
+                })
 
-        response_message = response.translated_text
-        return response_message
+                response_message = response.translated_text
+                return response_message
+            except:
+                try:
+                    response = await self.few_shot_structured_llm_translate_text.ainvoke({
+                        "to_language": to_language,
+                        "input": text_chunk
+                    })
+
+                    response_message = response.translated_text
+                    return response_message
+                except:
+                    raise ProblemWithChatModelStructuredOutput()
+
+
 
 
     async def translate(self, text: str, to_language ="Spanish") -> str:
