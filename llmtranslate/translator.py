@@ -1,4 +1,6 @@
 import asyncio
+import time
+
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from langchain_core.language_models import BaseChatModel
@@ -231,6 +233,33 @@ class Translator(BaseTranslator):
 ###########################################################################################################
 
 
+class RateLimiter:
+    def __init__(self, max_calls: int, period: float):
+        self.max_calls = max_calls
+        self.period = period
+        self.calls = []
+        self.lock = asyncio.Lock()
+
+    async def __aenter__(self):
+        async with self.lock:
+            now = time.monotonic()
+            # Remove expired calls
+            self.calls = [call for call in self.calls if call > now - self.period]
+            if len(self.calls) >= self.max_calls:
+                # Wait until the oldest call exits the period
+                wait_time = self.period - (now - self.calls[0])
+                await asyncio.sleep(wait_time)
+                # Refresh after waiting
+                now = time.monotonic()
+                self.calls = [call for call in self.calls if call > now - self.period]
+            self.calls.append(now)
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb):
+        pass
+
+#####################################
+
 
 class AsyncTranslator(BaseTranslator):
 
@@ -239,10 +268,11 @@ class AsyncTranslator(BaseTranslator):
             llm: BaseChatModel,
             max_translation_chunk_length: int = 200,
             max_translation_chunk_length_multilang: int = 50,
-            max_concurrent_llm_calls: int = 100
+            max_concurrent_llm_calls: int = 100,
+            max_concurrent_time_period: int = 0,
     ):
         super().__init__(llm, max_translation_chunk_length, max_translation_chunk_length_multilang)
-        self.semaphore = asyncio.Semaphore(max_concurrent_llm_calls)
+        self.rate_limiter = RateLimiter(max_calls=max_concurrent_llm_calls, period=max_concurrent_time_period)
 
 
     async def get_text_language(self, text) -> TextLanguage:
@@ -273,7 +303,7 @@ class AsyncTranslator(BaseTranslator):
         French
         """
         text = get_first_n_words(text, self.max_translation_chunk_length)
-        async with self.semaphore:
+        async with self.rate_limiter:
             text = get_first_n_words(text, self.max_translation_chunk_length)
             response = await self.few_shot_structured_llm_detect_language.ainvoke(text)
         response_message = response.language_ISO_639_1_code
@@ -286,7 +316,7 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
-        async with self.semaphore:
+        async with self.rate_limiter:
             try:
                 response = await self.few_shot_structured_llm_translate_text.ainvoke({
                     "to_language": to_language,
@@ -294,6 +324,7 @@ class AsyncTranslator(BaseTranslator):
                 })
 
                 response_message = response.translated_text
+                print(response_message)
                 return response_message
             except:
                 try:
@@ -348,9 +379,11 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
-        async with self.semaphore:
+        async with  self.rate_limiter:
+            print("tutaj")
             response = await self.few_shot_structured_llm_count_number_of_languages_in_text.ainvoke(text)
         number_of_languages_in_text = response.number_of_languages
+        print("juz po")
         return number_of_languages_in_text
 
 

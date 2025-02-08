@@ -31,7 +31,7 @@ llmv2 = ChatAnthropic(
     model="claude-3-5-sonnet-20240620",
     max_retries=2,
 )
-translator = AsyncTranslator(llm=llm, max_translation_chunk_length=100, max_translation_chunk_length_multilang=100, max_concurrent_llm_calls=1)
+translator = AsyncTranslator(llm=llm, max_translation_chunk_length=100, max_translation_chunk_length_multilang=100, max_concurrent_llm_calls=50, rate_limiter_max_rate=50, rate_limiter_time_period=60)
 
 
 print(asyncio.run(run_short_benchmark_formated_output("claude-3-5-sonnet-20240620", translator, llmv2,"pl")))

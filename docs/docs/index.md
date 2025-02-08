@@ -71,45 +71,77 @@ print(translated_text)  # Output: Hello everyone
 ```
 
 ---
+# Using AsyncTranslator (Asynchronous)
 
-### Using `AsyncTranslator` (Asynchronous)
+This example demonstrates how to use the `AsyncTranslator` class to asynchronously detect the language of a text and translate it into another language. The `AsyncTranslator` is designed to work with asynchronous operations by splitting the input text into manageable chunks and by handling multiple concurrent requests to your language model.
+
+## Key Configuration Options
+
+- **`max_translation_chunk_length`**: Sets the maximum length for each text chunk that is translated.
+- **`max_translation_chunk_length_multilang`**: Sets the maximum length for text chunks when dealing with multiple languages.
+- **`max_concurrent_llm_calls`**: Limits the number of concurrent calls made to the underlying language model.
+- **`max_concurrent_time_period`**: (New) Limits the maximum number of concurrent LLM calls within a specific time period (in seconds). For instance, if you want to allow up to 50 requests per minute, set:
+  - `max_concurrent_llm_calls` to **50**
+  - `max_concurrent_time_period` to **60**
+
+If you only need to limit the number of concurrent calls without a time constraint, you can leave `max_concurrent_time_period` at its default value (typically `0`).
+
+## Code Example
 
 ```python
 import asyncio
 from llmtranslate import AsyncTranslator
 from langchain_openai import ChatOpenAI
 
-# Initialize the LLM and AsyncTranslator
+# Initialize the language model (LLM) with your API key
 llm = ChatOpenAI(model_name="gpt-4o", openai_api_key="your_openai_api_key")
 
-
 async def translate_text():
+    # Initialize AsyncTranslator with appropriate parameters
     translator = AsyncTranslator(
         llm=llm,
-        max_translation_chunk_length=100,
-        max_translation_chunk_length_multilang=50,
-        max_concurrent_llm_calls=10
+        max_translation_chunk_length=100,           # Maximum chunk length for translation
+        max_translation_chunk_length_multilang=50,    # Maximum chunk length for multi-language texts
+        max_concurrent_llm_calls=10,                  # Maximum number of concurrent LLM calls
+        # To enforce a rate limit (e.g., 50 calls per minute), uncomment and adjust the following:
+        # max_concurrent_llm_calls=50,
+        # max_concurrent_time_period=60,
     )
+    
+    # Prepare tasks: one to detect language and one to translate the text
     tasks = [
         translator.get_text_language("Hi how are you?"),
         translator.translate("Hi how are you?", "Spanish")
     ]
+    
+    # Run the tasks concurrently
     results = await asyncio.gather(*tasks)
-    # Output the detected language information
+    
+    # Retrieve and display detected language information
     text_language = results[0]
-    if results:
-        print(text_language.ISO_639_1_code)  # Output: en
-        print(text_language.ISO_639_2_code)  # Output: eng
-        print(text_language.ISO_639_3_code)  # Output: eng
-        print(text_language.language_name)  # Output: English
+    if text_language:
+        print(text_language.ISO_639_1_code)  # Expected Output: en
+        print(text_language.ISO_639_2_code)  # Expected Output: eng
+        print(text_language.ISO_639_3_code)  # Expected Output: eng
+        print(text_language.language_name)   # Expected Output: English
 
-    # Output the translated text
-    print(results[1])  # Output: Hola, ¿cómo estás?
+    # Display the translated text
+    print(results[1])  # Expected Output: Hola, ¿cómo estás?
 
-
-# Run the asynchronous translation
+# Run the asynchronous translation process
 asyncio.run(translate_text())
 ```
+
+## Summary
+
+- **Asynchronous Execution:** Uses `asyncio` to concurrently run language detection and translation tasks.
+- **Language Detection:** The `get_text_language` function returns language details (e.g., ISO 639-1, ISO 639-2, ISO 639-3 codes and language name).
+- **Translation:** The `translate` function converts the input text to the desired target language.
+- **Concurrency Control:**
+  - **Without Time Limit:** Simply set `max_concurrent_llm_calls` to limit concurrent calls.
+  - **With Time Limit:** Specify both `max_concurrent_llm_calls` and `max_concurrent_time_period` to control the number of calls within a specific time window (e.g., 50 calls per 60 seconds).
+
+This example should help you understand how to integrate and configure all available parameters in the `AsyncTranslator`, including the new time-based rate limiting feature.
 
 ---
 ## Key Parameters
