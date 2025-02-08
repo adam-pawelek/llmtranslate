@@ -16,5 +16,4 @@ def create_readme_format(model_name, benchmark_results):
         next_row += "\n"
         result_string += next_row
 
-    print(result_string)
     return result_string
