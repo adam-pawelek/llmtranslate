@@ -1,10 +1,8 @@
 import asyncio
-import os
 from langchain_core.language_models import BaseChatModel
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
 from pydantic import BaseModel
-from llmtranslate import AsyncTranslator, Translator, get_language_info
+from llmtranslate import AsyncTranslator, get_language_info
 
 
 class TranslationAccuracy(BaseModel):
@@ -54,10 +52,6 @@ async def check_if_translation_is_accurate(
 
 
 
-llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=os.getenv("OPENAI_API_KEY"))
-translator = AsyncTranslator(llm=llm, max_translation_chunk_length=100, max_translation_chunk_length_multilang=100)
-
-
 async def benchmark_one_text(
         translator: AsyncTranslator,
         chat_model_to_check_translation: BaseChatModel,
@@ -82,15 +76,6 @@ async def benchmark_one_text(
     return moj
 
 
-
-
-print(asyncio.run(benchmark_one_text(
-    translator= translator,
-    chat_model_to_check_translation=llm,
-    sentences_in_different_languages={"pl": "Czesc jak sie masz?"},
-    translate_to_lang="English",
-    expected_translation="Hi how are you? my name is Adam"
-)))
 
 
 
