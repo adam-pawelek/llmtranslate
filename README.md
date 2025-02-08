@@ -71,11 +71,11 @@ print(translated_text)  # Output: Hello everyone
 ```
 
 ---
-# Using AsyncTranslator (Asynchronous)
+## Using AsyncTranslator (Asynchronous)
 
 This example demonstrates how to use the `AsyncTranslator` class to asynchronously detect the language of a text and translate it into another language. The `AsyncTranslator` is designed to work with asynchronous operations by splitting the input text into manageable chunks and by handling multiple concurrent requests to your language model.
 
-## Key Configuration Options
+### Key Configuration Options
 
 - **`max_translation_chunk_length`**: Sets the maximum length for each text chunk that is translated.
 - **`max_translation_chunk_length_multilang`**: Sets the maximum length for text chunks when dealing with multiple languages.
@@ -86,7 +86,7 @@ This example demonstrates how to use the `AsyncTranslator` class to asynchronous
 
 If you only need to limit the number of concurrent calls without a time constraint, you can leave `max_concurrent_time_period` at its default value (typically `0`).
 
-## Code Example
+### Code Example
 
 ```python
 import asyncio
@@ -132,7 +132,7 @@ async def translate_text():
 asyncio.run(translate_text())
 ```
 
-## Summary
+### Summary
 
 - **Asynchronous Execution:** Uses `asyncio` to concurrently run language detection and translation tasks.
 - **Language Detection:** The `get_text_language` function returns language details (e.g., ISO 639-1, ISO 639-2, ISO 639-3 codes and language name).
