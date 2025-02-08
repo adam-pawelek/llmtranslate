@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from llmtranslate import get_language_info
@@ -21,7 +23,10 @@ def test_create_readme_format():
         }
     ]
     new_readme_format = create_readme_format(model_name, benchmark_results)
-    with open("create_readme_format_test_text.txt", "r", encoding="utf-8") as file:
+    # With this path construction:
+    current_dir = os.path.dirname(__file__)
+    file_path = os.path.join(current_dir, "create_readme_format_test_text.txt")
+    with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()
 
 
