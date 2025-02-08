@@ -128,6 +128,8 @@ class BaseTranslator(ABC):
         ####### count number of languages ##########
         structured_llm_count_number_of_languages_in_text = llm.with_structured_output(BaseTranslator.HowManyLanguages)
         self.few_shot_structured_llm_count_number_of_languages_in_text = BaseTranslator.prompt_count_number_of_languages_in_text | structured_llm_count_number_of_languages_in_text
+        ####### Number of retries ##################
+        self.number_of_llm_retries = 4
 
 class Translator(BaseTranslator):
 
@@ -169,25 +171,19 @@ class Translator(BaseTranslator):
 
 
     def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
-        try:
-            response =  self.few_shot_structured_llm_translate_text.invoke({
-                "to_language": to_language,
-                "input": text_chunk
-            })
-
-            response_message = response.translated_text
-            return response_message
-        except:
+        last_exception = None
+        for attempt in range(1, self.number_of_llm_retries + 1):
             try:
                 response =  self.few_shot_structured_llm_translate_text.invoke({
                     "to_language": to_language,
                     "input": text_chunk
                 })
-
                 response_message = response.translated_text
                 return response_message
-            except:
-                raise ProblemWithChatModelStructuredOutput()
+            except Exception as error:
+                last_exception = error
+
+        raise ProblemWithChatModelStructuredOutput("Failed to translate chunk of text after multiple retries") from last_exception
 
 
     def translate(self, text: str, to_language ="Spanish") -> str:
@@ -224,9 +220,17 @@ class Translator(BaseTranslator):
 
 
     def how_many_languages_are_in_text(self, text: str) -> int:
-        response = self.few_shot_structured_llm_count_number_of_languages_in_text.invoke(text)
-        number_of_languages_in_text = response.number_of_languages
-        return number_of_languages_in_text
+        last_exception = None
+        for attempt in range(1, self.number_of_llm_retries + 1):
+            try:
+                response = self.few_shot_structured_llm_count_number_of_languages_in_text.invoke(text)
+                number_of_languages_in_text = response.number_of_languages
+                return number_of_languages_in_text
+            except Exception as error:
+                last_exception = error
+
+        raise ProblemWithChatModelStructuredOutput("Failed to get how many languages are in text after multiple retries") from last_exception
+
 
 
 
@@ -316,27 +320,23 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def translate_chunk_of_text(self, text_chunk: str, to_language: str) -> str:
-        async with self.rate_limiter:
+        last_exception = None
+        for attempt in range(1, self.number_of_llm_retries + 1):
             try:
-                response = await self.few_shot_structured_llm_translate_text.ainvoke({
-                    "to_language": to_language,
-                    "input": text_chunk
-                })
-
-                response_message = response.translated_text
-                print(response_message)
-                return response_message
-            except:
-                try:
+                async with self.rate_limiter:
                     response = await self.few_shot_structured_llm_translate_text.ainvoke({
                         "to_language": to_language,
                         "input": text_chunk
                     })
 
-                    response_message = response.translated_text
-                    return response_message
-                except:
-                    raise ProblemWithChatModelStructuredOutput()
+                translated_text = response.translated_text
+                return translated_text
+
+            except Exception as error:
+                last_exception = error
+
+        # If all attempts fail, raise an error, chaining the last exception.
+        raise ProblemWithChatModelStructuredOutput("Translation failed after multiple retries") from last_exception
 
 
 
@@ -379,11 +379,14 @@ class AsyncTranslator(BaseTranslator):
 
 
     async def how_many_languages_are_in_text(self, text: str) -> int:
-        async with  self.rate_limiter:
-            print("tutaj")
-            response = await self.few_shot_structured_llm_count_number_of_languages_in_text.ainvoke(text)
-        number_of_languages_in_text = response.number_of_languages
-        print("juz po")
-        return number_of_languages_in_text
-
+        last_exception = None
+        for attempt in range(1, self.number_of_llm_retries + 1):
+            try:
+                async with self.rate_limiter:
+                    response = await self.few_shot_structured_llm_count_number_of_languages_in_text.ainvoke(text)
+                number_of_languages_in_text = response.number_of_languages
+                return number_of_languages_in_text
+            except Exception as error:
+                last_exception = error
+        raise ProblemWithChatModelStructuredOutput("Failed to get number of languages after multiple replies") from last_exception
 
